@@ -24,7 +24,28 @@ Arduino as ISP
 #. Arduino IDE 
 #. Examples--Arduino as ISp
 #. Board--Arduini UNO
-#. `ArduinoISP<http://www.google.com/url?q=http%3A%2F%2Fpdp11.byethost12.com%2FAVR%2FArduinoAsProgrammer.htm&sa=D&sntz=1&usg=AFQjCNE7KJzWFBbjRhLtpMYrmUypxO8VHQ>`
+#. `ArduinoISP Tutorial <http://www.google.com/url?q=http%3A%2F%2Fpdp11.byethost12.com%2FAVR%2FArduinoAsProgrammer.htm&sa=D&sntz=1&usg=AFQjCNE7KJzWFBbjRhLtpMYrmUypxO8VHQ>`
+
+
+================================
+Programming ATTiny85 with Arduino
+================================
+SPI protocol
+`<http://www.google.com/url?q=http%3A%2F%2Fpdp11.byethost12.com%2FAVR%2FArduinoAsProgrammer.htm&sa=D&sntz=1&usg=AFQjCNE7KJzWFBbjRhLtpMYrmUypxO8VHQ>`
+
+==========================================
+Burning micronucleus.hex and setting fuses
+==========================================
+:Command to burn the BOOTLOADER:
+avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"micronucleus-t85-master/firmware/releases/micronucleus-1.06.hex"
+
+avr initialized.....the device signature should match that of attiny85...safemode..fuses ok 
+
+:Command to set fuses of the attiny:
+avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m
+
+
+
 
 
 
