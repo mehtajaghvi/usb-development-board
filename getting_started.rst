@@ -2,7 +2,7 @@
 Pre-requisite packages
 ======================
 
-#. `arduinoIDE <http://arduino.cc/en/Main/Software>`_ Arduini IDE to use
+#. `arduinoIDE <http://arduino.cc/en/Main/Software>`_ Arduino IDE to use
    arduino-UNO as ISP to program ATtiny85 chip.
 
 #. *avrdude*: To burn the BOOTLOADER on raw ATtiny85-20PU and set
@@ -18,7 +18,13 @@ Pre-requisite packages
    home-made Digi.Download the apt package for your system.
 
 
-=====================
+==============
 Arduino as ISP
-======================
+==============
+#. Arduino IDE 
+#. Examples--Arduino as ISp
+#. Board--Arduini UNO
+#. `ArduinoISP<http://www.google.com/url?q=http%3A%2F%2Fpdp11.byethost12.com%2FAVR%2FArduinoAsProgrammer.htm&sa=D&sntz=1&usg=AFQjCNE7KJzWFBbjRhLtpMYrmUypxO8VHQ>`
+
+
 
