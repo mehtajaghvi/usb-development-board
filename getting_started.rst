@@ -41,28 +41,28 @@ Programming ATTiny85 with Arduino
 Burning micronucleus.hex and setting fuses
 ==========================================
 **Command to burn the BOOTLOADER**
-  ::avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"micronucleus-t85-master/firmware/releases/micronucleus-1.06.hex"
+  avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"micronucleus-t85-master/firmware/releases/micronucleus-1.06.hex"
 
 avr initialized..the device signature should match that of attiny85. 
 
 **Command to set fuses of the attiny85-20PU**
-  ::avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m
+  avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m
 
 
 After the above two steps are accomplished ,make all the USB connections and follow the next step.
-
+.. image:: ~/Documents/attiny_pjct/Images/digispark_breadboard_bb.jpg
 ============
 Burn cdc.hex 
 ============
 To enumerate digispark as USB device run this command
-
+`Micronuceus upload utility <http://christopherpoole.github.io/developing-for-the-digispark-without-the-arduino-ide/>`
 sudo ./micronucleus micronucleus-t85-master/commandline/cdc232.hex
 
 =====================================
 Setting rules in udev to avoid errors
 =====================================
- ::/etc/udev/rules/49-micronucelus.rules
- ::/etc/udec/rules/90-digispark.rules
+ /etc/udev/rules/49-micronucelus.rules
+ /etc/udec/rules/90-digispark.rules
 
 `<https://github.com/Bluebie/micronucleus-t85/wiki/Ubuntu-Linux>`_ Content of the files
 
@@ -70,7 +70,6 @@ Setting rules in udev to avoid errors
 ERRORS encountered
 =================
 #. *Error*
-	::
 	avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
 	avrdude: AVR device initialized and ready to accept instructions
 
@@ -81,7 +80,6 @@ ERRORS encountered
 		 Double check connections and try again, or use -F to override
 		 this check.
 #. *Error*
-	::
 	avrdude: stk500_getparm(): (a) protocol error, expect=0x14, resp=0x14
 
 	avrdude: stk500_getparm(): (a) protocol error, expect=0x14, resp=0x01
@@ -102,6 +100,7 @@ Burning Program
 #. Board--->Digispark(TinyCore)
 #. Programmer--->Digispark
 #. Upload
+
   IDE will ask to plug int the device within sixty seconds	
 #. Plug Digispark
 
