@@ -50,7 +50,8 @@ avr initialized..the device signature should match that of attiny85.
 
 
 After the above two steps are accomplished ,make all the USB connections and follow the next step.
-.. image:: ~/Documents/attiny_pjct/Images/digispark_breadboard_bb.jpg
+ .. figure :: ~/Documents/attiny_pjct/Images/digispark_breadboard_bb.jpg
+
 ============
 Burn cdc.hex 
 ============
@@ -107,7 +108,8 @@ Burning Program
 ==============
 Serial Monitor
 ==============
-#. `Digiterm : <http://digistump.com/wiki/digispark/tutorials/digiusb>` Digispark Serial Monitor
+#. `Digiterm : <http://digistump.com/wiki/digispark/tutorials/digiusb>` _Digispark Serial Monitor
+
 #.  The Digispark integrated arduinoIDE has DigiUSB libraries which has the DigiUSB monitor working like digiterm.
 ==========
 Help LINKS
