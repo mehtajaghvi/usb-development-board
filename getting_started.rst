@@ -18,6 +18,7 @@ Pre-requisite packages
    ArduinoIDE integrated with Digispark libraries required to run programs on your
    home-made Digispark.
    Download the apt package for your system.
+#. 'Fritzing <http://fritzing.org/download/>`
 
 
 ==============
@@ -34,9 +35,13 @@ Programming ATTiny85 with Arduino
 ================================
 #. It uses SPI protocol
 `<http://www.google.com/url?q=http%3A%2F%2Fpdp11.byethost12.com%2FAVR%2FArduinoAsProgrammer.htm&sa=D&sntz=1&usg=AFQjCNE7KJzWFBbjRhLtpMYrmUypxO8VHQ>`
+
 **CAUTION**
   If you are programming with Arduino UNO then use a 10uF capacitor between RESET and GND of arduino UNO.
-#. `WhyCapacitor <http://forum.arduino.cc/index.php/topic,104435.0.html>`
+
+#.`WhyCapacitor <http://forum.arduino.cc/index.php/topic,104435.0.html>`
+
+
 ==========================================
 Burning micronucleus.hex and setting fuses
 ==========================================
@@ -45,16 +50,19 @@ Burning micronucleus.hex and setting fuses
 
 avr initialized..the device signature should match that of attiny85. 
 
+
 **Command to set fuses of the attiny85-20PU**
   avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m
 
 
 After the above two steps are accomplished ,make all the USB connections and follow the next step.
- .. figure :: ~/Documents/attiny_pjct/Images/digispark_breadboard_bb.jpg
+`USB connections <https://github.com/mehtajaghvi/Digispark-on-breadboard/blob/master/Images/digispark_breadboard_bb.jpg>`
+
 
 ============
 Burn cdc.hex 
 ============
+
 To enumerate digispark as USB device run this command
 `Micronuceus upload utility <http://christopherpoole.github.io/developing-for-the-digispark-without-the-arduino-ide/>`
 sudo ./micronucleus micronucleus-t85-master/commandline/cdc232.hex
@@ -62,6 +70,7 @@ sudo ./micronucleus micronucleus-t85-master/commandline/cdc232.hex
 =====================================
 Setting rules in udev to avoid errors
 =====================================
+
  /etc/udev/rules/49-micronucelus.rules
  /etc/udec/rules/90-digispark.rules
 
@@ -70,6 +79,7 @@ Setting rules in udev to avoid errors
 =================
 ERRORS encountered
 =================
+
 #. *Error*
 	avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
 	avrdude: AVR device initialized and ready to accept instructions
@@ -94,6 +104,7 @@ ERRORS encountered
 	Abort mission! -1 error has occured ...
 	>> Please unplug the device and restart the program.
 
+
 ===============
 Burning Program
 ===============
@@ -101,17 +112,20 @@ Burning Program
 #. Board--->Digispark(TinyCore)
 #. Programmer--->Digispark
 #. Upload
-
-  IDE will ask to plug int the device within sixty seconds	
+IDE will ask to plug int the device within sixty seconds	
 #. Plug Digispark
+
 
 ==============
 Serial Monitor
 ==============
+
 #. `Digiterm : <http://digistump.com/wiki/digispark/tutorials/digiusb>` _Digispark Serial Monitor
 
-#.  The Digispark integrated arduinoIDE has DigiUSB libraries which has the DigiUSB monitor working like digiterm.
-==========
+#. The Digispark integrated arduinoIDE has DigiUSB libraries which has the DigiUSB monitor working like digiterm.
+
+
+
 Help LINKS
 ==========
 #.  `Digispark Forum <http://digistump.com/board/index.php>`
