@@ -65,37 +65,37 @@ avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"micronucleus-t85
 
 
 
-avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
-avrdude: AVR device initialized and ready to accept instructions
+	avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
+	avrdude: AVR device initialized and ready to accept instructions
 
-Reading | ################################################## | 100% 0.02s
+	Reading | ################################################## | 100% 0.02s
 
-avrdude: Device signature = 0x1e930b
-avrdude: NOTE: FLASH memory has been specified, an erase cycle will be performed
-         To disable this feature, specify the -D option.
-avrdude: erasing chip
-avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
-avrdude: reading input file "firmware/releases/micronucleus-1.06.hex"
-avrdude: input file firmware/releases/micronucleus-1.06.hex auto detected as Intel Hex
-avrdude: writing flash (8162 bytes):
+	avrdude: Device signature = 0x1e930b
+	avrdude: NOTE: FLASH memory has been specified, an erase cycle will be performed
+		 To disable this feature, specify the -D option.
+	avrdude: erasing chip
+	avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
+	avrdude: reading input file "firmware/releases/micronucleus-1.06.hex"
+	avrdude: input file firmware/releases/micronucleus-1.06.hex auto detected as Intel Hex
+	avrdude: writing flash (8162 bytes):
 
-Writing | ################################################## | 100% 3.59s
+	Writing | ################################################## | 100% 3.59s
 
-avrdude: 8162 bytes of flash written
-avrdude: verifying flash memory against firmware/releases/micronucleus-1.06.hex:
-avrdude: load data flash data from input file firmware/releases/micronucleus-1.06.hex:
-avrdude: input file firmware/releases/micronucleus-1.06.hex auto detected as Intel Hex
-avrdude: input file firmware/releases/micronucleus-1.06.hex contains 8162 bytes
-avrdude: reading on-chip flash data:
+	avrdude: 8162 bytes of flash written
+	avrdude: verifying flash memory against firmware/releases/micronucleus-1.06.hex:
+	avrdude: load data flash data from input file firmware/releases/micronucleus-1.06.hex:
+	avrdude: input file firmware/releases/micronucleus-1.06.hex auto detected as Intel Hex
+	avrdude: input file firmware/releases/micronucleus-1.06.hex contains 8162 bytes
+	avrdude: reading on-chip flash data:
 
-Reading | ################################################## | 100% 8.12s
+	Reading | ################################################## | 100% 8.12s
 
-avrdude: verifying ...
-avrdude: 8162 bytes of flash verified
+	avrdude: verifying ...
+	avrdude: 8162 bytes of flash verified
 
-avrdude: safemode: Fuses OK
+	avrdude: safemode: Fuses OK
 
-avrdude done.  Thank you.
+	avrdude done.  Thank you.
 
 
 
@@ -104,61 +104,61 @@ avrdude done.  Thank you.
 
 
 
-avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
-avrdude: AVR device initialized and ready to accept instructions
+	avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
+	avrdude: AVR device initialized and ready to accept instructions
 
-Reading | ################################################## | 100% 0.02s
+	Reading | ################################################## | 100% 0.02s
 
-avrdude: Device signature = 0x1e930b
-avrdude: reading input file "0xe1"
-avrdude: writing lfuse (1 bytes):
+	avrdude: Device signature = 0x1e930b
+	avrdude: reading input file "0xe1"
+	avrdude: writing lfuse (1 bytes):
 
-Writing | ################################################## | 100% 0.06s
+	Writing | ################################################## | 100% 0.06s
 
-avrdude: 1 bytes of lfuse written
-avrdude: verifying lfuse memory against 0xe1:
-avrdude: load data lfuse data from input file 0xe1:
-avrdude: input file 0xe1 contains 1 bytes
-avrdude: reading on-chip lfuse data:
+	avrdude: 1 bytes of lfuse written
+	avrdude: verifying lfuse memory against 0xe1:
+	avrdude: load data lfuse data from input file 0xe1:
+	avrdude: input file 0xe1 contains 1 bytes
+	avrdude: reading on-chip lfuse data:
 
-Reading | ################################################## | 100% 0.02s
+	Reading | ################################################## | 100% 0.02s
 
-avrdude: verifying ...
-avrdude: 1 bytes of lfuse verified
-avrdude: reading input file "0xdd"
-avrdude: writing hfuse (1 bytes):
+	avrdude: verifying ...
+	avrdude: 1 bytes of lfuse verified
+	avrdude: reading input file "0xdd"
+	avrdude: writing hfuse (1 bytes):
 
-Writing | ################################################## | 100% 0.06s
+	Writing | ################################################## | 100% 0.06s
 
-avrdude: 1 bytes of hfuse written
-avrdude: verifying hfuse memory against 0xdd:
-avrdude: load data hfuse data from input file 0xdd:
-avrdude: input file 0xdd contains 1 bytes
-avrdude: reading on-chip hfuse data:
+	avrdude: 1 bytes of hfuse written
+	avrdude: verifying hfuse memory against 0xdd:
+	avrdude: load data hfuse data from input file 0xdd:
+	avrdude: input file 0xdd contains 1 bytes
+	avrdude: reading on-chip hfuse data:
 
-Reading | ################################################## | 100% 0.02s
+	Reading | ################################################## | 100% 0.02s
 
-avrdude: verifying ...
-avrdude: 1 bytes of hfuse verified
-avrdude: reading input file "0xfe"
-avrdude: writing efuse (1 bytes):
+	avrdude: verifying ...
+	avrdude: 1 bytes of hfuse verified
+	avrdude: reading input file "0xfe"
+	avrdude: writing efuse (1 bytes):
 
-Writing | ################################################## | 100% 0.06s
+	Writing | ################################################## | 100% 0.06s
 
-avrdude: 1 bytes of efuse written
-avrdude: verifying efuse memory against 0xfe:
-avrdude: load data efuse data from input file 0xfe:
-avrdude: input file 0xfe contains 1 bytes
-avrdude: reading on-chip efuse data:
+	avrdude: 1 bytes of efuse written
+	avrdude: verifying efuse memory against 0xfe:
+	avrdude: load data efuse data from input file 0xfe:
+	avrdude: input file 0xfe contains 1 bytes
+	avrdude: reading on-chip efuse data:
 
-Reading | ################################################## | 100% 0.02s
+	Reading | ################################################## | 100% 0.02s
 
-avrdude: verifying ...
-avrdude: 1 bytes of efuse verified
+	avrdude: verifying ...
+	avrdude: 1 bytes of efuse verified
 
-avrdude: safemode: Fuses OK
+	avrdude: safemode: Fuses OK
 
-avrdude done.  Thank you.
+	avrdude done.  Thank you.
 
 
 
@@ -170,14 +170,15 @@ After the above two steps are accomplished ,make all the USB connections and fol
 ============================
 Check proper USB connections
 ============================
-[25700.540875] usb 2-1.3: >USB disconnect, device number 85
-[25712.048483] usb 2-1.3: >new full-speed USB device number 86 using ehci_hcd
-[25712.143532] usb 2-1.3: >New USB device found, idVendor=2341, idProduct=0043
-[25712.143542] usb 2-1.3: >New USB device strings: Mfr=1, Product=2, SerialNumber=220
-[25712.143548] usb 2-1.3: >Manufacturer: Arduino (www.arduino.cc)
-[25712.143553] usb 2-1.3: >SerialNumber: 74937303836351902280
-[25712.144320] cdc_acm 2-1.3:1.0: >ttyACM0: USB ACM device
-[26164.445594] usb 2-1.3: >USB disconnect, device number 86
+
+	[25700.540875] usb 2-1.3: >USB disconnect, device number 85
+	[25712.048483] usb 2-1.3: >new full-speed USB device number 86 using ehci_hcd
+	[25712.143532] usb 2-1.3: >New USB device found, idVendor=2341, idProduct=0043
+	[25712.143542] usb 2-1.3: >New USB device strings: Mfr=1, Product=2, SerialNumber=220
+	[25712.143548] usb 2-1.3: >Manufacturer: Arduino (www.arduino.cc)
+	[25712.143553] usb 2-1.3: >SerialNumber: 74937303836351902280
+	[25712.144320] cdc_acm 2-1.3:1.0: >ttyACM0: USB ACM device
+	[26164.445594] usb 2-1.3: >USB disconnect, device number 86
 
 
 
@@ -238,7 +239,7 @@ ERRORS encountered
 
 	Abort mission! -1 error has occured ...
 	>> Please unplug the device and restart the program.
-#.*Error*
+#. *Error*
 	avrdude: stk500_getsync(): not in sync: resp=0xe0
 
 	avrdude done.  Thank you.
@@ -258,7 +259,7 @@ Burning Program
 
 #. Board--->Digispark(TinyCore)
 #. Programmer--->Digispark
-#. Upload
+#. Upload 
 IDE will ask to plug int the device within sixty seconds	
 #. Plug Digispark
 
