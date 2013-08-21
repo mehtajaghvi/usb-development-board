@@ -1,64 +1,56 @@
-# EESchema Netlist Version 1.1 created  Mon 12 Aug 2013 05:36:22 PM IST
+# EESchema Netlist Version 1.1 created  Wed 14 Aug 2013 01:18:56 PM IST
 (
- ( /52034A81 R1 D1 3.6V
-  ( 1 GND )
-  ( 2 /D- )
- )
- ( /52034A6E R1 D2 3.6V
-  ( 1 GND )
-  ( 2 /D+ )
- )
- ( /520346E9 DIP-8__300 IC1 ATTINY85-20PU
-  ( 1 N-000008 )
-  ( 2 N-000010 )
-  ( 3 N-000009 )
-  ( 4 GND )
-  ( 5 N-000002 )
-  ( 6 N-000001 )
-  ( 7 N-000005 )
-  ( 8 +5V )
- )
- ( /5208B340 SparkFun-USB-A-PCB J1 USBPCB
-  ( 5V +5V )
-  ( GND GND )
+ ( /5208B340 SparkFun-USB-A-PCB  J1 USBPCB {Lib=USBPCB}
+  (   5V +5V )
+  (  GND GND )
   ( USBM /D- )
   ( USBP /D+ )
  )
- ( /5203586C SparkFun-1X06 P1 CONN_6
-  ( 1 N-000002 )
-  ( 2 N-000001 )
-  ( 3 N-000005 )
-  ( 4 N-000010 )
-  ( 5 N-000009 )
-  ( 6 N-000008 )
+ ( /52035888 $noname  P2 CONN_2 {Lib=CONN_2}
+  (    1 +5V )
+  (    2 GND )
  )
- ( /52035888 SparkFun-1X02 P2 CONN_2
-  ( 1 +5V )
-  ( 2 GND )
+ ( /5203586C $noname  P1 CONN_6 {Lib=CONN_6}
+  (    1 N-000002 )
+  (    2 N-000001 )
+  (    3 N-000005 )
+  (    4 N-000010 )
+  (    5 N-000009 )
+  (    6 N-000008 )
  )
- ( /52034E90 R1 R1 1k5
-  ( 1 +5V )
-  ( 2 /D- )
+ ( /52034E90 $noname  R1 1k5 {Lib=R}
+  (    1 +5V )
+  (    2 /D- )
  )
- ( /52034E88 R1 R2 68R
-  ( 1 /D- )
-  ( 2 N-000010 )
+ ( /52034E88 $noname  R2 68R {Lib=R}
+  (    1 /D- )
+  (    2 N-000010 )
  )
- ( /52034E86 R1 R3 68R
-  ( 1 /D+ )
-  ( 2 N-000009 )
+ ( /52034E86 $noname  R3 68R {Lib=R}
+  (    1 /D+ )
+  (    2 N-000009 )
+ )
+ ( /52034A81 $noname  D1 3.6V {Lib=DIODESCH}
+  (    1 GND )
+  (    2 /D- )
+ )
+ ( /52034A6E $noname  D2 3.6V {Lib=DIODESCH}
+  (    1 GND )
+  (    2 /D+ )
+ )
+ ( /520346E9 DIP8  IC1 ATTINY85-20PU {Lib=ATTINY85-P}
+  (    1 N-000008 )
+  (    2 N-000010 )
+  (    3 N-000009 )
+  (    4 GND )
+  (    5 N-000002 )
+  (    6 N-000001 )
+  (    7 N-000005 )
+  (    8 +5V )
  )
 )
 *
 { Allowed footprints by component:
-$component D1
- D?
- S*
-$endlist
-$component D2
- D?
- S*
-$endlist
 $component R1
  R?
  SM0603
@@ -80,5 +72,56 @@ $component R3
  R?-*
  SM1206
 $endlist
+$component D1
+ D?
+ S*
+$endlist
+$component D2
+ D?
+ S*
+$endlist
 $endfootprintlist
 }
+{ Pin List by Nets
+Net 1 "" ""
+ P1 2
+ IC1 6
+Net 2 "" ""
+ P1 1
+ IC1 5
+Net 3 "GND" "GND"
+ IC1 4
+ D1 1
+ D2 1
+ P2 2
+ J1 GND
+Net 4 "+5V" "+5V"
+ P2 1
+ J1 5V
+ IC1 8
+ R1 1
+Net 5 "" ""
+ P1 3
+ IC1 7
+Net 6 "/D+" "D+"
+ D2 2
+ J1 USBP
+ R3 1
+Net 7 "/D-" "D-"
+ R1 2
+ J1 USBM
+ R2 1
+ D1 2
+Net 8 "" ""
+ IC1 1
+ P1 6
+Net 9 "" ""
+ P1 5
+ IC1 3
+ R3 2
+Net 10 "" ""
+ IC1 2
+ R2 2
+ P1 4
+}
+#End

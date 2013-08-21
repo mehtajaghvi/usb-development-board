@@ -281,26 +281,34 @@ If you try to burn cdc232.hex or any other hex file  via arduinoISP or any other
 
 
 
-===============
+
 Burning Program
 ===============
 
 #. Board--->Digispark(TinyCore)
+
 #. Programmer--->Digispark
-#. Upload 
-IDE will ask to plug int the device within sixty seconds	
+
+#. Upload (IDE will ask to plug int the device within sixty seconds)	
+
 #. Plug Digispark
 
+#. Micronucleus thankyou.
 
-==============
+#. Done
+
+
 Serial Monitor
 ==============
+
+You can either use Digisparks official monitor or use Bluebie's digiterm written in ruby.
 
 #. `Digiterm: <http://digistump.com/wiki/digispark/tutorials/digiusb>`_ Digispark Serial Monitor
 
 #. The Digispark integrated arduinoIDE has DigiUSB libraries which has the DigiUSB monitor working like digiterm.
 
-
+ DigiUSB monitor has two more binaries send and receive.
+ Run ./receive >> output.txt and your data will be written in a text file.
 
 Help LINKS
 ==========
@@ -309,3 +317,4 @@ Help LINKS
 #. `SPI Protocol <http://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus>`_
 
 #.
+ 
