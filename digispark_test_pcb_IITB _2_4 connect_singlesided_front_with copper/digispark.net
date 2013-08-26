@@ -1,6 +1,6 @@
-# EESchema Netlist Version 1.1 created  Fri 23 Aug 2013 11:42:05 AM IST
+# EESchema Netlist Version 1.1 created  Sun 25 Aug 2013 10:51:16 AM IST
 (
- ( /52034A81 R1 D1 3.6V
+ ( /52034A81 D3 D1 3.6V
   ( 1 GND )
   ( 2 /D- )
  )
@@ -40,11 +40,11 @@
   ( 1 +5V )
   ( 2 /D- )
  )
- ( /52034E88 R3 R2 68R
+ ( /52034E88 R1 R2 68R
   ( 1 /D- )
   ( 2 N-000001 )
  )
- ( /52034E86 R3 R3 68R
+ ( /52034E86 R1 R3 68R
   ( 1 /D+ )
   ( 2 N-000010 )
  )

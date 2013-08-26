@@ -1,10 +1,10 @@
-Cmp-Mod V01 Created by CvPcb (2012-apr-16-27)-stable date = Fri 23 Aug 2013 11:42:05 AM IST
+Cmp-Mod V01 Created by CvPcb (2012-apr-16-27)-stable date = Sun 25 Aug 2013 10:51:16 AM IST
 
 BeginCmp
 TimeStamp = /52034A81;
 Reference = D1;
 ValeurCmp = 3.6V;
-IdModule  = R1;
+IdModule  = D3;
 EndCmp
 
 BeginCmp
@@ -53,14 +53,14 @@ BeginCmp
 TimeStamp = /52034E88;
 Reference = R2;
 ValeurCmp = 68R;
-IdModule  = R3;
+IdModule  = R1;
 EndCmp
 
 BeginCmp
 TimeStamp = /52034E86;
 Reference = R3;
 ValeurCmp = 68R;
-IdModule  = R3;
+IdModule  = R1;
 EndCmp
 
 EndListe
