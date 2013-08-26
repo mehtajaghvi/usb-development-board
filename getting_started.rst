@@ -1,31 +1,37 @@
+Why Digispark
+=============
+#.
+
+
+
 Hardware requirement
 ====================
-All you need is:
+ All you need is:
 
-**One** Attiny85-20PU
+ **One** Attiny85-20PU
 
-**Two** 3.6V Zener Diode
+ **Two** 3.6V Zener Diode
 
-**Three** resistors 
- *One* 1.5K ohm
- *TWO* 68 ohm
+ **Three** resistors 
+
+- One 1.5K ohm
+- TWO 68 ohm
  
-*Broken USB-A cable*
-
+ *Broken USB-A cable*
 
 Pre-requisite packages
 ======================
 
 * `arduinoIDE <http://arduino.cc/en/Main/Software>`_ Arduino IDE to use arduino-UNO as ISP to program ATtiny85 chip.
-
 * **avrdude**: To burn the BOOTLOADER on raw ATtiny85-20PU and set fuses of ATtiny85
+* `Bootloader <https://github.com/Bluebie/micronucleus-t85/>`_ 
 
-* `Bootloader <https://github.com/Bluebie/micronucleus-t85/>`_ Burn the latest version
+- Burn the latest version.
+- Depending on your need(jumper version to remove 5 seconds delay).
+  More about this as we proceed.
 
-* `DigisparkIDE <http://digistump.com/wiki/digispark/tutorials/connecting>`_ ArduinoIDE integrated with Digispark libraries required to run programs on your home-made Digispark.
-
+* `DigisparkIDE <http://digistump.com/wiki/digispark/tutorials/connecting>`_ ArduinoIDE integrated with Digispark libraries required to run programs on your DIY project.
 * `Fritzing <http://fritzing.org/download/>`_ Optional
-
 
 Arduino as ISP
 ==============
@@ -34,6 +40,7 @@ Arduino as ISP
 #. File-->Examples-->ArduinoISP
 #. Tools-->Board-->Arduino UNO 
 #. Tools-->Serial Port-->/dev/ttyACM0
+Serial Port may be /dev/ttyACM1 
 #. `ArduinoISP Tutorial <http://www.google.com/url?q=http%3A%2F%2Fpdp11.byethost12.com%2FAVR%2FArduinoAsProgrammer.htm&sa=D&sntz=1&usg=AFQjCNE7KJzWFBbjRhLtpMYrmUypxO8VHQ>`_
 
 
@@ -50,7 +57,7 @@ Programming ATTiny85 with Arduino
 
 	**NOTE** change the port to your port /dev/ttyACM* or /dev/ttyUSB*	
 
-	avrdude -p attiny85 -c arduino -b 19200 -P /dev/ttyACM0 
+	:command:avrdude -p attiny85 -c arduino -b 19200 -P /dev/ttyACM0 
 
 	avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
 
@@ -67,11 +74,22 @@ Programming ATTiny85 with Arduino
 
 Burning micronucleus.hex and setting fuses
 ==========================================
+
+
 **Command to burn the BOOTLOADER**
+
+Before you start anything , there are two versions of bootloader.
+
+#. **First** (NORMAL) is : micronucleus-1.06.hex . This is the conventional bootloader which comes with the official DS.In this version of bootloader you have to wait for 5sec for your already written programme to start executing.Within this 5sec the DS checks wether you have some other programme to overwrite already existing programme on the chip,If not it starts the programme already uploaded after a **5 seconds** delay.
+
+#. **Second** (JUMPER) : Now if every second is crucuial to your project and you can't wait for your programme to start after 5 seconds ,there is this another version micronucleus-1.06-jumper-v2-upgrade.hex
+
+
+**Uploading the NORMAL version**
 
 Go to directory where exists micronucleus-t85 folder and run the following
 
-:command:  avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"micronucleus-t85-master/firmware/releases/micronucleus-1.06.hex"
+	:command:  avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"micronucleus-t85-master/firmware/releases/micronucleus-1.06.hex"
 
 	avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
 
@@ -122,9 +140,22 @@ Go to directory where exists micronucleus-t85 folder and run the following
 
 **Command to set fuses of the attiny85-20PU**
 
-  avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m
+Now just like bootloader versions we have two different fuse settings as well
+
+**First** In case you want to 6 I/O including reset pin (reset pin enabled).You get 6 I/O but at a cost that you can't reprogramme your chip using any ISP programmer now.
+You can use this setting for both bootloader versions ,Normal and Jumper version.
 
 
+**Second** In this case you can still programme your chip using ISP programmer but you will have just 5 I/O excluding reset pin(reset pin disabled).
+These fuse settings **won't** work with Jumper version of bootloader.
+
+**Please Note**
+These fuses setting will not enable reset pin (ATTINY85 pin 1) as I/O, so you only have 5 I/O instead of 6 I/O.
+
+	:command:  avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m
+
+
+	
 
 	avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
 
@@ -205,39 +236,49 @@ Go to directory where exists micronucleus-t85 folder and run the following
 	avrdude done.  Thank you.
 
 
-**Please Note**
-These fuses setting will not enable reset pin (ATTINY85 pin 1) as I/O, so you only have 5 I/O instead of 6 I/O.
+
+Instructions to use **JUMPER** version of miccronucleus bootloader:
+
+#. Upload micronucleus1.06-jumper-v2-upgrade.hex
+
+	:command: avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"micronucleus-t85-master/firmware/releases/micronucleus-1.06.hex"
+ 
+#. Set fuses to enable the reset pin to be used as I/O
+	lfuse:0xe1
+	**hfuse:0x5d**
+	efuse:0xfe
+
+	:command:  avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0x5d:m -U efuse:w:0xfe:m
+	
+**Remember**
+You can't reprogramme your IC with an ISP programmer If you use the above fuse settings as reset pin is enabled as I/O until you have High volt fuse resetter.
+
+#. Now if you are done with the above two steps you are ready to programme.
 
 
 After the above two steps are accomplished ,make all the USB connections and follow the next step.
-`USB connections <https://github.com/mehtajaghvi/Digispark-on-breadboard/blob/master/Images/digispark_breadboard_bb.jpg>`_
 
+`How to make USB connections <https://github.com/mehtajaghvi/Digispark-on-breadboard/blob/master/Images/digispark_breadboard_bb.jpg>`_
 
+**dmesg log**
 
-Burn cdc232.hex 
-===============
-#. Go to micronucleus-t85-master folder downloaded from `here <https://github.com/Bluebie/micronucleus-t85/>`_
-#. In /micronucleus-t85-master/commandline/ folder run **make**
-#. A **micronucleus** binary is formed 
-#. To enumerate digispark as USB device run this command
+[ 3163.939443] usb 2-1.2: >new low-speed USB device number 47 using ehci_hcd
 
- sudo ./micronucleus micronucleus-t85-master/commandline/cdc232.hex
+[ 3163.966880] usb 2-1.2: >New USB device found, **idVendor=16d0, idProduct=0753**
 
-**dmesg**
-
-[27858.906553] usb 2-1.2: >new low-speed USB device number 87 using ehci_hcd
-
-[27859.004058] usb 2-1.2: >New USB device found, idVendor=16d0, idProduct=0753
-
-[27859.004068] usb 2-1.2: >New USB device strings: Mfr=0, Product=0, SerialNumber=0
-
+[ 3163.966890] usb 2-1.2: >New USB device strings: Mfr=0, Product=0, SerialNumber=0
 
 Setting rules in udev to avoid errors
 =====================================
-#. /etc/udev/rules/49-micronucelus.rules
-#. /etc/udec/rules/90-digispark.rules
 
-`Udev Rules<https://github.com/Bluebie/micronucleus-t85/wiki/Ubuntu-Linux>`_ 
+`Udev rules setting <https://github.com/Bluebie/micronucleus-t85/wiki/Ubuntu-Linux>`_ 
+
+#. /etc/udev/rules/49-micronucelus.rules
+
+#. /etc/udev/rules/90-digispark.rules
+
+# ./etc/udev/rules/99-digiusb.rules
+
 
 
 ERRORS encountered
@@ -269,9 +310,22 @@ ERRORS encountered
 #. **Error**
 	avrdude: stk500_getsync(): not in sync: resp=0xe0
 
+#. avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
+avrdude: AVR device initialized and ready to accept instructions
+
+Reading | ################################################## | 100% 0.02s
+
+avrdude: Device signature = 0x000000
+avrdude: Yikes!  Invalid device signature.
+         Double check connections and try again, or use -F to override
+         this check.
+
+
+
 	avrdude done.  Thank you.
 
 **Caution**
+
 This error occurs if baud rate is not set properly.
 
 #. **Error**
@@ -280,14 +334,32 @@ This error occurs if baud rate is not set properly.
 If you try to burn cdc232.hex or any other hex file  via arduinoISP or any other ISP programmer the above error occurs.This is because once the bootloader is burn on chip ,the fuses disable the reset pin thus preventing any other hex file to be programmed on chip by an ISP programmer.
 
 
-
-
-Burning Program
+Burn cdc232.hex 
 ===============
+#. Go to micronucleus-t85-master folder downloaded from ` here <https://github.com/Bluebie/micronucleus-t85/>`_
+#. In /micronucleus-t85-master/commandline/ folder run **make**
+#. A **micronucleus** binary is formed 
+#. To enumerate digispark as USB serial device run this command
+
+ sudo ./micronucleus micronucleus-t85-master/commandline/cdc232.hex
+
+**dmesg**
+
+[27858.906553] usb 2-1.2: >new low-speed USB device number 87 using ehci_hcd
+
+[27859.004058] usb 2-1.2: >New USB device found, idVendor=16d0, idProduct=0753
+
+[27859.004068] usb 2-1.2: >New USB device strings: Mfr=0, Product=0, SerialNumber=0
+
+
+Uploading Program (Normal Version of Bootloader)
+=================
 
 #. Board--->Digispark(TinyCore)
 
 #. Programmer--->Digispark
+
+**DO NOT** plug the device now
 
 #. Upload (IDE will ask to plug int the device within sixty seconds)	
 
@@ -297,6 +369,24 @@ Burning Program
 
 #. Done
 
+Uploading Program (Jumper Version of Bootloader)
+=================
+
+#. Board--->Digispark(TinyCore)
+
+#. Programmer--->Digispark
+
+#. Upload (IDE will ask to plug int the device within sixty seconds)	
+
+#. Connect PB5 to GND using a jumper if you need to upload sketch.
+
+#. Plug Digispark
+
+#. Micronucleus thankyou.
+
+#. Done
+
+#. Now deplug your device , remove the jumper wire between reset pin and GND , and replug the device , Your programme will start executing instantaneously **without 5 seconds** delay. 
 
 Serial Monitor
 ==============
@@ -317,4 +407,8 @@ Help LINKS
 #. `SPI Protocol <http://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus>`_
 
 #.
+
+
+Summary
+=======
  
