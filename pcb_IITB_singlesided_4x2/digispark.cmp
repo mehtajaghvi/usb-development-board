@@ -1,16 +1,16 @@
-Cmp-Mod V01 Created by CvPcb (2012-apr-16-27)-stable date = Mon 12 Aug 2013 05:36:22 PM IST
+Cmp-Mod V01 Created by CvPcb (2012-apr-16-27)-stable date = Tue 27 Aug 2013 02:00:34 PM IST
 
 BeginCmp
-TimeStamp = /52034A81;
+TimeStamp = /521C6363;
 Reference = D1;
-ValeurCmp = 3.6V;
-IdModule  = R1;
+ValeurCmp = ZENER;
+IdModule  = R3;
 EndCmp
 
 BeginCmp
-TimeStamp = /52034A6E;
+TimeStamp = /521B65D2;
 Reference = D2;
-ValeurCmp = 3.6V;
+ValeurCmp = ZENER;
 IdModule  = R1;
 EndCmp
 
@@ -29,17 +29,17 @@ IdModule  = SparkFun-USB-A-PCB;
 EndCmp
 
 BeginCmp
-TimeStamp = /5203586C;
+TimeStamp = /520DDDA3;
 Reference = P1;
-ValeurCmp = CONN_6;
-IdModule  = SparkFun-1X06;
+ValeurCmp = CONN_4;
+IdModule  = PIN_ARRAY_4x1;
 EndCmp
 
 BeginCmp
-TimeStamp = /52035888;
+TimeStamp = /520DDDC4;
 Reference = P2;
-ValeurCmp = CONN_2;
-IdModule  = SparkFun-1X02;
+ValeurCmp = CONN_4;
+IdModule  = PIN_ARRAY_4x1;
 EndCmp
 
 BeginCmp

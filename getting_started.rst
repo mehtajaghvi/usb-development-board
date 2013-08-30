@@ -1,6 +1,50 @@
+F.A.Q
+=====
+
+#. Why digispark ?
+
+#. How serial communication occurs ?
+
+#. Why 5V and not 3.3 V?
+
+#. What if my code is more than 6 K?
+
+#. How bootloader works ?
+
+#. Whats is cdc232.hex ?
+
+#. USB-HID device
+
+#. Can digispark act as a USB-host?
+
+#. What all can it  do ?
+
+#. what is its cost ?
+
+#. How to programme it ?
+
+#. What all components are required ?
+
+#. Can we use chip other than ATtiny85 ?
+
+#. How much memory is available to code ?
+
+#. Can I use it in other OS ?
+
+#. Tutorials
+
+#. What is micronucelus.hex?
+
+
+
+
+
+
 Why Digispark
 =============
 #.
+
+
 
 
 
