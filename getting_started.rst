@@ -22,7 +22,7 @@ Digispark
 
 * Difference between arduino and digispark ?
 
- +  ArduinoUNO uses ATmega328 microcontroller with 32Kb of flash memory of which 5Kb is used by the bootloader whereas Digispark has 8Kb of flash memory with 2Kb occupied by   bootloader,so you have around 6Kb of memory left for code.
+ +  ArduinoUNO uses ATmega328 microcontroller with 32Kb of flash memory of which 5Kb is used by the bootloader whereas Digispark has 8Kb of flash memory with 2Kb occupied by   bootloader,so you have around **6Kb** of memory left for code.
 
  +------------------------+------------+----------+                                     
  |       Memory           | Digispark  |ArduinoUNO| 		                      
@@ -63,9 +63,7 @@ Digispark
 
 * Why digispark ?
 
- It is micro-sized, Arduino enabled, usb development board - cheap enough to jumpstart electronics.
-
-
+ It is micro-sized, Arduino enabled, usb development board - cheap enough to jumpstart electronics.It is easy to make DIY project.
 
 * How serial communication occurs ?
 
@@ -73,14 +71,14 @@ Digispark
  Pin 3 (P3) has a 1.5 kΩ pull-up resistor attached to it which is required for when P3 and P4 are used for USB communication (including programming). Your design may need to take into  account that you'd have to overpower this to pull this pin low.
  The Digispark does not have a hardware serial port nor a hardware serial to USB converter. An example library (DigiUSB) is provided, as well as some example code and a serial monitor     like program, but communication with the computer will not always be plug and play, especially when other libraries are involved.
 
-
 * At what clock speed Digispark works?
 
  16.5mhz is a better clock speed closer to 16.0mhz which is more useful with existing arduino libraries. It must be using the high speed PLL at 16MHz and not the internal RC    oscillator and the safe voltage is 3.8V or more for this speed.
 
 * What if my code is more than 6 K?
 
-
+ If you are uploading your sketch using Digispark integrated Arduino IDE ,If you compile the code you will get an idea of how much memory does your code need.So before uploading its a good habit to first compile your code.In case it's more than 6kb it's likely to overwrite your bootloader.In which case you have to rewrite the bootloader using ISP programmer.
+But you can reupload the bootloader only if your reset pin is disabled as I/O. 
 
 * How bootloader works ?
 
@@ -88,28 +86,20 @@ Digispark
 
 * USB-HID device
 
-* Can digispark act as a USB-host?
-
-* What all can it  do ?
-
-* what is its cost ?
-
 * How to programme it ?
-
-* What all components are required ?
-
-* Can we use chip other than ATtiny85 ?
-
-* How much memory is available to code ?
+ 
 
 * Can I use it in other OS ?
 
-* Tutorials
+ It can be used on linux,Aakash using arm version ,and other operating systems. This tutorial is dispositioned towards linux users.
 
-* What is micronucelus.hex?
+* What all can it  do ?
 
-Hardware requirement
---------------------
+ It can be integrated with number of sensors (IR,proxomity,temperature) ,bluetooth module ,GPRS etc.
+
+
+Hardware requirement to build the project
+-----------------------------------------
 All you need is:
 
 **One** Attiny85-20PU
@@ -132,6 +122,8 @@ All you need is:
 - TWO 68 ohm
 
 Broken USB-A cable if you don't have the PCB and you plan to make it on a breadboard.
+
+.. image:: images/cad.png :scale: 250% :height: 50 :width: 50
 
 Programming your chip
 =====================
@@ -373,7 +365,7 @@ Uploading Programme
 
 #. Programmer--->Digispark
 
-..note:: **DO NOT** plug the device until asked
+.. note:: **DO NOT** plug the device until asked
 
 * Click Compile the code to check if the code exceeds 6Kb
 

@@ -116,7 +116,7 @@ All you need is:
 
 .. warning:: Please make sure your ATtiny85 is the 20 variety, and not an ATtiny85v-10. The v version is low voltage and is totally out of spec for USB stuff like the micronucleus bootloader.
 
-.. image:: /home/jaghvi/github/Digispark-on-breadboard/images/attiny85_pinout.png :scale: 250% :height: 50 :width: 50
+.. image:: images/attiny85_pinout.png :scale: 250% :height: 50 :width: 50
 
 **Two** 3.6V Zener Diode
 
@@ -149,7 +149,7 @@ Programming ATTiny85 with Arduino
 ---------------------------------
 #. To know more about SPI protocol `here <http://www.google.com/url?q=http%3A%2F%2Fpdp11.byethost12.com%2FAVR%2FArduinoAsProgrammer.htm&sa=D&sntz=1&usg=AFQjCNE7KJzWFBbjRhLtpMYrmUypxO8VHQ>`_
 
- .. image:: /home/jaghvi/github/Digispark-on-breadboard/images/ArduinoISP_attiny85.png
+ .. image:: images/ArduinoISP_attiny85.png
     :scale: 250%	
     :height: 50 	
     :width: 50
@@ -217,7 +217,7 @@ These fuse settings **won't** work with Jumper version of bootloader.Jumper vers
 Fuse setting(Reset **disabled** as I/O)
 ++++++++++++++++++++++++++++++++++++++++
 
- .. image:: /home/jaghvi/github/Digispark-on-breadboard/images/resetdisabled.png
+ .. image:: images/resetdisabled.png
     :scale: 250%	
     :height: 50 	
     :width: 50
@@ -230,7 +230,7 @@ Fuse setting(Reset **disabled** as I/O)
 Fuse setting(Reset **enabled** as I/O)
 +++++++++++++++++++++++++++++++++++++++
 	
- .. image:: /home/jaghvi/github/Digispark-on-breadboard/images/resetenabled.png
+ .. image:: images/resetenabled.png
     :scale: 250%	
     :height: 50 	
     :width: 50
@@ -252,7 +252,7 @@ Mistakes while assembling the circuit
 -------------------------------------
 
 
- .. image:: /home/jaghvi/github/Digispark-on-breadboard/images/digispark_breadboard_bb.jpg
+ .. image:: images/digispark_breadboard_bb.jpg
     :scale: 250%	
     :height: 50 	
     :width: 50
@@ -262,7 +262,7 @@ Device Detection
 
 run command **dmesg** or **tailf /var/log/syslog** in terminal to check the vendorID and productID
  
- .. image:: /home/jaghvi/github/Digispark-on-breadboard/images/devicedetected.png
+ .. image:: images/devicedetected.png
      :scale: 250%	
      :height: 50 	
      :width: 50
@@ -330,7 +330,7 @@ Errors in USB connection
 Run **dmesg** or **tailf /var/log/syslog** .Following error might occur due to number of reasons.
 If you have used a faulty resistor value or if the zener diodes used are of values other than 3.6V then following occurs. Check if all the connections are proper specially consulting D- and D+ lines. 
 
- .. image:: /home/jaghvi/github/Digispark-on-breadboard/images/error_usbconnection.png
+ .. image:: images/error_usbconnection.png
     :scale: 250%	
     :height: 50 	
     :width: 50
@@ -380,7 +380,7 @@ Uploading Programme
 
 #. Click Upload (IDE will ask to plug int the device within sixty seconds)
 
- .. image:: /home/jaghvi/github/Digispark-on-breadboard/images/upload_successful.png
+ .. image:: images/upload_successful.png
       :scale: 120%	
       :height: 50 	
       :width: 50
