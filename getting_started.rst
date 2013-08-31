@@ -103,10 +103,14 @@ Hardware requirement to build the project
 All you need is:
 
 **One** Attiny85-20PU
-
 .. warning:: Please make sure your ATtiny85 is the 20 variety, and not an ATtiny85v-10. The v version is low voltage and is totally out of spec for USB stuff like the micronucleus bootloader.
 
-.. image:: images/attiny85_pinout.png :scale: 250% :height: 50 :width: 50
+
+ .. image:: images/attiny85_pinout.png
+     :scale: 250%	
+     :height: 50 	
+     :width: 50
+
 
 **Two** 3.6V Zener Diode
 
@@ -123,7 +127,12 @@ All you need is:
 
 Broken USB-A cable if you don't have the PCB and you plan to make it on a breadboard.
 
-.. image:: images/cad.png :scale: 250% :height: 50 :width: 50
+ .. image:: images/cad.png
+     :scale: 250%	
+     :height: 50 	
+     :width: 50
+ 
+
 
 Programming your chip
 =====================
