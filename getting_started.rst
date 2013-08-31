@@ -86,12 +86,15 @@ But you can reupload the bootloader only if your reset pin is disabled as I/O.
 
 * USB-HID device
 
-* How to programme it ?
- 
+ DigiUSB - Debugging and HID communication library
+ On the computer side you can use the included command line tools in the DigiUSB Programs folder:
+ digiusb - this program is like the Arduino **serial monitor**, allowing you to send and receive messages to/from a Digispark running DigiUSB
+ send - this allows you to send data/text to a Digispark with DigiUSB - run with –help to see all options
+ receive- this allows you to receive data/text from a Digispark with DigiUSB - run with –help to see all options
 
 * Can I use it in other OS ?
 
- It can be used on linux,Aakash using arm version ,and other operating systems. This tutorial is dispositioned towards linux users.
+It can be used on linux,Aakash using arm version ,and other operating systems. This tutorial is dispositioned towards linux users.
 
 * What all can it  do ?
 
@@ -133,9 +136,8 @@ Broken USB-A cable if you don't have the PCB and you plan to make it on a breadb
      :width: 50
  
 
-
-Programming your chip
-=====================
+How to programme your chip
+==========================
 Arduino as ISP
 --------------
 #. `arduinoIDE <http://arduino.cc/en/Main/Software>`_ Arduino IDE to use arduino-UNO as ISP to program ATtiny85 chip.
