@@ -1,0 +1,618 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1   Digispark &mdash; DIY 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DIY 1.0 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="index.html">DIY 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="digispark">
+<h1><a class="toc-backref" href="#id1">1&nbsp;&nbsp;&nbsp;Digispark</a><a class="headerlink" href="#digispark" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="auto-toc simple">
+<li><a class="reference internal" href="#digispark" id="id1">1&nbsp;&nbsp;&nbsp;Digispark</a><ul class="auto-toc">
+<li><a class="reference internal" href="#hardware-requirement" id="id2">1.1&nbsp;&nbsp;&nbsp;Hardware requirement</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#programming-your-chip" id="id3">2&nbsp;&nbsp;&nbsp;Programming your chip</a><ul class="auto-toc">
+<li><a class="reference internal" href="#arduino-as-isp" id="id4">2.1&nbsp;&nbsp;&nbsp;Arduino as ISP</a></li>
+<li><a class="reference internal" href="#programming-attiny85-with-arduino" id="id5">2.2&nbsp;&nbsp;&nbsp;Programming ATTiny85 with Arduino</a></li>
+<li><a class="reference internal" href="#burning-micronucleus-hex-and-setting-fuses" id="id6">2.3&nbsp;&nbsp;&nbsp;Burning micronucleus.hex and setting fuses</a><ul class="auto-toc">
+<li><a class="reference internal" href="#upload-the-bootloader" id="id7">2.3.1&nbsp;&nbsp;&nbsp;<strong>Upload the BOOTLOADER</strong></a><ul class="auto-toc">
+<li><a class="reference internal" href="#uploading-the-normal-version" id="id8">2.3.1.1&nbsp;&nbsp;&nbsp;Uploading the NORMAL version</a></li>
+<li><a class="reference internal" href="#uploading-the-jumper-version" id="id9">2.3.1.2&nbsp;&nbsp;&nbsp;Uploading the JUMPER version</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#set-fuses-of-the-attiny85-20pu" id="id10">2.3.2&nbsp;&nbsp;&nbsp;Set fuses of the attiny85-20PU</a><ul class="auto-toc">
+<li><a class="reference internal" href="#fuse-setting-reset-disabled-as-i-o" id="id11">2.3.2.1&nbsp;&nbsp;&nbsp;Fuse setting(Reset <strong>disabled</strong> as I/O)</a></li>
+<li><a class="reference internal" href="#fuse-setting-reset-enabled-as-i-o" id="id12">2.3.2.2&nbsp;&nbsp;&nbsp;Fuse setting(Reset <strong>enabled</strong> as I/O)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#usb-connections" id="id13">3&nbsp;&nbsp;&nbsp;USB Connections</a><ul class="auto-toc">
+<li><a class="reference internal" href="#mistakes-while-assembling-the-circuit" id="id14">3.1&nbsp;&nbsp;&nbsp;Mistakes while assembling the circuit</a></li>
+<li><a class="reference internal" href="#device-detection" id="id15">3.2&nbsp;&nbsp;&nbsp;Device Detection</a></li>
+<li><a class="reference internal" href="#setting-rules-in-udev-to-avoid-errors" id="id16">3.3&nbsp;&nbsp;&nbsp;Setting rules in udev to avoid errors</a></li>
+<li><a class="reference internal" href="#errors-encountered" id="id17">3.4&nbsp;&nbsp;&nbsp;ERRORS encountered</a><ul class="auto-toc">
+<li><a class="reference internal" href="#error-when-using-isp" id="id18">3.4.1&nbsp;&nbsp;&nbsp;Error when using ISP</a></li>
+<li><a class="reference internal" href="#errors-in-usb-connection" id="id19">3.4.2&nbsp;&nbsp;&nbsp;Errors in USB connection</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#burn-cdc232-hex" id="id20">3.5&nbsp;&nbsp;&nbsp;Burn cdc232.hex</a></li>
+<li><a class="reference internal" href="#uploading-programme" id="id21">3.6&nbsp;&nbsp;&nbsp;Uploading Programme</a><ul class="auto-toc">
+<li><a class="reference internal" href="#normal-version-of-bootloader" id="id22">3.6.1&nbsp;&nbsp;&nbsp;(Normal Version of Bootloader)</a></li>
+<li><a class="reference internal" href="#jumper-version-of-bootloader" id="id23">3.6.2&nbsp;&nbsp;&nbsp;(Jumper Version of Bootloader)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#serial-monitor" id="id24">3.7&nbsp;&nbsp;&nbsp;Serial Monitor</a></li>
+<li><a class="reference internal" href="#suggested-links" id="id25">3.8&nbsp;&nbsp;&nbsp;Suggested LINKS</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<ul class="simple">
+<li>What is arduino?</li>
+</ul>
+<blockquote>
+<div>Arduino is an open-source electronics prototyping platform. It&#8217;s intended for artists, designers, hobbyists and anyone interested in creating interactive objects or environments but             tad too expensive ($15) for small projects or if you are new to electronics.We started exploring Digispark project which has developed a 9$ ATtiny-85 Arduino compatible board.
+We have redesigned PCB of Digispark to fit in single layer and optimized components to reduce cost to less than 3$.</div></blockquote>
+<ul class="simple">
+<li>Difference between arduino and digispark ?</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>ArduinoUNO uses ATmega328 microcontroller with 32Kb of flash memory of which 5Kb is used by the bootloader whereas Digispark has 8Kb of flash memory with 2Kb occupied by   bootloader,so you have around 6Kb of memory left for code.</li>
+</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="52%" />
+<col width="26%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Memory</th>
+<th class="head">Digispark</th>
+<th class="head">ArduinoUNO</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Flash(Total)</td>
+<td>8k bytes</td>
+<td>32k bytes</td>
+</tr>
+<tr class="row-odd"><td>Flash(Bootloader)</td>
+<td>2k bytes</td>
+<td>5k bytes</td>
+</tr>
+<tr class="row-even"><td>Static RAM</td>
+<td>512 byte</td>
+<td>2k bytes</td>
+</tr>
+<tr class="row-odd"><td>EEPROM</td>
+<td>512 byte</td>
+<td>1k byte</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="52%" />
+<col width="26%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">PINS</th>
+<th class="head">Digispark</th>
+<th class="head">ArduinoUNO</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Total</td>
+<td>8</td>
+<td>32</td>
+</tr>
+<tr class="row-odd"><td>Total I/O</td>
+<td>6</td>
+<td>23</td>
+</tr>
+<tr class="row-even"><td>Digital I/O   (PWM)</td>
+<td>6  (3)</td>
+<td>16 (6)</td>
+</tr>
+<tr class="row-odd"><td>Analog  I/O</td>
+<td>4</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ul class="simple">
+<li>What is digispark ?</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>Digispark is an <strong>ATtiny85</strong> based microcontroller development board come with USB interface.</li>
+<li>It uses the familiar Arduino IDE for development.</li>
+<li>PWM on 3 pins</li>
+<li>ADC on 4 pins</li>
+<li>I²C and SPI (vis USI)</li>
+<li>6 I/O pins (2 are used for USB only if your program actively communicates over USB, otherwise you can use all 6 even if you are programming via USB)</li>
+<li>8 KB flash memory (about 6 KB after bootloader)</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Why digispark ?</li>
+</ul>
+<blockquote>
+<div>It is micro-sized, Arduino enabled, usb development board - cheap enough to jumpstart electronics.</div></blockquote>
+<ul class="simple">
+<li>How serial communication occurs ?</li>
+</ul>
+<blockquote>
+<div>Pin 3 and Pin 4 (P3 and P4) are used for USB communication and programming, while you can use them in your circuit if you are not using USB communication, you may have to unplug your   circuit during programming if the circuit would impede the pin states or dramatically affect the voltage levels on these pins.
+Pin 3 (P3) has a 1.5 kΩ pull-up resistor attached to it which is required for when P3 and P4 are used for USB communication (including programming). Your design may need to take into  account that you&#8217;d have to overpower this to pull this pin low.
+The Digispark does not have a hardware serial port nor a hardware serial to USB converter. An example library (DigiUSB) is provided, as well as some example code and a serial monitor     like program, but communication with the computer will not always be plug and play, especially when other libraries are involved.</div></blockquote>
+<ul class="simple">
+<li>At what clock speed Digispark works?</li>
+</ul>
+<blockquote>
+<div>16.5mhz is a better clock speed closer to 16.0mhz which is more useful with existing arduino libraries. It must be using the high speed PLL at 16MHz and not the internal RC    oscillator and the safe voltage is 3.8V or more for this speed.</div></blockquote>
+<ul class="simple">
+<li>What if my code is more than 6 K?</li>
+<li>How bootloader works ?</li>
+<li>Whats is cdc232.hex ?</li>
+<li>USB-HID device</li>
+<li>Can digispark act as a USB-host?</li>
+<li>What all can it  do ?</li>
+<li>what is its cost ?</li>
+<li>How to programme it ?</li>
+<li>What all components are required ?</li>
+<li>Can we use chip other than ATtiny85 ?</li>
+<li>How much memory is available to code ?</li>
+<li>Can I use it in other OS ?</li>
+<li>Tutorials</li>
+<li>What is micronucelus.hex?</li>
+</ul>
+<div class="section" id="hardware-requirement">
+<h2><a class="toc-backref" href="#id2">1.1&nbsp;&nbsp;&nbsp;Hardware requirement</a><a class="headerlink" href="#hardware-requirement" title="Permalink to this headline">¶</a></h2>
+<p>All you need is:</p>
+<p><strong>One</strong> Attiny85-20PU</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Please make sure your ATtiny85 is the 20 variety, and not an ATtiny85v-10. The v version is low voltage and is totally out of spec for USB stuff like the micronucleus bootloader.</p>
+</div>
+<img alt="home/jaghvi/github/Digispark-on-breadboard/images/attiny85_pinout.png:scale:250%:height:50:width:50" src="home/jaghvi/github/Digispark-on-breadboard/images/attiny85_pinout.png:scale:250%:height:50:width:50" />
+<p><strong>Two</strong> 3.6V Zener Diode</p>
+<blockquote>
+<div><p><strong>Zener diodes</strong>:Power rating is critical, but not in the way you might expect.Most of the time it&#8217;s perfectly safe to overrate your parts and use a component with a higher rating  than required for this particular circuit. However, in this case that approach can actually prevent the circuit from working because the trade-off in Zener diode design is that as its   power rating increases it also exhibits more capacitance. Capacitance on a high-speed data line is very bad and needs to be avoided or the circuit simply won&#8217;t work. In practice, a  1/4W Zener should work fine; a 1/2W Zener should work, but is a bit on the borderline; and a 1W Zener almost certainly won&#8217;t work it will have too much capacitance.</p>
+<p>It&#8217;s a simple circuit USB socket gets its +5V power line from the usual place, and the 3.3V data lines use three resistors and two <strong>3.6V</strong> 1/4W Zeners to reduce the Arduino&#8217;s 5V to  3.3V.
+Purpose of zener diode is essential for the circuit.Even though the power supply line is 5v,communication line work at nominal 3.3 v.The D- and D+ lines are dependent signalling  lines unlike tx ,rx in RS232 .They are half  duplexed diferrential signalling pair helping the USB to run at high data speeds by reducing the effects of electrical noise.</p>
+</div></blockquote>
+<p><strong>Three</strong> resistors</p>
+<ul class="simple">
+<li>One 1.5K ohm</li>
+<li>TWO 68 ohm</li>
+</ul>
+<p>Broken USB-A cable if you don&#8217;t have the PCB and you plan to make it on a breadboard.</p>
+</div>
+</div>
+<div class="section" id="programming-your-chip">
+<h1><a class="toc-backref" href="#id3">2&nbsp;&nbsp;&nbsp;Programming your chip</a><a class="headerlink" href="#programming-your-chip" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="arduino-as-isp">
+<h2><a class="toc-backref" href="#id4">2.1&nbsp;&nbsp;&nbsp;Arduino as ISP</a><a class="headerlink" href="#arduino-as-isp" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><a class="reference external" href="http://arduino.cc/en/Main/Software">arduinoIDE</a> Arduino IDE to use arduino-UNO as ISP to program ATtiny85 chip.</li>
+<li>Plug in your arduino board</li>
+<li>File&#8211;&gt;Examples&#8211;&gt;ArduinoISP</li>
+<li>Tools&#8211;&gt;Board&#8211;&gt;Arduino UNO</li>
+<li>Tools&#8211;&gt;Serial Port&#8211;&gt;/dev/ttyACM0</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Serial Port may be /dev/ttyACM1</p>
+</div>
+</div>
+<div class="section" id="programming-attiny85-with-arduino">
+<h2><a class="toc-backref" href="#id5">2.2&nbsp;&nbsp;&nbsp;Programming ATTiny85 with Arduino</a><a class="headerlink" href="#programming-attiny85-with-arduino" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>To know more about SPI protocol <a class="reference external" href="http://www.google.com/url?q=http%3A%2F%2Fpdp11.byethost12.com%2FAVR%2FArduinoAsProgrammer.htm&amp;sa=D&amp;sntz=1&amp;usg=AFQjCNE7KJzWFBbjRhLtpMYrmUypxO8VHQ">here</a></li>
+</ol>
+<blockquote>
+<div><a class="reference internal image-reference" href="home/jaghvi/github/Digispark-on-breadboard/images/ArduinoISP_attiny85.png"><img alt="home/jaghvi/github/Digispark-on-breadboard/images/ArduinoISP_attiny85.png" src="home/jaghvi/github/Digispark-on-breadboard/images/ArduinoISP_attiny85.png" style="width: 125.0px; height: 125.0px;" /></a>
+</div></blockquote>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If you are programming with Arduino UNO then use a <strong>10uF</strong> capacitor between RESET and GND of arduino UNO.</p>
+</div>
+<ol class="arabic simple">
+<li><a class="reference external" href="http://forum.arduino.cc/index.php/topic,104435.0.html">Why do you need a capacitor</a></li>
+<li>To check if connections are proper before burning hex file</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">change the port to your port /dev/ttyACM* or /dev/ttyUSB*</p>
+</div>
+<p>Run this command and see that the signature match that of Attiny85 (<strong>0x1e930b</strong>)</p>
+<div class="highlight-python"><pre>avrdude -p attiny85 -c arduino -b 19200 -P /dev/ttyACM0</pre>
+</div>
+</div>
+<div class="section" id="burning-micronucleus-hex-and-setting-fuses">
+<h2><a class="toc-backref" href="#id6">2.3&nbsp;&nbsp;&nbsp;Burning micronucleus.hex and setting fuses</a><a class="headerlink" href="#burning-micronucleus-hex-and-setting-fuses" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/Bluebie/micronucleus-t85/">Bootloader</a></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>Burn the latest version.</li>
+<li>Depending on your need(jumper version to remove 5 seconds delay).
+More about this as we proceed.</li>
+</ul>
+</div></blockquote>
+<div class="section" id="upload-the-bootloader">
+<h3><a class="toc-backref" href="#id7">2.3.1&nbsp;&nbsp;&nbsp;<strong>Upload the BOOTLOADER</strong></a><a class="headerlink" href="#upload-the-bootloader" title="Permalink to this headline">¶</a></h3>
+<p>Before you start anything , there are two versions of bootloader.</p>
+<ul class="simple">
+<li><strong>First</strong> (NORMAL) is : micronucleus-1.06.hex . This is the conventional bootloader which comes with the official DS.In this version of bootloader you have to wait for 5sec for your already written programme to start executing.Within this 5sec the DS checks wether you have some other programme to overwrite already existing programme on the chip,If not it starts the programme already uploaded after a <strong>5 seconds</strong> delay.</li>
+<li><strong>Second</strong> (JUMPER) : Now if every second is crucuial to your project and you can&#8217;t wait for your programme to start after 5 seconds ,there is this another version micronucleus-1.06-jumper-v2-upgrade.hex</li>
+</ul>
+<div class="section" id="uploading-the-normal-version">
+<h4><a class="toc-backref" href="#id8">2.3.1.1&nbsp;&nbsp;&nbsp;Uploading the NORMAL version</a><a class="headerlink" href="#uploading-the-normal-version" title="Permalink to this headline">¶</a></h4>
+<p>Go to directory where exists micronucleus-t85 folder and run the following</p>
+<div class="highlight-python"><pre>avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"micronucleus-t85-master/firmware/releases/micronucleus-1.06.hex"</pre>
+</div>
+</div>
+<div class="section" id="uploading-the-jumper-version">
+<h4><a class="toc-backref" href="#id9">2.3.1.2&nbsp;&nbsp;&nbsp;Uploading the JUMPER version</a><a class="headerlink" href="#uploading-the-jumper-version" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic">
+<li><p class="first">Upload micronucleus1.06-jumper-v2-upgrade.hex</p>
+<div class="highlight-python"><pre>avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"micronucleus-t85-master/firmware/releases/micronucleus-1.06.hex"</pre>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="set-fuses-of-the-attiny85-20pu">
+<h3><a class="toc-backref" href="#id10">2.3.2&nbsp;&nbsp;&nbsp;Set fuses of the attiny85-20PU</a><a class="headerlink" href="#set-fuses-of-the-attiny85-20pu" title="Permalink to this headline">¶</a></h3>
+<p>Now just like bootloader versions we have two different fuse settings as well</p>
+<p><strong>First</strong> In case you want to 6 I/O including reset pin (reset pin enabled).You get 6 I/O but at a cost that you can&#8217;t reprogramme your chip using any ISP programmer now.
+You can use this setting for <strong>both</strong> bootloader versions ,Normal as well as Jumper version.</p>
+<p><strong>Second</strong> In this case you can still programme your chip using ISP programmer but you will have just 5 I/O excluding reset pin(reset pin disabled).
+These fuse settings <strong>won&#8217;t</strong> work with Jumper version of bootloader.Jumper version required a jumper between the resest pin and GND to upload the programme.</p>
+<div class="section" id="fuse-setting-reset-disabled-as-i-o">
+<h4><a class="toc-backref" href="#id11">2.3.2.1&nbsp;&nbsp;&nbsp;Fuse setting(Reset <strong>disabled</strong> as I/O)</a><a class="headerlink" href="#fuse-setting-reset-disabled-as-i-o" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><a class="reference internal image-reference" href="home/jaghvi/github/Digispark-on-breadboard/images/resetdisabled.png"><img alt="home/jaghvi/github/Digispark-on-breadboard/images/resetdisabled.png" src="home/jaghvi/github/Digispark-on-breadboard/images/resetdisabled.png" style="width: 125.0px; height: 125.0px;" /></a>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>These fuses setting will not enable reset pin (ATTINY85 pin 1) as I/O, so you only have 5 I/O instead of 6 I/O</p>
+<p class="last">avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m</p>
+</div>
+</div>
+<div class="section" id="fuse-setting-reset-enabled-as-i-o">
+<h4><a class="toc-backref" href="#id12">2.3.2.2&nbsp;&nbsp;&nbsp;Fuse setting(Reset <strong>enabled</strong> as I/O)</a><a class="headerlink" href="#fuse-setting-reset-enabled-as-i-o" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><a class="reference internal image-reference" href="home/jaghvi/github/Digispark-on-breadboard/images/resetenabled.png"><img alt="home/jaghvi/github/Digispark-on-breadboard/images/resetenabled.png" src="home/jaghvi/github/Digispark-on-breadboard/images/resetenabled.png" style="width: 125.0px; height: 125.0px;" /></a>
+</div></blockquote>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">You can&#8217;t reprogramme your IC with an ISP programmer until you have High volt fuse resetter if you use the above fuse settings as reset pin is enabled as I/O</p>
+</div>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt>Set fuses to enable the reset pin to be used as I/O  lfuse:0xe1      <strong>hfuse:0x5d</strong> efuse:0xfe ::</dt>
+<dd><p class="first last">avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0x5d:m -U efuse:w:0xfe:m</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">Now if you are done with the above two steps you are ready to programme.</p>
+</li>
+</ol>
+<p>After the above two steps are accomplished ,make all the USB connections and follow the next step.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="usb-connections">
+<h1><a class="toc-backref" href="#id13">3&nbsp;&nbsp;&nbsp;USB Connections</a><a class="headerlink" href="#usb-connections" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="mistakes-while-assembling-the-circuit">
+<h2><a class="toc-backref" href="#id14">3.1&nbsp;&nbsp;&nbsp;Mistakes while assembling the circuit</a><a class="headerlink" href="#mistakes-while-assembling-the-circuit" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><a class="reference internal image-reference" href="home/jaghvi/github/Digispark-on-breadboard/images/digispark_breadboard_bb.jpg"><img alt="home/jaghvi/github/Digispark-on-breadboard/images/digispark_breadboard_bb.jpg" src="home/jaghvi/github/Digispark-on-breadboard/images/digispark_breadboard_bb.jpg" style="width: 125.0px; height: 125.0px;" /></a>
+</div></blockquote>
+</div>
+<div class="section" id="device-detection">
+<h2><a class="toc-backref" href="#id15">3.2&nbsp;&nbsp;&nbsp;Device Detection</a><a class="headerlink" href="#device-detection" title="Permalink to this headline">¶</a></h2>
+<p>run command <strong>dmesg</strong> or <strong>tailf /var/log/syslog</strong> in terminal to check the vendorID and productID</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="home/jaghvi/github/Digispark-on-breadboard/images/devicedetected.png"><img alt="home/jaghvi/github/Digispark-on-breadboard/images/devicedetected.png" src="home/jaghvi/github/Digispark-on-breadboard/images/devicedetected.png" style="width: 125.0px; height: 125.0px;" /></a>
+</div></blockquote>
+</div>
+<div class="section" id="setting-rules-in-udev-to-avoid-errors">
+<h2><a class="toc-backref" href="#id16">3.3&nbsp;&nbsp;&nbsp;Setting rules in udev to avoid errors</a><a class="headerlink" href="#setting-rules-in-udev-to-avoid-errors" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://github.com/Bluebie/micronucleus-t85/wiki/Ubuntu-Linux">Udev rules setting</a></p>
+<ol class="arabic simple">
+<li>/etc/udev/rules/49-micronucelus.rules</li>
+<li>/etc/udev/rules/90-digispark.rules</li>
+<li>/etc/udev/rules/99-digiusb.rules</li>
+</ol>
+</div>
+<div class="section" id="errors-encountered">
+<h2><a class="toc-backref" href="#id17">3.4&nbsp;&nbsp;&nbsp;ERRORS encountered</a><a class="headerlink" href="#errors-encountered" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="error-when-using-isp">
+<h3><a class="toc-backref" href="#id18">3.4.1&nbsp;&nbsp;&nbsp;Error when using ISP</a><a class="headerlink" href="#error-when-using-isp" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All the errors encountered in avrdude is mainly due to poor connections between ISP programmer and ATtiny85
+Redo your connections and see that no wire is loose.</p>
+</div>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt><strong>Error</strong></dt>
+<dd><p class="first">avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
+avrdude: AVR device initialized and ready to accept instructions</p>
+<p>Reading | ################################################## | 100% 0.02s</p>
+<p>avrdude: Device signature = 0x000000
+avrdude: Yikes!  Invalid device signature.</p>
+<blockquote class="last">
+<div><p>Double check connections and try again, or use -F to override
+this check.</p>
+</div></blockquote>
+</dd>
+</dl>
+</li>
+<li><p class="first"><strong>Error</strong></p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>If baud rate is note set properly then stk500 error is encountered.
+This error also occours if capacitor is not used in case you are programming with Arduino UNO.</p>
+<p>avrdude: stk500_getparm(): (a) protocol error, expect=0x14, resp=0x14</p>
+<p>avrdude: stk500_getparm(): (a) protocol error, expect=0x14, resp=0x01
+avrdude: stk500_initialize(): (a) protocol error, expect=0x14, resp=0x10
+avrdude: initialization failed, rc=-1</p>
+<blockquote class="last">
+<div>Double check connections and try again, or use -F to override
+this check.</div></blockquote>
+</div>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt><strong>Error</strong></dt>
+<dd><p class="first last">avrdude: stk500_getsync(): not in sync: resp=0xe0</p>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+<div class="section" id="errors-in-usb-connection">
+<h3><a class="toc-backref" href="#id19">3.4.2&nbsp;&nbsp;&nbsp;Errors in USB connection</a><a class="headerlink" href="#errors-in-usb-connection" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt><strong>Error</strong></dt>
+<dd><p class="first">If 90-digispark.rules not found in /etc/udev/rules.d/</p>
+<p class="last">Abort mission! -1 error has occured ...
+&gt;&gt; Please unplug the device and restart the program.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><strong>Error</strong></p>
+</li>
+</ol>
+<p>Run <strong>dmesg</strong> or <strong>tailf /var/log/syslog</strong> .Following error might occur due to number of reasons.
+If you have used a faulty resistor value or if the zener diodes used are of values other than 3.6V then following occurs. Check if all the connections are proper specially consulting D- and D+ lines.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="home/jaghvi/github/Digispark-on-breadboard/images/error_usbconnection.png"><img alt="home/jaghvi/github/Digispark-on-breadboard/images/error_usbconnection.png" src="home/jaghvi/github/Digispark-on-breadboard/images/error_usbconnection.png" style="width: 125.0px; height: 125.0px;" /></a>
+</div></blockquote>
+<ol class="arabic simple">
+<li><strong>Error</strong></li>
+</ol>
+<p>&gt; Please plug in the device ...</p>
+<p>&gt; Press CTRL+C to terminate the program.</p>
+<p>If you try to burn cdc232.hex or any other hex file  via arduinoISP or any other ISP programmer the above error occurs.This is because once the bootloader is burn on chip ,the fuses disable the reset pin thus preventing any other hex file to be programmed on chip by an ISP programmer.</p>
+</div>
+</div>
+<div class="section" id="burn-cdc232-hex">
+<h2><a class="toc-backref" href="#id20">3.5&nbsp;&nbsp;&nbsp;Burn cdc232.hex</a><a class="headerlink" href="#burn-cdc232-hex" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Go to micronucleus-t85-master folder downloaded from ` here &lt;<a class="reference external" href="https://github.com/Bluebie/micronucleus-t85/">https://github.com/Bluebie/micronucleus-t85/</a>&gt;`_</li>
+<li>In /micronucleus-t85-master/commandline/ folder run <strong>make</strong></li>
+<li>A <strong>micronucleus</strong> binary is formed</li>
+<li>To enumerate digispark as USB serial device run this command</li>
+</ol>
+<p>sudo ./micronucleus micronucleus-t85-master/commandline/cdc232.hex</p>
+<p>run command <strong>dmesg</strong> in terminal to enumerate the device as /dev/ttyACM*</p>
+<p>usb 2-1.2: &gt;new low-speed USB device number 87 using ehci_hcd
+usb 2-1.2: &gt;New USB device found, idVendor=16d0, idProduct=0753
+usb 2-1.2: &gt;New USB device strings: Mfr=0, Product=0, SerialNumber=0</p>
+</div>
+<div class="section" id="uploading-programme">
+<h2><a class="toc-backref" href="#id21">3.6&nbsp;&nbsp;&nbsp;Uploading Programme</a><a class="headerlink" href="#uploading-programme" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="http://digistump.com/wiki/digispark/tutorials/connecting">DigisparkIDE</a> ArduinoIDE integrated with Digispark libraries required to run programs on your DIY project.</li>
+</ul>
+<div class="section" id="normal-version-of-bootloader">
+<h3><a class="toc-backref" href="#id22">3.6.1&nbsp;&nbsp;&nbsp;(Normal Version of Bootloader)</a><a class="headerlink" href="#normal-version-of-bootloader" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Board&#8212;&gt;Digispark(TinyCore)</li>
+<li>Programmer&#8212;&gt;Digispark</li>
+</ol>
+<p>..note:: <strong>DO NOT</strong> plug the device until asked</p>
+<ul class="simple">
+<li>Click Compile the code to check if the code exceeds 6Kb</li>
+</ul>
+<ol class="arabic simple">
+<li>Click Upload (IDE will ask to plug int the device within sixty seconds)</li>
+</ol>
+<blockquote>
+<div><a class="reference internal image-reference" href="home/jaghvi/github/Digispark-on-breadboard/images/upload_successful.png"><img alt="home/jaghvi/github/Digispark-on-breadboard/images/upload_successful.png" src="home/jaghvi/github/Digispark-on-breadboard/images/upload_successful.png" style="width: 60.0px; height: 60.0px;" /></a>
+</div></blockquote>
+<ol class="arabic simple">
+<li>Now Plug Digispark</li>
+</ol>
+</div>
+<div class="section" id="jumper-version-of-bootloader">
+<h3><a class="toc-backref" href="#id23">3.6.2&nbsp;&nbsp;&nbsp;(Jumper Version of Bootloader)</a><a class="headerlink" href="#jumper-version-of-bootloader" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Board&#8212;&gt;Digispark(TinyCore)</li>
+<li>Programmer&#8212;&gt;Digispark</li>
+<li>Upload (IDE will ask to plug int the device within sixty seconds)</li>
+<li>Connect PB5 to GND using a jumper if you need to upload sketch.</li>
+<li>Plug Digispark</li>
+<li>Micronucleus thankyou.</li>
+<li>Done</li>
+<li>Now deplug your device , remove the jumper wire between reset pin and GND , and replug the device , Your programme will start executing instantaneously <strong>without 5 seconds</strong> delay.</li>
+</ol>
+</div>
+</div>
+<div class="section" id="serial-monitor">
+<h2><a class="toc-backref" href="#id24">3.7&nbsp;&nbsp;&nbsp;Serial Monitor</a><a class="headerlink" href="#serial-monitor" title="Permalink to this headline">¶</a></h2>
+<p>You can either use Digisparks official monitor or use Bluebie&#8217;s digiterm written in ruby.</p>
+<ol class="arabic simple">
+<li><a class="reference external" href="http://digistump.com/wiki/digispark/tutorials/digiusb">Digiterm:</a> Digispark Serial Monitor</li>
+<li>The Digispark integrated arduinoIDE has DigiUSB libraries which has the DigiUSB monitor working like digiterm.</li>
+</ol>
+<p>DigiUSB monitor has two more binaries send and receive.
+Run ./receive &gt;&gt; output.txt and your data will be written in a text file.</p>
+</div>
+<div class="section" id="suggested-links">
+<h2><a class="toc-backref" href="#id25">3.8&nbsp;&nbsp;&nbsp;Suggested LINKS</a><a class="headerlink" href="#suggested-links" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><a class="reference external" href="http://www.atmel.com/images/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf">ATtiny85 datasheet</a></li>
+<li><a class="reference external" href="http://www.google.com/url?q=http%3A%2F%2Fpdp11.byethost12.com%2FAVR%2FArduinoAsProgrammer.htm&amp;sa=D&amp;sntz=1&amp;usg=AFQjCNE7KJzWFBbjRhLtpMYrmUypxO8VHQ">ArduinoISP Tutorial</a></li>
+<li><a class="reference external" href="http://digistump.com/wiki/digispark/tutorials/basics">Tutorial</a></li>
+<li><a class="reference external" href="http://digistump.com/board/index.php">Digispark Forum</a></li>
+<li><a class="reference external" href="http://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus">SPI Protocol</a></li>
+<li><a class="reference external" href="http://www.arduino.cc/">Arduino</a></li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1&nbsp;&nbsp;&nbsp;Digispark</a><ul>
+<li><a class="reference internal" href="#hardware-requirement">1.1&nbsp;&nbsp;&nbsp;Hardware requirement</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#programming-your-chip">2&nbsp;&nbsp;&nbsp;Programming your chip</a><ul>
+<li><a class="reference internal" href="#arduino-as-isp">2.1&nbsp;&nbsp;&nbsp;Arduino as ISP</a></li>
+<li><a class="reference internal" href="#programming-attiny85-with-arduino">2.2&nbsp;&nbsp;&nbsp;Programming ATTiny85 with Arduino</a></li>
+<li><a class="reference internal" href="#burning-micronucleus-hex-and-setting-fuses">2.3&nbsp;&nbsp;&nbsp;Burning micronucleus.hex and setting fuses</a><ul>
+<li><a class="reference internal" href="#upload-the-bootloader">2.3.1&nbsp;&nbsp;&nbsp;<strong>Upload the BOOTLOADER</strong></a><ul>
+<li><a class="reference internal" href="#uploading-the-normal-version">2.3.1.1&nbsp;&nbsp;&nbsp;Uploading the NORMAL version</a></li>
+<li><a class="reference internal" href="#uploading-the-jumper-version">2.3.1.2&nbsp;&nbsp;&nbsp;Uploading the JUMPER version</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#set-fuses-of-the-attiny85-20pu">2.3.2&nbsp;&nbsp;&nbsp;Set fuses of the attiny85-20PU</a><ul>
+<li><a class="reference internal" href="#fuse-setting-reset-disabled-as-i-o">2.3.2.1&nbsp;&nbsp;&nbsp;Fuse setting(Reset <strong>disabled</strong> as I/O)</a></li>
+<li><a class="reference internal" href="#fuse-setting-reset-enabled-as-i-o">2.3.2.2&nbsp;&nbsp;&nbsp;Fuse setting(Reset <strong>enabled</strong> as I/O)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#usb-connections">3&nbsp;&nbsp;&nbsp;USB Connections</a><ul>
+<li><a class="reference internal" href="#mistakes-while-assembling-the-circuit">3.1&nbsp;&nbsp;&nbsp;Mistakes while assembling the circuit</a></li>
+<li><a class="reference internal" href="#device-detection">3.2&nbsp;&nbsp;&nbsp;Device Detection</a></li>
+<li><a class="reference internal" href="#setting-rules-in-udev-to-avoid-errors">3.3&nbsp;&nbsp;&nbsp;Setting rules in udev to avoid errors</a></li>
+<li><a class="reference internal" href="#errors-encountered">3.4&nbsp;&nbsp;&nbsp;ERRORS encountered</a><ul>
+<li><a class="reference internal" href="#error-when-using-isp">3.4.1&nbsp;&nbsp;&nbsp;Error when using ISP</a></li>
+<li><a class="reference internal" href="#errors-in-usb-connection">3.4.2&nbsp;&nbsp;&nbsp;Errors in USB connection</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#burn-cdc232-hex">3.5&nbsp;&nbsp;&nbsp;Burn cdc232.hex</a></li>
+<li><a class="reference internal" href="#uploading-programme">3.6&nbsp;&nbsp;&nbsp;Uploading Programme</a><ul>
+<li><a class="reference internal" href="#normal-version-of-bootloader">3.6.1&nbsp;&nbsp;&nbsp;(Normal Version of Bootloader)</a></li>
+<li><a class="reference internal" href="#jumper-version-of-bootloader">3.6.2&nbsp;&nbsp;&nbsp;(Jumper Version of Bootloader)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#serial-monitor">3.7&nbsp;&nbsp;&nbsp;Serial Monitor</a></li>
+<li><a class="reference internal" href="#suggested-links">3.8&nbsp;&nbsp;&nbsp;Suggested LINKS</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/getting_started.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="index.html">DIY 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, jaghvi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>
