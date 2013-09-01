@@ -71,26 +71,58 @@ Digispark
  Pin 3 (P3) has a 1.5 kΩ pull-up resistor attached to it which is required for when P3 and P4 are used for USB communication (including programming). Your design may need to take into  account that you'd have to overpower this to pull this pin low.
  The Digispark does not have a hardware serial port nor a hardware serial to USB converter. An example library (DigiUSB) is provided, as well as some example code and a serial monitor     like program, but communication with the computer will not always be plug and play, especially when other libraries are involved.
 
-* At what clock speed Digispark works?
+* At what clock speed and voltage level Digispark works?
 
- 16.5mhz is a better clock speed closer to 16.0mhz which is more useful with existing arduino libraries. It must be using the high speed PLL at 16MHz and not the internal RC    oscillator and the safe voltage is 3.8V or more for this speed.
+ 16.5mhz is a better clock speed closer to 16.0mhz which is more useful with existing arduino libraries. It uses the high speed PLL at 16MHz and not the internal RC oscillator and the safe voltage is 3.8V or more for this speed.Also if you Run the attiny85 at < 4v you might even brick it. That puts the chip out of spec and the results are unpredictable ,sometimes the bootloader will overwrite bits of itself and brick the device requiring a high voltage serial programmer (or regular ISP programmer if you didn't disable the reset pin) to recover.Hence it's better to use 5V.
 
 * What if my code is more than 6 K?
 
  If you are uploading your sketch using Digispark integrated Arduino IDE ,If you compile the code you will get an idea of how much memory does your code need.So before uploading its a good habit to first compile your code.In case it's more than 6kb it's likely to overwrite your bootloader.In which case you have to rewrite the bootloader using ISP programmer.
-But you can reupload the bootloader only if your reset pin is disabled as I/O. 
+ But you can reupload the bootloader only if your reset pin is disabled as I/O. 
 
-* How bootloader works ?
+* What is hex file ?
+
+ A hex file is a way to store data, in this case compiled code for an avr microcontroller. It is a common file format and something being a hex file does not mean it can be used on  the Digispark. When you use the Arduino IDE to upload a file to the Digispark your code is compiled into a hex file and then uploaded using the command line tool which is built  into Arduino.
+
+* How micronucleus bootloader works ?
+
+ Micronucleus is a bootloader designed for AVR tiny 85 chips with a minimal usb interface.Micronucelus is the the code that is installed on the device  using an avr programmer. This  code allows the Digispark to act like a USB device, receives code, and when it receives code erase the code previously loaded. It also runs the code loaded onto it after a 5 second  delay (if bootloaderis normal version) if it does not receive a request to upload new code within that 5 seconds.
+
+ It is a small V-USB program, similar to the DigiUSB, DigiKeyboard, and other usb related libraries in the digispark arduino software. Normally programs exist at the very beginning of  the flash memory in the attiny85 chip, but micronucleus has been modified so the start of the program is about 6kb of 0xFF bytes (In other words all the bits in 6Kb are high).
+ After that, micronucleus begins and uses up the final 2kb. This leaves room at the start of the chip for your own programs, but micronucleus always stays installed at the end. 0xFF  bytes are interpreted as NOP (no operation) instructions by the AVR chip, so the first time you run it, or if you run it after an erase but no write (sometimes this happens if there  is an error during the erase part of an upload attempt), next time the chip turns on it will execute all those NOPs and slam in to the bootloader code.
+
+ When you use micronucleus to upload a program, there\'s a trick to it - USB requires the device always respond to requests, but the tiny85 chip can't do that - whenever it's erasing  or writing part of it's own program memory it has to go to sleep for about 4.5 milliseconds. Some of the more expensive chips like the mega328 have special bootloader support which lets them keep running in the background while an erase or write happens in another section of memory. **Embedded Creations** discovered however that if you craft your computer  program to just not send any requests during that frozen time, the computer never notices the device has frozen up and doesn't crash the USB connection. This is pretty fragile, which  is why the USB connection to the bootloader can sometimes crash if you run other intense usb software in the background, like an instance of digiterm polling for a device to appear.
+ 
+ So when the micronucleus command line tool first finds a digispark, it asks it "How much memory do you have, and how long should I wait after each type of request?" - when you see that assertion fail on ubuntu, it's talking about that request - the program tried to ask that question and had an error response due to some annoying linux permissions things. Next, it asks the device to erase it's memory and waits the right amount of time for it to do so - about 50 milliseconds to do all 6kb of flash pages. Once that's done, it starts uploading 64 byte chunks of your new program. Micronucleus writes in these bytes at the starting 6kb of flash memory, but with one special exception:
+
+ In the first page there's an interrupt vector table. The bootloader (on the device) replaces the reset vector and the pinchange vector with jump instructions pointing to it's own interrupt vector table 6kb later. Other than that, the program is left alone.
+
+ When the computer is finished uploading, the bootloader finally writes down what the original values of the user's reset vector and pinchange vector were in the very last four bytes of that first 6kb chunk of blank memory.
+
+ This little modification ensures the bootloader will run first when the chip is powered, and the pinchange interrupt is necessary for V-USB on the device to function in the bootloader. But wait - the user program needs to be able to use the V-USB to talk over USB as well! Embedded Creations came up with a really neat solution for that in their USBaspLoader-tiny85 project: Whenever the bootloader is running a special part of memory contains 0xB007 - whenever the pin change interrupt handler function is run inside of the bootloader, it checks if those two bytes are there, and if not, it immediately jumps to the user program's pinchange handler. This detect and jump behaviour is fast enough to not cause any problems with the V-USB software, but does mean other programs using PCINT (pin change interrupt) on the digispark will find there's a slightly longer delay before their function runs than there is on a raw chip with no bootloader.
+
+ For more information on the tricks micronucleus uses to add a bootloader on a chip with no built in bootloader features, check out embedded-creations ** USBaspLoader-tiny85 site**
+
 
 * Whats is cdc232.hex ?
 
-* USB-HID device
+ cdc232 is a version of `this <http://www.recursion.jp/avrcdc/cdc-232.html>`_  project  that runs on the Digispark, Bluebie, the maker of micronucleus included this in the micronucleus repository for people who might want it - basically it makes a Digispark into a cheap USB to serial converter.It's just like any other sketch or hex file and will be overwritten if you upload any other sketch say Blink.hex.
+
+
+* USB-HID device and not TTY device.
+
+ It's ok if the digispark doesn't detect as ttyACM device ,if a device detects as tty device it means it is a USB-serial device.But Digispark in not a USB-serial device ,it does not provide USB-serial interface.What is it then?
 
  DigiUSB - Debugging and HID communication library
  On the computer side you can use the included command line tools in the DigiUSB Programs folder:
  digiusb - this program is like the Arduino **serial monitor**, allowing you to send and receive messages to/from a Digispark running DigiUSB
  send - this allows you to send data/text to a Digispark with DigiUSB - run with –help to see all options
- receive- this allows you to receive data/text from a Digispark with DigiUSB - run with –help to see all options
+ receive- this allows you to receive data/text from a Digispark with DigiUSB - run with –help to see all options.
+
+  .. image:: images/usbhid.png
+      :scale: 100%	
+      :height: 200 	
+      :width: 200
 
 * Can I use it in other OS ?
 
@@ -106,14 +138,13 @@ Hardware requirement to build the project
 All you need is:
 
 **One** Attiny85-20PU
-.. warning:: Please make sure your ATtiny85 is the 20 variety, and not an ATtiny85v-10. The v version is low voltage and is totally out of spec for USB stuff like the micronucleus bootloader.
-
 
  .. image:: images/attiny85_pinout.png
-     :scale: 250%	
-     :height: 50 	
-     :width: 50
+      :scale: 100%	
+      :height: 100 	
+      :width: 200
 
+.. warning:: Make sure your ATtiny85 is the 20 variety,and not an ATtiny85v-10. The v version is low voltage and  totally out of spec for USB stuff like the micronucleus bootloader.
 
 **Two** 3.6V Zener Diode
 
@@ -346,22 +377,11 @@ If you have used a faulty resistor value or if the zener diodes used are of valu
 
 If you try to burn cdc232.hex or any other hex file  via arduinoISP or any other ISP programmer the above error occurs.This is because once the bootloader is burn on chip ,the fuses disable the reset pin thus preventing any other hex file to be programmed on chip by an ISP programmer.
 
+#.**Error**
 
-Burn cdc232.hex 
----------------
-#. Go to micronucleus-t85-master folder downloaded from ` here <https://github.com/Bluebie/micronucleus-t85/>`_
-#. In /micronucleus-t85-master/commandline/ folder run **make**
-#. A **micronucleus** binary is formed 
-#. To enumerate digispark as USB serial device run this command ::
+Bad permissions generally cause the “Abort mission! -1 error has occurred …” error during upload. “micronucleus: library/micronucleus_lib.c:63: micronucleus_connect: Assertion `res >= 4' failed.” is also a result of bad permissions.
 
-sudo ./micronucleus micronucleus-t85-master/commandline/cdc232.hex
-
-run command **dmesg** in terminal to enumerate the device as /dev/ttyACM*
-
-usb 2-1.2: >new low-speed USB device number 87 using ehci_hcd
-usb 2-1.2: >New USB device found, idVendor=16d0, idProduct=0753
-usb 2-1.2: >New USB device strings: Mfr=0, Product=0, SerialNumber=0
-
+`Linux troubleshooting <http://digistump.com/wiki/digispark/tutorials/linuxtroubleshooting>_
 
 Uploading Programme
 -------------------
@@ -410,16 +430,67 @@ Uploading Programme
 
 #. Now deplug your device , remove the jumper wire between reset pin and GND , and replug the device , Your programme will start executing instantaneously **without 5 seconds** delay. 
 
+Uploading from commandline
+--------------------------
+
+ .. image:: images/commandlineupload.png
+     :scale: 250%	
+     :height: 50 	
+     :width: 50
+
+ To use the command line tool:
+
+#. Download micronucelus-t85 folder from `github <https://github.com/Bluebie/micronucleus-t85/>`_
+#. In that folder go to commandline folder and do make
+#. A micronucelus binary is formed.
+#. You can see micronucelus --help to know all the options.
+#. Run the following command to upload the hex file.  ::
+
+	sudo ./micronucleus --run /home/jaghvi/sketches/Blink/Blink.hex
+
+If you get this error try to run it again :: 
+
+ >> Abort mission! -32 error has occured ...
+
+ >> Please unplug the device and restart the program.
+
+
+Burn cdc232.hex 
+~~~~~~~~~~~~~~~
+#. To enumerate digispark as USB serial device run this command ::
+
+	sudo ./micronucleus micronucleus-t85-master/commandline/cdc232.hex
+
+run command **dmesg** in terminal to enumerate the device as /dev/ttyACM*
+
+usb 2-1.2: >new low-speed USB device number 87 using ehci_hcd
+
+usb 2-1.2: >New USB device found, idVendor=16d0, idProduct=0753
+
+usb 2-1.2: >New USB device strings: Mfr=0, Product=0, SerialNumber=0
+
+
 Serial Monitor
 --------------
 
 You can either use Digisparks official monitor or use Bluebie's digiterm written in ruby.
 
+Digiterm 
+~~~~~~~~~
 #. `Digiterm: <http://digistump.com/wiki/digispark/tutorials/digiusb>`_ Digispark Serial Monitor
 
+DigiUSB monitor
+~~~~~~~~~~~~~~~~
 #. The Digispark integrated arduinoIDE has DigiUSB libraries which has the DigiUSB monitor working like digiterm.
 
 DigiUSB monitor has two more binaries send and receive.
+
+* send - this allows you to send data/text to a Digispark with DigiUSB - run with –help to see all options
+
+* receive- this allows you to receive data/text from a Digispark with DigiUSB - run with –help to see all options.
+
+See the DigiUSB→Echo example and the applications in the “Digispark - Example Programs” folder for an example of how to use the DigiUSB library.
+
 Run ./receive >> output.txt and your data will be written in a text file.
 
 Suggested LINKS
@@ -431,7 +502,7 @@ Suggested LINKS
 
 #. `Tutorial <http://digistump.com/wiki/digispark/tutorials/basics>`_
 
-#.  `Digispark Forum <http://digistump.com/board/index.php>`_
+#. `Digispark Forum <http://digistump.com/board/index.php>`_
 
 #. `SPI Protocol <http://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus>`_
 
