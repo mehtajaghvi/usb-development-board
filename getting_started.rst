@@ -111,14 +111,12 @@ Digispark
 
 * USB-HID device and not TTY device.
 
- It's ok if the digispark doesn't detect as ttyACM device ,if a device detects as tty device it means it is a USB-serial device.But Digispark in not a USB-serial device ,it does not provide USB-serial interface.What is it then?
+ It's ok if the digispark doesn't detect as ttyACM device ,if a device detects as tty device it means it is a USB-serial device.But Digispark in not a USB-serial device ,it does not provide USB-serial interface. So when you plug your digispark ,the serial port tab of arduino IDE will be greyed out .What is it then?
 
  DigiUSB - Debugging and HID communication library
  On the computer side you can use the included command line tools in the DigiUSB Programs folder:
  digiusb - this program is like the Arduino **serial monitor**, allowing you to send and receive messages to/from a Digispark running DigiUSB
- send - this allows you to send data/text to a Digispark with DigiUSB - run with –help to see all options
- receive- this allows you to receive data/text from a Digispark with DigiUSB - run with –help to see all options.
-
+ 
   .. image:: images/usbhid.png
       :scale: 100%	
       :height: 200 	
@@ -231,7 +229,7 @@ Go to directory where exists micronucleus-t85 folder and run the following ::
 Uploading the JUMPER version
 ++++++++++++++++++++++++++++
 
-#. Upload micronucleus1.06-jumper-v2-upgrade.hex ::
+Upload micronucleus1.06-jumper-v2-upgrade.hex ::
 
 	avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"micronucleus-t85-master/firmware/releases/micronucleus-1.06.hex"
 
@@ -256,9 +254,9 @@ Fuse setting(Reset **disabled** as I/O)
     :height: 50 	
     :width: 50
 
-.. note:: These fuses setting will not enable reset pin (ATTINY85 pin 1) as I/O, so you only have 5 I/O instead of 6 I/O ::
-
-	avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m
+ .. note:: These fuses setting will not enable reset pin (ATTINY85 pin 1) as I/O, so you only have 5 I/O instead of 6 I/O           ::
+ 
+		avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m
 
 
 Fuse setting(Reset **enabled** as I/O)
@@ -269,15 +267,16 @@ Fuse setting(Reset **enabled** as I/O)
     :height: 50 	
     :width: 50
 
-.. warning:: You can't reprogramme your IC with an ISP programmer until you have High volt fuse resetter if you use the above fuse settings as reset pin is enabled as I/O 
+ .. warning:: You can't reprogramme your IC with an ISP programmer until you have High volt fuse resetter if you use the above fuse settings as reset pin is enabled as I/O 
 
 #. Set fuses to enable the reset pin to be used as I/O  lfuse:0xe1	**hfuse:0x5d** efuse:0xfe ::
+
 	avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0x5d:m -U efuse:w:0xfe:m
 
 
 #. Now if you are done with the above two steps you are ready to programme.
 
-After the above two steps are accomplished ,make all the USB connections and follow the next step.
+ After the above two steps are accomplished ,make all the USB connections and follow the next step.
 
 USB Connections
 ===============
@@ -302,16 +301,24 @@ run command **dmesg** or **tailf /var/log/syslog** in terminal to check the vend
      :width: 50
 
 
-Setting rules in udev to avoid errors
--------------------------------------
+Setting rules in udev to avoid assertion errors
+-----------------------------------------------
 
-`Udev rules setting <https://github.com/Bluebie/micronucleus-t85/wiki/Ubuntu-Linux>`_ 
+#. Go to /etc/udev/rules.d/ becoming root of your system.
 
-#. /etc/udev/rules/49-micronucelus.rules
+#. gedit 49-micronucelus.rules and add the following lines         ::
 
-#. /etc/udev/rules/90-digispark.rules
+	SUBSYSTEMS=="usb", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="0753", MODE:="0666"
+	KERNEL=="ttyACM*", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="0753", MODE:="0666", ENV{ID_MM_DEVICE_IGNORE}="1"
 
-#. /etc/udev/rules/99-digiusb.rules
+#. Also add 99-digiusb.rules in /etc/udev/rules/
+
+#. gedit 99-digiusb.rules and add the following lines
+
+	KERNEL=="hiddev*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="05df", SUBSYSTEM=="usb"
+
+
+#. For more info  visit `Udev rules setting <https://github.com/Bluebie/micronucleus-t85/wiki/Ubuntu-Linux>`_ 
 
 ERRORS encountered
 ------------------
