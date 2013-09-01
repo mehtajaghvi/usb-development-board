@@ -91,7 +91,7 @@ Digispark
  It is a small V-USB program, similar to the DigiUSB, DigiKeyboard, and other usb related libraries in the digispark arduino software. Normally programs exist at the very beginning of  the flash memory in the attiny85 chip, but micronucleus has been modified so the start of the program is about 6kb of 0xFF bytes (In other words all the bits in 6Kb are high).
  After that, micronucleus begins and uses up the final 2kb. This leaves room at the start of the chip for your own programs, but micronucleus always stays installed at the end. 0xFF  bytes are interpreted as NOP (no operation) instructions by the AVR chip, so the first time you run it, or if you run it after an erase but no write (sometimes this happens if there  is an error during the erase part of an upload attempt), next time the chip turns on it will execute all those NOPs and slam in to the bootloader code.
 
- When you use micronucleus to upload a program, there\'s a trick to it - USB requires the device always respond to requests, but the tiny85 chip can't do that - whenever it's erasing  or writing part of it's own program memory it has to go to sleep for about 4.5 milliseconds. Some of the more expensive chips like the mega328 have special bootloader support which lets them keep running in the background while an erase or write happens in another section of memory. **Embedded Creations** discovered however that if you craft your computer  program to just not send any requests during that frozen time, the computer never notices the device has frozen up and doesn't crash the USB connection. This is pretty fragile, which  is why the USB connection to the bootloader can sometimes crash if you run other intense usb software in the background, like an instance of digiterm polling for a device to appear.
+ When you use micronucleus to upload a program, there\'s a trick to it - USB requires the device always respond to requests, but the tiny85 chip can't do that - whenever it's erasing  or writing part of it's own program memory it has to go to sleep for about 4.5 milliseconds. Some of the more expensive chips like the mega328 have special bootloader support which lets them keep running in the background while an erase or write happens in another section of memory. `Embedded Creations <http://embedded-creations.com/projects/attiny85-usb-bootloader-overview/>`_  discovered however that if you craft your computer  program to just not send any requests during that frozen time, the computer never notices the device has frozen up and doesn't crash the USB connection. This is pretty fragile, which  is why the USB connection to the bootloader can sometimes crash if you run other intense usb software in the background, like an instance of digiterm polling for a device to appear.
  
  So when the micronucleus command line tool first finds a digispark, it asks it "How much memory do you have, and how long should I wait after each type of request?" - when you see that assertion fail on ubuntu, it's talking about that request - the program tried to ask that question and had an error response due to some annoying linux permissions things. Next, it asks the device to erase it's memory and waits the right amount of time for it to do so - about 50 milliseconds to do all 6kb of flash pages. Once that's done, it starts uploading 64 byte chunks of your new program. Micronucleus writes in these bytes at the starting 6kb of flash memory, but with one special exception:
 
@@ -101,7 +101,7 @@ Digispark
 
  This little modification ensures the bootloader will run first when the chip is powered, and the pinchange interrupt is necessary for V-USB on the device to function in the bootloader. But wait - the user program needs to be able to use the V-USB to talk over USB as well! Embedded Creations came up with a really neat solution for that in their USBaspLoader-tiny85 project: Whenever the bootloader is running a special part of memory contains 0xB007 - whenever the pin change interrupt handler function is run inside of the bootloader, it checks if those two bytes are there, and if not, it immediately jumps to the user program's pinchange handler. This detect and jump behaviour is fast enough to not cause any problems with the V-USB software, but does mean other programs using PCINT (pin change interrupt) on the digispark will find there's a slightly longer delay before their function runs than there is on a raw chip with no bootloader.
 
- For more information on the tricks micronucleus uses to add a bootloader on a chip with no built in bootloader features, check out embedded-creations ** USBaspLoader-tiny85 site**
+ For more information on the tricks micronucleus uses to add a bootloader on a chip with no built in bootloader features, check out embedded-creations `USBaspLoader-tiny85 site <http://embedded-creations.com/projects/attiny85-usb-bootloader-overview/>`_
 
 
 * Whats is cdc232.hex ?
@@ -155,7 +155,20 @@ All you need is:
 **Three** resistors 
 
 - One 1.5K ohm
+
+
+ .. image:: images/1.5k.png
+     :scale: 250%	
+     :height: 50 	
+     :width: 50
+
+
 - TWO 68 ohm
+ 
+ .. image:: images/r63.png
+     :scale: 250%	
+     :height: 50 	
+     :width: 50
 
 Broken USB-A cable if you don't have the PCB and you plan to make it on a breadboard.
 
@@ -164,6 +177,10 @@ Broken USB-A cable if you don't have the PCB and you plan to make it on a breadb
      :height: 50 	
      :width: 50
  
+For KICAD files click `this link <www.github.com/mehtajaghvi/Digispark-on-breadboard/pcb_IITB_singlesided_4x2>`_
+ 
+ In the folder you will get the kicad files including ps file ,to print your own PCB board. It's single sided (FRONT) and with enough trackwidth for you to develop it on your own.You     just need to print the Front.ps file to make it.
+
 
 How to programme your chip
 ==========================
@@ -313,10 +330,9 @@ Setting rules in udev to avoid assertion errors
 
 #. Also add 99-digiusb.rules in /etc/udev/rules/
 
-#. gedit 99-digiusb.rules and add the following lines
+#. gedit 99-digiusb.rules and add the following lines ::
 
 	KERNEL=="hiddev*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="05df", SUBSYSTEM=="usb"
-
 
 #. For more info  visit `Udev rules setting <https://github.com/Bluebie/micronucleus-t85/wiki/Ubuntu-Linux>`_ 
 
