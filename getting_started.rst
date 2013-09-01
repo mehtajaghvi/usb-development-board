@@ -53,7 +53,7 @@ Digispark
  
 * What is digispark ?
 
- + Digispark is an **ATtiny85** based microcontroller development board come with USB interface.
+ + Digispark is an **ATtiny85** based microcontroller development board with USB interface.
  + It uses the familiar Arduino IDE for development.
  + PWM on 3 pins 
  + ADC on 4 pins
