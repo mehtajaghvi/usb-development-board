@@ -1,0 +1,484 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>F.A.Q &mdash; DIY 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DIY 1.0 documentation" href="#" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="#">DIY 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="f-a-q">
+<h1>F.A.Q<a class="headerlink" href="#f-a-q" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic simple">
+<li>Why digispark ?</li>
+<li>How serial communication occurs ?</li>
+<li>Why 5V and not 3.3 V?</li>
+<li>What if my code is more than 6 K?</li>
+<li>How bootloader works ?</li>
+<li>Whats is cdc232.hex ?</li>
+<li>USB-HID device</li>
+<li>Can digispark act as a USB-host?</li>
+<li>What all can it  do ?</li>
+<li>what is its cost ?</li>
+<li>How to programme it ?</li>
+<li>What all components are required ?</li>
+<li>Can we use chip other than ATtiny85 ?</li>
+<li>How much memory is available to code ?</li>
+<li>Can I use it in other OS ?</li>
+<li>Tutorials</li>
+<li>What is micronucelus.hex?</li>
+</ol>
+</div>
+<div class="section" id="why-digispark">
+<h1>Why Digispark<a class="headerlink" href="#why-digispark" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic simple">
+<li></li>
+</ol>
+</div>
+<div class="section" id="hardware-requirement">
+<h1>Hardware requirement<a class="headerlink" href="#hardware-requirement" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p>All you need is:</p>
+<p><strong>One</strong> Attiny85-20PU</p>
+<p><strong>Two</strong> 3.6V Zener Diode</p>
+<p><strong>Three</strong> resistors</p>
+</div></blockquote>
+<ul class="simple">
+<li>One 1.5K ohm</li>
+<li>TWO 68 ohm</li>
+</ul>
+<blockquote>
+<div><em>Broken USB-A cable</em></div></blockquote>
+</div>
+<div class="section" id="pre-requisite-packages">
+<h1>Pre-requisite packages<a class="headerlink" href="#pre-requisite-packages" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference external" href="http://arduino.cc/en/Main/Software">arduinoIDE</a> Arduino IDE to use arduino-UNO as ISP to program ATtiny85 chip.</li>
+<li><strong>avrdude</strong>: To burn the BOOTLOADER on raw ATtiny85-20PU and set fuses of ATtiny85</li>
+<li><a class="reference external" href="https://github.com/Bluebie/micronucleus-t85/">Bootloader</a></li>
+</ul>
+<ul class="simple">
+<li>Burn the latest version.</li>
+<li>Depending on your need(jumper version to remove 5 seconds delay).
+More about this as we proceed.</li>
+</ul>
+<ul class="simple">
+<li><a class="reference external" href="http://digistump.com/wiki/digispark/tutorials/connecting">DigisparkIDE</a> ArduinoIDE integrated with Digispark libraries required to run programs on your DIY project.</li>
+<li><a class="reference external" href="http://fritzing.org/download/">Fritzing</a> Optional</li>
+</ul>
+</div>
+<div class="section" id="arduino-as-isp">
+<h1>Arduino as ISP<a class="headerlink" href="#arduino-as-isp" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic simple">
+<li><a class="reference external" href="http://arduino.cc/en/Main/Software">Arduino IDE 1.04</a> Download arduino 1.04</li>
+<li>Plug in your arduino board</li>
+<li>File&#8211;&gt;Examples&#8211;&gt;ArduinoISP</li>
+<li>Tools&#8211;&gt;Board&#8211;&gt;Arduino UNO</li>
+</ol>
+<p>#. Tools&#8211;&gt;Serial Port&#8211;&gt;/dev/ttyACM0
+Serial Port may be /dev/ttyACM1
+#. <a class="reference external" href="http://www.google.com/url?q=http%3A%2F%2Fpdp11.byethost12.com%2FAVR%2FArduinoAsProgrammer.htm&amp;sa=D&amp;sntz=1&amp;usg=AFQjCNE7KJzWFBbjRhLtpMYrmUypxO8VHQ">ArduinoISP Tutorial</a></p>
+</div>
+<div class="section" id="programming-attiny85-with-arduino">
+<h1>Programming ATTiny85 with Arduino<a class="headerlink" href="#programming-attiny85-with-arduino" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic simple">
+<li>To know more about SPI protocol clike <a class="reference external" href="http://www.google.com/url?q=http%3A%2F%2Fpdp11.byethost12.com%2FAVR%2FArduinoAsProgrammer.htm&amp;sa=D&amp;sntz=1&amp;usg=AFQjCNE7KJzWFBbjRhLtpMYrmUypxO8VHQ">here</a></li>
+</ol>
+<dl class="docutils">
+<dt><strong>CAUTION</strong></dt>
+<dd>If you are programming with Arduino UNO then use a <strong>10uF</strong> capacitor between RESET and GND of arduino UNO.</dd>
+</dl>
+<ol class="arabic">
+<li><p class="first"><a class="reference external" href="http://forum.arduino.cc/index.php/topic,104435.0.html">Why do you need a capacitor</a></p>
+</li>
+<li><p class="first">To check if connections are proper before burning hex file ,run this command and see that the signature match that of Attiny85 (<strong>0x1e930b</strong>)</p>
+<blockquote>
+<div><p><strong>NOTE</strong> change the port to your port /dev/ttyACM* or /dev/ttyUSB*</p>
+<p>:command:avrdude -p attiny85 -c arduino -b 19200 -P /dev/ttyACM0</p>
+<p>avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85</p>
+<p>avrdude: AVR device initialized and ready to accept instructions</p>
+<p>Reading | ################################################## | 100% 0.02s</p>
+<p>avrdude: Device signature = 0x1e930b</p>
+<p>avrdude: safemode: Fuses OK</p>
+<p>avrdude done.  Thank you.</p>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="burning-micronucleus-hex-and-setting-fuses">
+<h1>Burning micronucleus.hex and setting fuses<a class="headerlink" href="#burning-micronucleus-hex-and-setting-fuses" title="Permalink to this headline">¶</a></h1>
+<p><strong>Command to burn the BOOTLOADER</strong></p>
+<p>Before you start anything , there are two versions of bootloader.</p>
+<ol class="arabic simple">
+<li><strong>First</strong> (NORMAL) is : micronucleus-1.06.hex . This is the conventional bootloader which comes with the official DS.In this version of bootloader you have to wait for 5sec for your already written programme to start executing.Within this 5sec the DS checks wether you have some other programme to overwrite already existing programme on the chip,If not it starts the programme already uploaded after a <strong>5 seconds</strong> delay.</li>
+<li><strong>Second</strong> (JUMPER) : Now if every second is crucuial to your project and you can&#8217;t wait for your programme to start after 5 seconds ,there is this another version micronucleus-1.06-jumper-v2-upgrade.hex</li>
+</ol>
+<p><strong>Uploading the NORMAL version</strong></p>
+<p>Go to directory where exists micronucleus-t85 folder and run the following</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">command:</th><td class="field-body">`` avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:&#8221;micronucleus-t85-master/firmware/releases/micronucleus-1.06.hex&#8221; ``</td>
+</tr>
+</tbody>
+</table>
+<p>avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85</p>
+<p>avrdude: AVR device initialized and ready to accept instructions</p>
+<p>Reading | ################################################## | 100% 0.02s</p>
+<p>avrdude: Device signature = 0x1e930b</p>
+<p>avrdude: NOTE: FLASH memory has been specified, an erase cycle will be performed
+To disable this feature, specify the -D option.</p>
+<p>avrdude: erasing chip</p>
+<p>avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85</p>
+<p>avrdude: reading input file &#8220;firmware/releases/micronucleus-1.06.hex&#8221;</p>
+<p>avrdude: input file firmware/releases/micronucleus-1.06.hex auto detected as Intel Hex</p>
+<p>avrdude: writing flash (8162 bytes):</p>
+<p>Writing | ################################################## | 100% 3.59s</p>
+<p>avrdude: 8162 bytes of flash written</p>
+<p>avrdude: verifying flash memory against firmware/releases/micronucleus-1.06.hex:</p>
+<p>avrdude: load data flash data from input file firmware/releases/micronucleus-1.06.hex:</p>
+<p>avrdude: input file firmware/releases/micronucleus-1.06.hex auto detected as Intel Hex</p>
+<p>avrdude: input file firmware/releases/micronucleus-1.06.hex contains 8162 bytes</p>
+<p>avrdude: reading on-chip flash data:</p>
+<p>Reading | ################################################## | 100% 8.12s</p>
+<p>avrdude: verifying ...</p>
+<p>avrdude: 8162 bytes of flash verified</p>
+<p>avrdude: safemode: Fuses OK</p>
+<p>avrdude done.  Thank you.</p>
+</div></blockquote>
+<p><strong>Command to set fuses of the attiny85-20PU</strong></p>
+<p>Now just like bootloader versions we have two different fuse settings as well</p>
+<p><strong>First</strong> In case you want to 6 I/O including reset pin (reset pin enabled).You get 6 I/O but at a cost that you can&#8217;t reprogramme your chip using any ISP programmer now.
+You can use this setting for both bootloader versions ,Normal and Jumper version.</p>
+<p><strong>Second</strong> In this case you can still programme your chip using ISP programmer but you will have just 5 I/O excluding reset pin(reset pin disabled).
+These fuse settings <strong>won&#8217;t</strong> work with Jumper version of bootloader.</p>
+<p><strong>Please Note</strong>
+These fuses setting will not enable reset pin (ATTINY85 pin 1) as I/O, so you only have 5 I/O instead of 6 I/O.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">command:</th><td class="field-body">avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m</td>
+</tr>
+</tbody>
+</table>
+<p>avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85</p>
+<p>avrdude: AVR device initialized and ready to accept instructions</p>
+<p>Reading | ################################################## | 100% 0.02s</p>
+<p>avrdude: Device signature = 0x1e930b</p>
+<p>avrdude: reading input file &#8220;0xe1&#8221;</p>
+<p>avrdude: writing lfuse (1 bytes):</p>
+<p>Writing | ################################################## | 100% 0.06s</p>
+<p>avrdude: 1 bytes of lfuse written</p>
+<p>avrdude: verifying lfuse memory against 0xe1:</p>
+<p>avrdude: load data lfuse data from input file 0xe1:</p>
+<p>avrdude: input file 0xe1 contains 1 bytes</p>
+<p>avrdude: reading on-chip lfuse data:</p>
+<p>Reading | ################################################## | 100% 0.02s</p>
+<p>avrdude: verifying ...</p>
+<p>avrdude: 1 bytes of lfuse verified</p>
+<p>avrdude: reading input file &#8220;0xdd&#8221;</p>
+<p>avrdude: writing hfuse (1 bytes):</p>
+<p>Writing | ################################################## | 100% 0.06s</p>
+<p>avrdude: 1 bytes of hfuse written</p>
+<p>avrdude: verifying hfuse memory against 0xdd:</p>
+<p>avrdude: load data hfuse data from input file 0xdd:</p>
+<p>avrdude: input file 0xdd contains 1 bytes</p>
+<p>avrdude: reading on-chip hfuse data:</p>
+<p>Reading | ################################################## | 100% 0.02s</p>
+<p>avrdude: verifying ...</p>
+<p>avrdude: 1 bytes of hfuse verified</p>
+<p>avrdude: reading input file &#8220;0xfe&#8221;</p>
+<p>avrdude: writing efuse (1 bytes):</p>
+<p>Writing | ################################################## | 100% 0.06s</p>
+<p>avrdude: 1 bytes of efuse written</p>
+<p>avrdude: verifying efuse memory against 0xfe:</p>
+<p>avrdude: load data efuse data from input file 0xfe:</p>
+<p>avrdude: input file 0xfe contains 1 bytes</p>
+<p>avrdude: reading on-chip efuse data:</p>
+<p>Reading | ################################################## | 100% 0.02s</p>
+<p>avrdude: verifying ...</p>
+<p>avrdude: 1 bytes of efuse verified</p>
+<p>avrdude: safemode: Fuses OK</p>
+<p>avrdude done.  Thank you.</p>
+</div></blockquote>
+<p>Instructions to use <strong>JUMPER</strong> version of miccronucleus bootloader:</p>
+<ol class="arabic">
+<li><p class="first">Upload micronucleus1.06-jumper-v2-upgrade.hex</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">command:</th><td class="field-body">avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:&#8221;micronucleus-t85-master/firmware/releases/micronucleus-1.06.hex&#8221;</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><dl class="first docutils">
+<dt>Set fuses to enable the reset pin to be used as I/O</dt>
+<dd><p class="first">lfuse:0xe1
+<strong>hfuse:0x5d</strong>
+efuse:0xfe</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">command:</th><td class="field-body">avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0x5d:m -U efuse:w:0xfe:m</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</li>
+</ol>
+<p><strong>Remember</strong>
+You can&#8217;t reprogramme your IC with an ISP programmer If you use the above fuse settings as reset pin is enabled as I/O until you have High volt fuse resetter.</p>
+<ol class="arabic simple">
+<li>Now if you are done with the above two steps you are ready to programme.</li>
+</ol>
+<p>After the above two steps are accomplished ,make all the USB connections and follow the next step.</p>
+<p><a class="reference external" href="https://github.com/mehtajaghvi/Digispark-on-breadboard/blob/master/Images/digispark_breadboard_bb.jpg">How to make USB connections</a></p>
+<p><strong>dmesg log</strong></p>
+<p>[ 3163.939443] usb 2-1.2: &gt;new low-speed USB device number 47 using ehci_hcd</p>
+<p>[ 3163.966880] usb 2-1.2: &gt;New USB device found, <strong>idVendor=16d0, idProduct=0753</strong></p>
+<p>[ 3163.966890] usb 2-1.2: &gt;New USB device strings: Mfr=0, Product=0, SerialNumber=0</p>
+</div>
+<div class="section" id="setting-rules-in-udev-to-avoid-errors">
+<h1>Setting rules in udev to avoid errors<a class="headerlink" href="#setting-rules-in-udev-to-avoid-errors" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://github.com/Bluebie/micronucleus-t85/wiki/Ubuntu-Linux">Udev rules setting</a></p>
+<ol class="arabic simple">
+<li>/etc/udev/rules/49-micronucelus.rules</li>
+<li>/etc/udev/rules/90-digispark.rules</li>
+</ol>
+<p># ./etc/udev/rules/99-digiusb.rules</p>
+</div>
+<div class="section" id="errors-encountered">
+<h1>ERRORS encountered<a class="headerlink" href="#errors-encountered" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt><strong>Error</strong></dt>
+<dd><p class="first">avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
+avrdude: AVR device initialized and ready to accept instructions</p>
+<p>Reading | ################################################## | 100% 0.02s</p>
+<p>avrdude: Device signature = 0x000000
+avrdude: Yikes!  Invalid device signature.</p>
+<blockquote class="last">
+<div><p>Double check connections and try again, or use -F to override
+this check.</p>
+</div></blockquote>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Error</strong></dt>
+<dd><p class="first">avrdude: stk500_getparm(): (a) protocol error, expect=0x14, resp=0x14</p>
+<p>avrdude: stk500_getparm(): (a) protocol error, expect=0x14, resp=0x01
+avrdude: stk500_initialize(): (a) protocol error, expect=0x14, resp=0x10
+avrdude: initialization failed, rc=-1</p>
+<blockquote class="last">
+<div><p>Double check connections and try again, or use -F to override
+this check.</p>
+</div></blockquote>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Error</strong></dt>
+<dd><p class="first">If 90-digispark.rules not found in /etc/udev/rules.d/</p>
+<p class="last">Abort mission! -1 error has occured ...
+&gt;&gt; Please unplug the device and restart the program.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Error</strong></dt>
+<dd><p class="first last">avrdude: stk500_getsync(): not in sync: resp=0xe0</p>
+</dd>
+</dl>
+</li>
+</ol>
+<p>#. avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
+avrdude: AVR device initialized and ready to accept instructions</p>
+<p>Reading | ################################################## | 100% 0.02s</p>
+<p>avrdude: Device signature = 0x000000
+avrdude: Yikes!  Invalid device signature.</p>
+<blockquote>
+<div><blockquote>
+<div>Double check connections and try again, or use -F to override
+this check.</div></blockquote>
+<p>avrdude done.  Thank you.</p>
+</div></blockquote>
+<p><strong>Caution</strong></p>
+<p>This error occurs if baud rate is not set properly.</p>
+<p>#. <strong>Error</strong>
+&gt; Please plug in the device ...
+&gt; Press CTRL+C to terminate the program.
+If you try to burn cdc232.hex or any other hex file  via arduinoISP or any other ISP programmer the above error occurs.This is because once the bootloader is burn on chip ,the fuses disable the reset pin thus preventing any other hex file to be programmed on chip by an ISP programmer.</p>
+</div>
+<div class="section" id="burn-cdc232-hex">
+<h1>Burn cdc232.hex<a class="headerlink" href="#burn-cdc232-hex" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic simple">
+<li>Go to micronucleus-t85-master folder downloaded from ` here &lt;<a class="reference external" href="https://github.com/Bluebie/micronucleus-t85/">https://github.com/Bluebie/micronucleus-t85/</a>&gt;`_</li>
+<li>In /micronucleus-t85-master/commandline/ folder run <strong>make</strong></li>
+<li>A <strong>micronucleus</strong> binary is formed</li>
+<li>To enumerate digispark as USB serial device run this command</li>
+</ol>
+<blockquote>
+<div>sudo ./micronucleus micronucleus-t85-master/commandline/cdc232.hex</div></blockquote>
+<p><strong>dmesg</strong></p>
+<p>[27858.906553] usb 2-1.2: &gt;new low-speed USB device number 87 using ehci_hcd</p>
+<p>[27859.004058] usb 2-1.2: &gt;New USB device found, idVendor=16d0, idProduct=0753</p>
+<p>[27859.004068] usb 2-1.2: &gt;New USB device strings: Mfr=0, Product=0, SerialNumber=0</p>
+</div>
+<div class="section" id="uploading-program-normal-version-of-bootloader">
+<h1>Uploading Program (Normal Version of Bootloader)<a class="headerlink" href="#uploading-program-normal-version-of-bootloader" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic simple">
+<li>Board&#8212;&gt;Digispark(TinyCore)</li>
+<li>Programmer&#8212;&gt;Digispark</li>
+</ol>
+<p><strong>DO NOT</strong> plug the device now</p>
+<ol class="arabic simple">
+<li>Upload (IDE will ask to plug int the device within sixty seconds)</li>
+<li>Plug Digispark</li>
+<li>Micronucleus thankyou.</li>
+<li>Done</li>
+</ol>
+</div>
+<div class="section" id="uploading-program-jumper-version-of-bootloader">
+<h1>Uploading Program (Jumper Version of Bootloader)<a class="headerlink" href="#uploading-program-jumper-version-of-bootloader" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic simple">
+<li>Board&#8212;&gt;Digispark(TinyCore)</li>
+<li>Programmer&#8212;&gt;Digispark</li>
+<li>Upload (IDE will ask to plug int the device within sixty seconds)</li>
+<li>Connect PB5 to GND using a jumper if you need to upload sketch.</li>
+<li>Plug Digispark</li>
+<li>Micronucleus thankyou.</li>
+<li>Done</li>
+<li>Now deplug your device , remove the jumper wire between reset pin and GND , and replug the device , Your programme will start executing instantaneously <strong>without 5 seconds</strong> delay.</li>
+</ol>
+</div>
+<div class="section" id="serial-monitor">
+<h1>Serial Monitor<a class="headerlink" href="#serial-monitor" title="Permalink to this headline">¶</a></h1>
+<p>You can either use Digisparks official monitor or use Bluebie&#8217;s digiterm written in ruby.</p>
+<ol class="arabic simple">
+<li><a class="reference external" href="http://digistump.com/wiki/digispark/tutorials/digiusb">Digiterm:</a> Digispark Serial Monitor</li>
+<li>The Digispark integrated arduinoIDE has DigiUSB libraries which has the DigiUSB monitor working like digiterm.</li>
+</ol>
+<blockquote>
+<div>DigiUSB monitor has two more binaries send and receive.
+Run ./receive &gt;&gt; output.txt and your data will be written in a text file.</div></blockquote>
+</div>
+<div class="section" id="help-links">
+<h1>Help LINKS<a class="headerlink" href="#help-links" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic simple">
+<li><a class="reference external" href="http://digistump.com/board/index.php">Digispark Forum</a></li>
+<li><a class="reference external" href="http://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus">SPI Protocol</a></li>
+<li></li>
+</ol>
+</div>
+<div class="section" id="summary">
+<h1>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h1>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">F.A.Q</a></li>
+<li><a class="reference internal" href="#why-digispark">Why Digispark</a></li>
+<li><a class="reference internal" href="#hardware-requirement">Hardware requirement</a></li>
+<li><a class="reference internal" href="#pre-requisite-packages">Pre-requisite packages</a></li>
+<li><a class="reference internal" href="#arduino-as-isp">Arduino as ISP</a></li>
+<li><a class="reference internal" href="#programming-attiny85-with-arduino">Programming ATTiny85 with Arduino</a></li>
+<li><a class="reference internal" href="#burning-micronucleus-hex-and-setting-fuses">Burning micronucleus.hex and setting fuses</a></li>
+<li><a class="reference internal" href="#setting-rules-in-udev-to-avoid-errors">Setting rules in udev to avoid errors</a></li>
+<li><a class="reference internal" href="#errors-encountered">ERRORS encountered</a></li>
+<li><a class="reference internal" href="#burn-cdc232-hex">Burn cdc232.hex</a></li>
+<li><a class="reference internal" href="#uploading-program-normal-version-of-bootloader">Uploading Program (Normal Version of Bootloader)</a></li>
+<li><a class="reference internal" href="#uploading-program-jumper-version-of-bootloader">Uploading Program (Jumper Version of Bootloader)</a></li>
+<li><a class="reference internal" href="#serial-monitor">Serial Monitor</a></li>
+<li><a class="reference internal" href="#help-links">Help LINKS</a></li>
+<li><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="#">DIY 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, jaghvi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>
