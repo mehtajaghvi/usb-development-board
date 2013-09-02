@@ -345,6 +345,97 @@ Setting rules in udev to avoid assertion errors
 
 #. For more info  visit `Udev rules setting <https://github.com/Bluebie/micronucleus-t85/wiki/Ubuntu-Linux>`_ 
 
+
+
+Uploading Programme
+-------------------
+
+* `DigisparkIDE <http://digistump.com/wiki/digispark/tutorials/connecting>`_ ArduinoIDE integrated with Digispark libraries is required to run programs on your DIY project.
+
+(Normal Version of Bootloader)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ 
+#. Board--->Digispark(TinyCore)
+
+#. Programmer--->Digispark
+
+.. note:: **DO NOT** plug the device until asked
+
+* Click Compile the code to check if the code exceeds 6Kb.
+
+#. Click Upload (IDE will ask to plug int the device within sixty seconds)
+
+ .. image:: images/upload_successful.png
+      :scale: 120%	
+      :height: 50 	
+      :width: 50
+
+#. Now Plug Digispark
+
+#. If upload was not successful then you will get error message.Try to repeat the process.
+
+ .. image:: images/uploadfailed.png
+      :scale: 120%	
+      :height: 50 	
+      :width: 50
+
+(Jumper Version of Bootloader)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#. Jumper version removes 5 sec ddelay.
+
+#. Board--->Digispark(TinyCore)
+
+#. Programmer--->Digispark
+
+#. Upload (IDE will ask to plug int the device within sixty seconds)	
+
+#. Connect PB5(Reset) to GND using a jumper if you need to upload sketch.
+
+#. Plug Digispark
+
+#. If successful deplug your device, remove the jumper wire between reset pin and GND, and replug the device, Your programme will start executing instantaneously **without 5 seconds** delay. 
+
+Uploading from commandline
+--------------------------
+
+ .. image:: images/commandlineupload.png
+     :scale: 250%	
+     :height: 50 	
+     :width: 50
+
+ To use the command line tool:
+
+#. Download micronucelus-t85 folder from `github <https://github.com/Bluebie/micronucleus-t85/>`_
+#. In that folder go to commandline folder and do make
+#. A micronucelus binary is formed.
+#. You can see micronucelus --help to know all the options.
+#. Run the following command to upload the hex file.  ::
+
+	sudo ./micronucleus --run /home/jaghvi/sketches/Blink/Blink.hex
+
+If you get this error try to run it again :: 
+
+ >> Abort mission! -32 error has occured ...
+
+ >> Please unplug the device and restart the program.
+
+
+Burn cdc232.hex 
+~~~~~~~~~~~~~~~
+#. To enumerate digispark as USB serial device run this command ::
+
+	sudo ./micronucleus micronucleus-t85-master/commandline/cdc232.hex
+
+run command **dmesg** in terminal to enumerate the device as /dev/ttyACM*
+
+usb 2-1.2: >new low-speed USB device number 87 using ehci_hcd
+
+usb 2-1.2: >New USB device found, idVendor=16d0, idProduct=0753
+
+usb 2-1.2: >New USB device strings: Mfr=0, Product=0, SerialNumber=0
+
+
 ERRORS encountered
 ------------------
 
@@ -414,89 +505,6 @@ If you try to burn cdc232.hex or any other hex file  via arduinoISP or any other
 Bad permissions generally cause the “Abort mission! -1 error has occurred …” error during upload. “micronucleus: library/micronucleus_lib.c:63: micronucleus_connect: Assertion `res >= 4' failed.” is also a result of bad permissions.
 
 `Linux troubleshooting <http://digistump.com/wiki/digispark/tutorials/linuxtroubleshooting>_
-
-Uploading Programme
--------------------
-
-* `DigisparkIDE <http://digistump.com/wiki/digispark/tutorials/connecting>`_ ArduinoIDE integrated with Digispark libraries is required to run programs on your DIY project.
-
-(Normal Version of Bootloader)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
- 
-#. Board--->Digispark(TinyCore)
-
-#. Programmer--->Digispark
-
-.. note:: **DO NOT** plug the device until asked
-
-* Click Compile the code to check if the code exceeds 6Kb.
-
-#. Click Upload (IDE will ask to plug int the device within sixty seconds)
-
- .. image:: images/upload_successful.png
-      :scale: 120%	
-      :height: 50 	
-      :width: 50
-
-#. Now Plug Digispark
-
-
-(Jumper Version of Bootloader)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#. Jumper version removes 5 sec ddelay.
-
-#. Board--->Digispark(TinyCore)
-
-#. Programmer--->Digispark
-
-#. Upload (IDE will ask to plug int the device within sixty seconds)	
-
-#. Connect PB5(Reset) to GND using a jumper if you need to upload sketch.
-
-#. Plug Digispark
-
-#. If successful deplug your device, remove the jumper wire between reset pin and GND, and replug the device, Your programme will start executing instantaneously **without 5 seconds** delay. 
-
-Uploading from commandline
---------------------------
-
- .. image:: images/commandlineupload.png
-     :scale: 250%	
-     :height: 50 	
-     :width: 50
-
- To use the command line tool:
-
-#. Download micronucelus-t85 folder from `github <https://github.com/Bluebie/micronucleus-t85/>`_
-#. In that folder go to commandline folder and do make
-#. A micronucelus binary is formed.
-#. You can see micronucelus --help to know all the options.
-#. Run the following command to upload the hex file.  ::
-
-	sudo ./micronucleus --run /home/jaghvi/sketches/Blink/Blink.hex
-
-If you get this error try to run it again :: 
-
- >> Abort mission! -32 error has occured ...
-
- >> Please unplug the device and restart the program.
-
-
-Burn cdc232.hex 
-~~~~~~~~~~~~~~~
-#. To enumerate digispark as USB serial device run this command ::
-
-	sudo ./micronucleus micronucleus-t85-master/commandline/cdc232.hex
-
-run command **dmesg** in terminal to enumerate the device as /dev/ttyACM*
-
-usb 2-1.2: >new low-speed USB device number 87 using ehci_hcd
-
-usb 2-1.2: >New USB device found, idVendor=16d0, idProduct=0753
-
-usb 2-1.2: >New USB device strings: Mfr=0, Product=0, SerialNumber=0
-
 
 Serial Monitor
 --------------
