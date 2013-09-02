@@ -72,7 +72,7 @@
 <li><a class="reference internal" href="#usb-connections" id="id18">3&nbsp;&nbsp;&nbsp;USB Connections</a><ul class="auto-toc">
 <li><a class="reference internal" href="#mistakes-while-assembling-the-circuit" id="id19">3.1&nbsp;&nbsp;&nbsp;Mistakes while assembling the circuit</a></li>
 <li><a class="reference internal" href="#device-detection" id="id20">3.2&nbsp;&nbsp;&nbsp;Device Detection</a></li>
-<li><a class="reference internal" href="#setting-rules-in-udev-to-avoid-errors" id="id21">3.3&nbsp;&nbsp;&nbsp;Setting rules in udev to avoid errors</a></li>
+<li><a class="reference internal" href="#setting-rules-in-udev-to-avoid-assertion-errors" id="id21">3.3&nbsp;&nbsp;&nbsp;Setting rules in udev to avoid assertion errors</a></li>
 <li><a class="reference internal" href="#errors-encountered" id="id22">3.4&nbsp;&nbsp;&nbsp;ERRORS encountered</a><ul class="auto-toc">
 <li><a class="reference internal" href="#error-when-using-isp" id="id23">3.4.1&nbsp;&nbsp;&nbsp;Error when using ISP</a></li>
 <li><a class="reference internal" href="#errors-in-usb-connection" id="id24">3.4.2&nbsp;&nbsp;&nbsp;Errors in USB connection</a></li>
@@ -173,12 +173,16 @@ We have redesigned PCB of Digispark to fit in single layer and optimized compone
 </tbody>
 </table>
 </div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The above comparison was made in comparison with Arduino UNO which is pretty common.There are other variants of Arduino with more cost ,more memory and features as well.</p>
+</div>
 <ul class="simple">
 <li>What is digispark ?</li>
 </ul>
 <blockquote>
 <div><ul class="simple">
-<li>Digispark is an <strong>ATtiny85</strong> based microcontroller development board come with USB interface.</li>
+<li>Digispark is an <strong>ATtiny85</strong> based microcontroller development board with USB interface.</li>
 <li>It uses the familiar Arduino IDE for development.</li>
 <li>PWM on 3 pins</li>
 <li>ADC on 4 pins</li>
@@ -191,25 +195,23 @@ We have redesigned PCB of Digispark to fit in single layer and optimized compone
 <li>Why digispark ?</li>
 </ul>
 <blockquote>
-<div>It is micro-sized, Arduino enabled, usb development board - cheap enough to jumpstart electronics.It is easy to make DIY project.</div></blockquote>
+<div>It is micro-sized, Arduino enabled, usb development board - cheap enough to jumpstart electronics.It is easy to make Do It Yourself project.</div></blockquote>
 <ul class="simple">
 <li>How serial communication occurs ?</li>
 </ul>
 <blockquote>
-<div>Pin 3 and Pin 4 (P3 and P4) are used for USB communication and programming, while you can use them in your circuit if you are not using USB communication, you may have to unplug your   circuit during programming if the circuit would impede the pin states or dramatically affect the voltage levels on these pins.
-Pin 3 (P3) has a 1.5 kΩ pull-up resistor attached to it which is required for when P3 and P4 are used for USB communication (including programming). Your design may need to take into  account that you&#8217;d have to overpower this to pull this pin low.
-The Digispark does not have a hardware serial port nor a hardware serial to USB converter. An example library (DigiUSB) is provided, as well as some example code and a serial monitor     like program, but communication with the computer will not always be plug and play, especially when other libraries are involved.</div></blockquote>
+<div>The Digispark does not have a hardware serial port nor a hardware serial to USB converter. An example library (DigiUSB) is provided, as well as some example code and a serial monitor     like program, but communication with the computer will not always be plug and play, especially when other libraries are involved.
+Pin 3 and Pin 4 (PB3 and PB4) are used for USB communication and programming, while you can use them in your circuit if you are not using USB communication.
+Pin 3 (P3 or D- Pin of USB) has a 1.5 kΩ pull-up resistor attached to it which is required for when P3 and P4 are used for USB communication (including programming). Your design may need to take into  account that you&#8217;d have to overpower this to pull this pin low.</div></blockquote>
 <ul class="simple">
 <li>At what clock speed and voltage level Digispark works?</li>
 </ul>
-<blockquote>
-<div>16.5mhz is a better clock speed closer to 16.0mhz which is more useful with existing arduino libraries. It uses the high speed PLL at 16MHz and not the internal RC oscillator and the safe voltage is 3.8V or more for this speed.Also if you Run the attiny85 at &lt; 4v you might even brick it. That puts the chip out of spec and the results are unpredictable ,sometimes the bootloader will overwrite bits of itself and brick the device requiring a high voltage serial programmer (or regular ISP programmer if you didn&#8217;t disable the reset pin) to recover.Hence it&#8217;s better to use 5V.</div></blockquote>
+<p>It uses the high speed PLL at 16MHz and not the internal RC oscillator and the safe voltage is 3.8V or more for this speed. 16.5mhz is a better clock speed closer to 16.0mhz which is more useful with existing arduino libraries. Also if you Run the attiny85 at &lt; 4v you might even brick it. That puts the chip out of specifications and the results are unpredictable ,sometimes the bootloader will overwrite bits of itself and brick the device requiring a high voltage serial programmer (or regular ISP programmer if you didn&#8217;t disable the reset pin) to recover.Hence it&#8217;s suggested to use 5V.</p>
 <ul class="simple">
 <li>What if my code is more than 6 K?</li>
 </ul>
 <blockquote>
-<div>If you are uploading your sketch using Digispark integrated Arduino IDE ,If you compile the code you will get an idea of how much memory does your code need.So before uploading its a good habit to first compile your code.In case it&#8217;s more than 6kb it&#8217;s likely to overwrite your bootloader.In which case you have to rewrite the bootloader using ISP programmer.
-But you can reupload the bootloader only if your reset pin is disabled as I/O.</div></blockquote>
+<div>If you are uploading your sketch using Digispark integrated Arduino IDE ,before uploading if you compile the code you will get an idea of how much memory does your code need.So before uploading its a good habit to first compile your code.In case it&#8217;s more than 6kb it&#8217;s likely to overwrite your bootloader.In which case you have to rewritw the bootloader using ISP programmer.But you can reupload the bootloader on your chip  only if your reset pin is disabled as I/O (reset HIGH)  otherwise you will need HVSP programmer (In case your reset is enabled as I/O) to reconfigure your chip to be programmed with ISP programmer. Tersely ,it&#8217;s a matter of fuse settings (specifically the RESET bit of hfuse) of your chip.</div></blockquote>
 <ul class="simple">
 <li>What is hex file ?</li>
 </ul>
@@ -222,28 +224,27 @@ But you can reupload the bootloader only if your reset pin is disabled as I/O.</
 <div><p>Micronucleus is a bootloader designed for AVR tiny 85 chips with a minimal usb interface.Micronucelus is the the code that is installed on the device  using an avr programmer. This  code allows the Digispark to act like a USB device, receives code, and when it receives code erase the code previously loaded. It also runs the code loaded onto it after a 5 second  delay (if bootloaderis normal version) if it does not receive a request to upload new code within that 5 seconds.</p>
 <p>It is a small V-USB program, similar to the DigiUSB, DigiKeyboard, and other usb related libraries in the digispark arduino software. Normally programs exist at the very beginning of  the flash memory in the attiny85 chip, but micronucleus has been modified so the start of the program is about 6kb of 0xFF bytes (In other words all the bits in 6Kb are high).
 After that, micronucleus begins and uses up the final 2kb. This leaves room at the start of the chip for your own programs, but micronucleus always stays installed at the end. 0xFF  bytes are interpreted as NOP (no operation) instructions by the AVR chip, so the first time you run it, or if you run it after an erase but no write (sometimes this happens if there  is an error during the erase part of an upload attempt), next time the chip turns on it will execute all those NOPs and slam in to the bootloader code.</p>
-<p>When you use micronucleus to upload a program, there&#8217;s a trick to it - USB requires the device always respond to requests, but the tiny85 chip can&#8217;t do that - whenever it&#8217;s erasing  or writing part of it&#8217;s own program memory it has to go to sleep for about 4.5 milliseconds. Some of the more expensive chips like the mega328 have special bootloader support which lets them keep running in the background while an erase or write happens in another section of memory. <strong>Embedded Creations</strong> discovered however that if you craft your computer  program to just not send any requests during that frozen time, the computer never notices the device has frozen up and doesn&#8217;t crash the USB connection. This is pretty fragile, which  is why the USB connection to the bootloader can sometimes crash if you run other intense usb software in the background, like an instance of digiterm polling for a device to appear.</p>
+<p>When you use micronucleus to upload a program, there&#8217;s a trick to it - USB requires the device always respond to requests, but the tiny85 chip can&#8217;t do that - whenever it&#8217;s erasing  or writing part of it&#8217;s own program memory it has to go to sleep for about 4.5 milliseconds. Some of the more expensive chips like the mega328 have special bootloader support which lets them keep running in the background while an erase or write happens in another section of memory. <a class="reference external" href="http://embedded-creations.com/projects/attiny85-usb-bootloader-overview/">Embedded Creations</a>  discovered however that if you craft your computer  program to just not send any requests during that frozen time, the computer never notices the device has frozen up and doesn&#8217;t crash the USB connection. This is pretty fragile, which  is why the USB connection to the bootloader can sometimes crash if you run other intense usb software in the background, like an instance of digiterm polling for a device to appear.</p>
 <p>So when the micronucleus command line tool first finds a digispark, it asks it &#8220;How much memory do you have, and how long should I wait after each type of request?&#8221; - when you see that assertion fail on ubuntu, it&#8217;s talking about that request - the program tried to ask that question and had an error response due to some annoying linux permissions things. Next, it asks the device to erase it&#8217;s memory and waits the right amount of time for it to do so - about 50 milliseconds to do all 6kb of flash pages. Once that&#8217;s done, it starts uploading 64 byte chunks of your new program. Micronucleus writes in these bytes at the starting 6kb of flash memory, but with one special exception:</p>
 <p>In the first page there&#8217;s an interrupt vector table. The bootloader (on the device) replaces the reset vector and the pinchange vector with jump instructions pointing to it&#8217;s own interrupt vector table 6kb later. Other than that, the program is left alone.</p>
 <p>When the computer is finished uploading, the bootloader finally writes down what the original values of the user&#8217;s reset vector and pinchange vector were in the very last four bytes of that first 6kb chunk of blank memory.</p>
 <p>This little modification ensures the bootloader will run first when the chip is powered, and the pinchange interrupt is necessary for V-USB on the device to function in the bootloader. But wait - the user program needs to be able to use the V-USB to talk over USB as well! Embedded Creations came up with a really neat solution for that in their USBaspLoader-tiny85 project: Whenever the bootloader is running a special part of memory contains 0xB007 - whenever the pin change interrupt handler function is run inside of the bootloader, it checks if those two bytes are there, and if not, it immediately jumps to the user program&#8217;s pinchange handler. This detect and jump behaviour is fast enough to not cause any problems with the V-USB software, but does mean other programs using PCINT (pin change interrupt) on the digispark will find there&#8217;s a slightly longer delay before their function runs than there is on a raw chip with no bootloader.</p>
-<p>For more information on the tricks micronucleus uses to add a bootloader on a chip with no built in bootloader features, check out embedded-creations ** USBaspLoader-tiny85 site**</p>
+<p>For more information on the tricks micronucleus uses to add a bootloader on a chip with no built in bootloader features, check out embedded-creations <a class="reference external" href="http://embedded-creations.com/projects/attiny85-usb-bootloader-overview/">USBaspLoader-tiny85 site</a></p>
 </div></blockquote>
+<p><em>Courtsey</em> BlueBie for detailed explanation</p>
 <ul class="simple">
 <li>Whats is cdc232.hex ?</li>
 </ul>
 <blockquote>
 <div>cdc232 is a version of <a class="reference external" href="http://www.recursion.jp/avrcdc/cdc-232.html">this</a>  project  that runs on the Digispark, Bluebie, the maker of micronucleus included this in the micronucleus repository for people who might want it - basically it makes a Digispark into a cheap USB to serial converter.It&#8217;s just like any other sketch or hex file and will be overwritten if you upload any other sketch say Blink.hex.</div></blockquote>
 <ul class="simple">
-<li>USB-HID device and not TTY device.</li>
+<li>If you upload sketches with DigiUSB libraries it detects as USB-HID device and not TTY device.</li>
 </ul>
 <blockquote>
-<div><p>It&#8217;s ok if the digispark doesn&#8217;t detect as ttyACM device ,if a device detects as tty device it means it is a USB-serial device.But Digispark in not a USB-serial device ,it does not provide USB-serial interface.What is it then?</p>
+<div><p>It&#8217;s ok if the digispark doesn&#8217;t detect as ttyACM device ,if a device detects as tty device it means it is a USB-serial device.But Digispark in not a USB-serial device ,it does not provide USB-serial interface. So when you plug your digispark ,the serial port tab of digispark integrated arduino IDE will be greyed out .What is it then?</p>
 <p>DigiUSB - Debugging and HID communication library
 On the computer side you can use the included command line tools in the DigiUSB Programs folder:
-digiusb - this program is like the Arduino <strong>serial monitor</strong>, allowing you to send and receive messages to/from a Digispark running DigiUSB
-send - this allows you to send data/text to a Digispark with DigiUSB - run with –help to see all options
-receive- this allows you to receive data/text from a Digispark with DigiUSB - run with –help to see all options.</p>
+digiusb - this program is like the Arduino <strong>serial monitor</strong>, allowing you to send and receive messages to/from a Digispark running DigiUSB</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/usbhid.png"><img alt="_images/usbhid.png" src="_images/usbhid.png" style="width: 200.0px; height: 200.0px;" /></a>
 </div></blockquote>
@@ -272,14 +273,29 @@ receive- this allows you to receive data/text from a Digispark with DigiUSB - ru
 <blockquote>
 <div><p><strong>Zener diodes</strong>:Power rating is critical, but not in the way you might expect.Most of the time it&#8217;s perfectly safe to overrate your parts and use a component with a higher rating  than required for this particular circuit. However, in this case that approach can actually prevent the circuit from working because the trade-off in Zener diode design is that as its   power rating increases it also exhibits more capacitance. Capacitance on a high-speed data line is very bad and needs to be avoided or the circuit simply won&#8217;t work. In practice, a  1/4W Zener should work fine; a 1/2W Zener should work, but is a bit on the borderline; and a 1W Zener almost certainly won&#8217;t work it will have too much capacitance.</p>
 <p>It&#8217;s a simple circuit USB socket gets its +5V power line from the usual place, and the 3.3V data lines use three resistors and two <strong>3.6V</strong> 1/4W Zeners to reduce the Arduino&#8217;s 5V to  3.3V.
-Purpose of zener diode is essential for the circuit.Even though the power supply line is 5v,communication line work at nominal 3.3 v.The D- and D+ lines are dependent signalling  lines unlike tx ,rx in RS232 .They are half  duplexed diferrential signalling pair helping the USB to run at high data speeds by reducing the effects of electrical noise.</p>
+Purpose of zener diode is essential for the circuit.Even though the power supply line is 5v,communication line work at nominal 3.3 v.The D- and D+ lines are dependent signalling  lines unlike tx ,rx in RS232 .They are half duplexed diferrential signalling pair helping the USB to run at high data speeds by reducing the effects of electrical noise.</p>
+<p>While assembling my circuit I happend to use 4.8V instead of 3.6V ,without doubt I got error(2) message.Check below error(2).</p>
 </div></blockquote>
 <p><strong>Three</strong> resistors</p>
 <ul class="simple">
-<li>One 1.5K ohm</li>
-<li>TWO 68 ohm</li>
+<li>1x1.5K ohm</li>
 </ul>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/1.5k.png"><img alt="_images/1.5k.png" src="_images/1.5k.png" style="width: 125.0px; height: 125.0px;" /></a>
+<p>Not just a faulty diode value can get you crazy for your circuit won&#8217;t detect ,resistor can be the culprit too.Like in case by chance you use 15k instead of 1.5k ,wondering how,its just a matter of seeing red band as orange and orange as red in super excitement may be.Ya ,I made this terrible mistake too. Learn from it.Many people have used 1.8K and few nearby resistor values so just in case you are short of 1.5k then you might use other values without much ado.</p>
+</div></blockquote>
+<ul class="simple">
+<li>2x68 ohm</li>
+</ul>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/r63.png"><img alt="_images/r63.png" src="_images/r63.png" style="width: 125.0px; height: 125.0px;" /></a>
+</div></blockquote>
 <p>Broken USB-A cable if you don&#8217;t have the PCB and you plan to make it on a breadboard.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/cad.png"><img alt="_images/cad.png" src="_images/cad.png" style="width: 125.0px; height: 125.0px;" /></a>
+</div></blockquote>
+<p>For KICAD files click <a class="reference external" href="www.github.com/mehtajaghvi/Digispark-on-breadboard/pcb_IITB_singlesided_4x2">this link</a></p>
+<p>In the folder you will get the kicad files including ps file ,to print your own PCB board. It&#8217;s a single sided (FRONT) and with enough trackwidth for you to develop it on your  own.You just need to print the digispark-Front.ps file to make it.</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/cad.png"><img alt="_images/cad.png" src="_images/cad.png" style="width: 125.0px; height: 125.0px;" /></a>
 </div></blockquote>
@@ -352,12 +368,9 @@ More about this as we proceed.</li>
 </div>
 <div class="section" id="uploading-the-jumper-version">
 <h4><a class="toc-backref" href="#id14">2.3.1.2&nbsp;&nbsp;&nbsp;Uploading the JUMPER version</a><a class="headerlink" href="#uploading-the-jumper-version" title="Permalink to this headline">¶</a></h4>
-<ol class="arabic">
-<li><p class="first">Upload micronucleus1.06-jumper-v2-upgrade.hex</p>
+<p>Upload micronucleus1.06-jumper-v2-upgrade.hex</p>
 <div class="highlight-python"><pre>avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"micronucleus-t85-master/firmware/releases/micronucleus-1.06.hex"</pre>
 </div>
-</li>
-</ol>
 </div>
 </div>
 <div class="section" id="set-fuses-of-the-attiny85-20pu">
@@ -370,34 +383,35 @@ These fuse settings <strong>won&#8217;t</strong> work with Jumper version of boo
 <div class="section" id="fuse-setting-reset-disabled-as-i-o">
 <h4><a class="toc-backref" href="#id16">2.3.2.1&nbsp;&nbsp;&nbsp;Fuse setting(Reset <strong>disabled</strong> as I/O)</a><a class="headerlink" href="#fuse-setting-reset-disabled-as-i-o" title="Permalink to this headline">¶</a></h4>
 <blockquote>
-<div><a class="reference internal image-reference" href="_images/resetdisabled.png"><img alt="_images/resetdisabled.png" src="_images/resetdisabled.png" style="width: 125.0px; height: 125.0px;" /></a>
-</div></blockquote>
-<div class="admonition note">
+<div><div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>These fuses setting will not enable reset pin (ATTINY85 pin 1) as I/O, so you only have 5 I/O instead of 6 I/O</p>
-<p class="last">avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m</p>
+<p class="last">These fuses setting will not enable reset pin (ATTINY85 pin 1) as I/O, so you only have 5 I/O instead of 6 I/O</p>
+</div>
+<a class="reference internal image-reference" href="_images/resetdisabled.png"><img alt="_images/resetdisabled.png" src="_images/resetdisabled.png" style="width: 125.0px; height: 125.0px;" /></a>
+</div></blockquote>
+<p>Run the  following command in terminal</p>
+<div class="highlight-python"><pre>avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m</pre>
 </div>
 </div>
 <div class="section" id="fuse-setting-reset-enabled-as-i-o">
 <h4><a class="toc-backref" href="#id17">2.3.2.2&nbsp;&nbsp;&nbsp;Fuse setting(Reset <strong>enabled</strong> as I/O)</a><a class="headerlink" href="#fuse-setting-reset-enabled-as-i-o" title="Permalink to this headline">¶</a></h4>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/resetenabled.png"><img alt="_images/resetenabled.png" src="_images/resetenabled.png" style="width: 125.0px; height: 125.0px;" /></a>
-</div></blockquote>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">You can&#8217;t reprogramme your IC with an ISP programmer until you have High volt fuse resetter if you use the above fuse settings as reset pin is enabled as I/O</p>
 </div>
+</div></blockquote>
 <ol class="arabic">
-<li><dl class="first docutils">
-<dt>Set fuses to enable the reset pin to be used as I/O  lfuse:0xe1      <strong>hfuse:0x5d</strong> efuse:0xfe ::</dt>
-<dd><p class="first last">avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0x5d:m -U efuse:w:0xfe:m</p>
-</dd>
-</dl>
+<li><p class="first">Set fuses to enable the reset pin to be used as I/O  lfuse:0xe1      <strong>hfuse:0x5d</strong> efuse:0xfe</p>
+<div class="highlight-python"><pre>avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0x5d:m -U efuse:w:0xfe:m</pre>
+</div>
 </li>
 <li><p class="first">Now if you are done with the above two steps you are ready to programme.</p>
 </li>
 </ol>
-<p>After the above two steps are accomplished ,make all the USB connections and follow the next step.</p>
+<blockquote>
+<div>After the above two steps are accomplished ,make all the USB connections and follow the next step.</div></blockquote>
 </div>
 </div>
 </div>
@@ -417,13 +431,24 @@ These fuse settings <strong>won&#8217;t</strong> work with Jumper version of boo
 <div><a class="reference internal image-reference" href="_images/devicedetected.png"><img alt="_images/devicedetected.png" src="_images/devicedetected.png" style="width: 125.0px; height: 125.0px;" /></a>
 </div></blockquote>
 </div>
-<div class="section" id="setting-rules-in-udev-to-avoid-errors">
-<h2><a class="toc-backref" href="#id21">3.3&nbsp;&nbsp;&nbsp;Setting rules in udev to avoid errors</a><a class="headerlink" href="#setting-rules-in-udev-to-avoid-errors" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="https://github.com/Bluebie/micronucleus-t85/wiki/Ubuntu-Linux">Udev rules setting</a></p>
-<ol class="arabic simple">
-<li>/etc/udev/rules/49-micronucelus.rules</li>
-<li>/etc/udev/rules/90-digispark.rules</li>
-<li>/etc/udev/rules/99-digiusb.rules</li>
+<div class="section" id="setting-rules-in-udev-to-avoid-assertion-errors">
+<h2><a class="toc-backref" href="#id21">3.3&nbsp;&nbsp;&nbsp;Setting rules in udev to avoid assertion errors</a><a class="headerlink" href="#setting-rules-in-udev-to-avoid-assertion-errors" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Go to /etc/udev/rules.d/ becoming root of your system.</p>
+</li>
+<li><p class="first">gedit 49-micronucelus.rules and add the following lines</p>
+<div class="highlight-python"><pre>SUBSYSTEMS=="usb", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="0753", MODE:="0666"
+KERNEL=="ttyACM*", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="0753", MODE:="0666", ENV{ID_MM_DEVICE_IGNORE}="1"</pre>
+</div>
+</li>
+<li><p class="first">Also add 99-digiusb.rules in /etc/udev/rules/</p>
+</li>
+<li><p class="first">gedit 99-digiusb.rules and add the following lines</p>
+<div class="highlight-python"><pre>KERNEL=="hiddev*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="05df", SUBSYSTEM=="usb"</pre>
+</div>
+</li>
+<li><p class="first">For more info  visit <a class="reference external" href="https://github.com/Bluebie/micronucleus-t85/wiki/Ubuntu-Linux">Udev rules setting</a></p>
+</li>
 </ol>
 </div>
 <div class="section" id="errors-encountered">
@@ -654,7 +679,7 @@ If you have used a faulty resistor value or if the zener diodes used are of valu
 <li><a class="reference internal" href="#usb-connections">3&nbsp;&nbsp;&nbsp;USB Connections</a><ul>
 <li><a class="reference internal" href="#mistakes-while-assembling-the-circuit">3.1&nbsp;&nbsp;&nbsp;Mistakes while assembling the circuit</a></li>
 <li><a class="reference internal" href="#device-detection">3.2&nbsp;&nbsp;&nbsp;Device Detection</a></li>
-<li><a class="reference internal" href="#setting-rules-in-udev-to-avoid-errors">3.3&nbsp;&nbsp;&nbsp;Setting rules in udev to avoid errors</a></li>
+<li><a class="reference internal" href="#setting-rules-in-udev-to-avoid-assertion-errors">3.3&nbsp;&nbsp;&nbsp;Setting rules in udev to avoid assertion errors</a></li>
 <li><a class="reference internal" href="#errors-encountered">3.4&nbsp;&nbsp;&nbsp;ERRORS encountered</a><ul>
 <li><a class="reference internal" href="#error-when-using-isp">3.4.1&nbsp;&nbsp;&nbsp;Error when using ISP</a></li>
 <li><a class="reference internal" href="#errors-in-usb-connection">3.4.2&nbsp;&nbsp;&nbsp;Errors in USB connection</a></li>

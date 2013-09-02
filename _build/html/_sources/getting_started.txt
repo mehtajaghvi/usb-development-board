@@ -50,10 +50,11 @@ Digispark
  |Analog  I/O             |4           |6         |          
  +------------------------+------------+----------+
    	
- 
+.. note :: The above comparison was made in comparison with Arduino UNO which is pretty common.There are other variants of Arduino with more cost ,more memory and features as well. 
+
 * What is digispark ?
 
- + Digispark is an **ATtiny85** based microcontroller development board come with USB interface.
+ + Digispark is an **ATtiny85** based microcontroller development board with USB interface.
  + It uses the familiar Arduino IDE for development.
  + PWM on 3 pins 
  + ADC on 4 pins
@@ -63,22 +64,22 @@ Digispark
 
 * Why digispark ?
 
- It is micro-sized, Arduino enabled, usb development board - cheap enough to jumpstart electronics.It is easy to make DIY project.
+ It is micro-sized, Arduino enabled, usb development board - cheap enough to jumpstart electronics.It is easy to make Do It Yourself project.
 
 * How serial communication occurs ?
 
- Pin 3 and Pin 4 (P3 and P4) are used for USB communication and programming, while you can use them in your circuit if you are not using USB communication, you may have to unplug your   circuit during programming if the circuit would impede the pin states or dramatically affect the voltage levels on these pins.
- Pin 3 (P3) has a 1.5 kΩ pull-up resistor attached to it which is required for when P3 and P4 are used for USB communication (including programming). Your design may need to take into  account that you'd have to overpower this to pull this pin low.
  The Digispark does not have a hardware serial port nor a hardware serial to USB converter. An example library (DigiUSB) is provided, as well as some example code and a serial monitor     like program, but communication with the computer will not always be plug and play, especially when other libraries are involved.
+ Pin 3 and Pin 4 (PB3 and PB4) are used for USB communication and programming, while you can use them in your circuit if you are not using USB communication.
+ Pin 3 (P3 or D- Pin of USB) has a 1.5 kΩ pull-up resistor attached to it which is required for when P3 and P4 are used for USB communication (including programming). Your design may need to take into  account that you'd have to overpower this to pull this pin low.
+
 
 * At what clock speed and voltage level Digispark works?
 
- 16.5mhz is a better clock speed closer to 16.0mhz which is more useful with existing arduino libraries. It uses the high speed PLL at 16MHz and not the internal RC oscillator and the safe voltage is 3.8V or more for this speed.Also if you Run the attiny85 at < 4v you might even brick it. That puts the chip out of spec and the results are unpredictable ,sometimes the bootloader will overwrite bits of itself and brick the device requiring a high voltage serial programmer (or regular ISP programmer if you didn't disable the reset pin) to recover.Hence it's better to use 5V.
+It uses the high speed PLL at 16MHz and not the internal RC oscillator and the safe voltage is 3.8V or more for this speed. 16.5mhz is a better clock speed closer to 16.0mhz which is more useful with existing arduino libraries. Also if you Run the attiny85 at < 4v you might even brick it. That puts the chip out of specifications and the results are unpredictable ,sometimes the bootloader will overwrite bits of itself and brick the device requiring a high voltage serial programmer (or regular ISP programmer if you didn't disable the reset pin) to recover.Hence it's suggested to use 5V.
 
 * What if my code is more than 6 K?
 
- If you are uploading your sketch using Digispark integrated Arduino IDE ,If you compile the code you will get an idea of how much memory does your code need.So before uploading its a good habit to first compile your code.In case it's more than 6kb it's likely to overwrite your bootloader.In which case you have to rewrite the bootloader using ISP programmer.
- But you can reupload the bootloader only if your reset pin is disabled as I/O. 
+ If you are uploading your sketch using Digispark integrated Arduino IDE ,before uploading if you compile the code you will get an idea of how much memory does your code need.So before uploading its a good habit to first compile your code.In case it's more than 6kb it's likely to overwrite your bootloader.In which case you have to rewritw the bootloader using ISP programmer.But you can reupload the bootloader on your chip  only if your reset pin is disabled as I/O (reset HIGH)  otherwise you will need HVSP programmer (In case your reset is enabled as I/O) to reconfigure your chip to be programmed with ISP programmer. Tersely ,it's a matter of fuse settings (specifically the RESET bit of hfuse) of your chip.
 
 * What is hex file ?
 
@@ -91,7 +92,7 @@ Digispark
  It is a small V-USB program, similar to the DigiUSB, DigiKeyboard, and other usb related libraries in the digispark arduino software. Normally programs exist at the very beginning of  the flash memory in the attiny85 chip, but micronucleus has been modified so the start of the program is about 6kb of 0xFF bytes (In other words all the bits in 6Kb are high).
  After that, micronucleus begins and uses up the final 2kb. This leaves room at the start of the chip for your own programs, but micronucleus always stays installed at the end. 0xFF  bytes are interpreted as NOP (no operation) instructions by the AVR chip, so the first time you run it, or if you run it after an erase but no write (sometimes this happens if there  is an error during the erase part of an upload attempt), next time the chip turns on it will execute all those NOPs and slam in to the bootloader code.
 
- When you use micronucleus to upload a program, there\'s a trick to it - USB requires the device always respond to requests, but the tiny85 chip can't do that - whenever it's erasing  or writing part of it's own program memory it has to go to sleep for about 4.5 milliseconds. Some of the more expensive chips like the mega328 have special bootloader support which lets them keep running in the background while an erase or write happens in another section of memory. **Embedded Creations** discovered however that if you craft your computer  program to just not send any requests during that frozen time, the computer never notices the device has frozen up and doesn't crash the USB connection. This is pretty fragile, which  is why the USB connection to the bootloader can sometimes crash if you run other intense usb software in the background, like an instance of digiterm polling for a device to appear.
+ When you use micronucleus to upload a program, there's a trick to it - USB requires the device always respond to requests, but the tiny85 chip can't do that - whenever it's erasing  or writing part of it's own program memory it has to go to sleep for about 4.5 milliseconds. Some of the more expensive chips like the mega328 have special bootloader support which lets them keep running in the background while an erase or write happens in another section of memory. `Embedded Creations <http://embedded-creations.com/projects/attiny85-usb-bootloader-overview/>`_  discovered however that if you craft your computer  program to just not send any requests during that frozen time, the computer never notices the device has frozen up and doesn't crash the USB connection. This is pretty fragile, which  is why the USB connection to the bootloader can sometimes crash if you run other intense usb software in the background, like an instance of digiterm polling for a device to appear.
  
  So when the micronucleus command line tool first finds a digispark, it asks it "How much memory do you have, and how long should I wait after each type of request?" - when you see that assertion fail on ubuntu, it's talking about that request - the program tried to ask that question and had an error response due to some annoying linux permissions things. Next, it asks the device to erase it's memory and waits the right amount of time for it to do so - about 50 milliseconds to do all 6kb of flash pages. Once that's done, it starts uploading 64 byte chunks of your new program. Micronucleus writes in these bytes at the starting 6kb of flash memory, but with one special exception:
 
@@ -101,24 +102,24 @@ Digispark
 
  This little modification ensures the bootloader will run first when the chip is powered, and the pinchange interrupt is necessary for V-USB on the device to function in the bootloader. But wait - the user program needs to be able to use the V-USB to talk over USB as well! Embedded Creations came up with a really neat solution for that in their USBaspLoader-tiny85 project: Whenever the bootloader is running a special part of memory contains 0xB007 - whenever the pin change interrupt handler function is run inside of the bootloader, it checks if those two bytes are there, and if not, it immediately jumps to the user program's pinchange handler. This detect and jump behaviour is fast enough to not cause any problems with the V-USB software, but does mean other programs using PCINT (pin change interrupt) on the digispark will find there's a slightly longer delay before their function runs than there is on a raw chip with no bootloader.
 
- For more information on the tricks micronucleus uses to add a bootloader on a chip with no built in bootloader features, check out embedded-creations ** USBaspLoader-tiny85 site**
+ For more information on the tricks micronucleus uses to add a bootloader on a chip with no built in bootloader features, check out embedded-creations `USBaspLoader-tiny85 site <http://embedded-creations.com/projects/attiny85-usb-bootloader-overview/>`_
 
+
+*Courtsey* BlueBie for detailed explanation
 
 * Whats is cdc232.hex ?
 
  cdc232 is a version of `this <http://www.recursion.jp/avrcdc/cdc-232.html>`_  project  that runs on the Digispark, Bluebie, the maker of micronucleus included this in the micronucleus repository for people who might want it - basically it makes a Digispark into a cheap USB to serial converter.It's just like any other sketch or hex file and will be overwritten if you upload any other sketch say Blink.hex.
 
 
-* USB-HID device and not TTY device.
+* If you upload sketches with DigiUSB libraries it detects as USB-HID device and not TTY device.
 
- It's ok if the digispark doesn't detect as ttyACM device ,if a device detects as tty device it means it is a USB-serial device.But Digispark in not a USB-serial device ,it does not provide USB-serial interface.What is it then?
+ It's ok if the digispark doesn't detect as ttyACM device ,if a device detects as tty device it means it is a USB-serial device.But Digispark in not a USB-serial device ,it does not provide USB-serial interface. So when you plug your digispark ,the serial port tab of digispark integrated arduino IDE will be greyed out .What is it then?
 
  DigiUSB - Debugging and HID communication library
  On the computer side you can use the included command line tools in the DigiUSB Programs folder:
  digiusb - this program is like the Arduino **serial monitor**, allowing you to send and receive messages to/from a Digispark running DigiUSB
- send - this allows you to send data/text to a Digispark with DigiUSB - run with –help to see all options
- receive- this allows you to receive data/text from a Digispark with DigiUSB - run with –help to see all options.
-
+ 
   .. image:: images/usbhid.png
       :scale: 100%	
       :height: 200 	
@@ -151,13 +152,28 @@ All you need is:
  **Zener diodes**:Power rating is critical, but not in the way you might expect.Most of the time it's perfectly safe to overrate your parts and use a component with a higher rating  than required for this particular circuit. However, in this case that approach can actually prevent the circuit from working because the trade-off in Zener diode design is that as its   power rating increases it also exhibits more capacitance. Capacitance on a high-speed data line is very bad and needs to be avoided or the circuit simply won't work. In practice, a  1/4W Zener should work fine; a 1/2W Zener should work, but is a bit on the borderline; and a 1W Zener almost certainly won't work it will have too much capacitance.
 
  It's a simple circuit USB socket gets its +5V power line from the usual place, and the 3.3V data lines use three resistors and two **3.6V** 1/4W Zeners to reduce the Arduino's 5V to  3.3V. 
- Purpose of zener diode is essential for the circuit.Even though the power supply line is 5v,communication line work at nominal 3.3 v.The D- and D+ lines are dependent signalling  lines unlike tx ,rx in RS232 .They are half  duplexed diferrential signalling pair helping the USB to run at high data speeds by reducing the effects of electrical noise.
+ Purpose of zener diode is essential for the circuit.Even though the power supply line is 5v,communication line work at nominal 3.3 v.The D- and D+ lines are dependent signalling  lines unlike tx ,rx in RS232 .They are half duplexed diferrential signalling pair helping the USB to run at high data speeds by reducing the effects of electrical noise.
 
+ While assembling my circuit I happend to use 4.8V instead of 3.6V ,without doubt I got error(2) message.Check below error(2).
 
 **Three** resistors 
 
-- One 1.5K ohm
-- TWO 68 ohm
+- 1x1.5K ohm
+
+
+ .. image:: images/1.5k.png
+     :scale: 250%	
+     :height: 50 	
+     :width: 50
+
+ Not just a faulty diode value can get you crazy for your circuit won't detect ,resistor can be the culprit too.Like in case by chance you use 15k instead of 1.5k ,wondering how,its just a matter of seeing red band as orange and orange as red in super excitement may be.Ya ,I made this terrible mistake too. Learn from it.Many people have used 1.8K and few nearby resistor values so just in case you are short of 1.5k then you might use other values without much ado.
+
+- 2x68 ohm
+ 
+ .. image:: images/r63.png
+     :scale: 250%	
+     :height: 50 	
+     :width: 50
 
 Broken USB-A cable if you don't have the PCB and you plan to make it on a breadboard.
 
@@ -166,6 +182,18 @@ Broken USB-A cable if you don't have the PCB and you plan to make it on a breadb
      :height: 50 	
      :width: 50
  
+
+
+For KICAD files click `this link <www.github.com/mehtajaghvi/Digispark-on-breadboard/pcb_IITB_singlesided_4x2>`_
+ 
+In the folder you will get the kicad files including ps file ,to print your own PCB board. It's a single sided (FRONT) and with enough trackwidth for you to develop it on your  own.You just need to print the digispark-Front.ps file to make it.
+
+
+  .. image:: images/cad.png
+      :scale: 250%	
+      :height: 50 	
+      :width: 50
+
 
 How to programme your chip
 ==========================
@@ -231,7 +259,7 @@ Go to directory where exists micronucleus-t85 folder and run the following ::
 Uploading the JUMPER version
 ++++++++++++++++++++++++++++
 
-#. Upload micronucleus1.06-jumper-v2-upgrade.hex ::
+Upload micronucleus1.06-jumper-v2-upgrade.hex ::
 
 	avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"micronucleus-t85-master/firmware/releases/micronucleus-1.06.hex"
 
@@ -250,34 +278,35 @@ These fuse settings **won't** work with Jumper version of bootloader.Jumper vers
 
 Fuse setting(Reset **disabled** as I/O)
 ++++++++++++++++++++++++++++++++++++++++
+ .. note:: These fuses setting will not enable reset pin (ATTINY85 pin 1) as I/O, so you only have 5 I/O instead of 6 I/O 
 
  .. image:: images/resetdisabled.png
-    :scale: 250%	
-    :height: 50 	
-    :width: 50
+     :scale: 250%	
+     :height: 50 	
+     :width: 50 
 
-.. note:: These fuses setting will not enable reset pin (ATTINY85 pin 1) as I/O, so you only have 5 I/O instead of 6 I/O ::
-
+Run the  following command in terminal ::   
+ 
 	avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m
 
 
 Fuse setting(Reset **enabled** as I/O)
 +++++++++++++++++++++++++++++++++++++++
-	
  .. image:: images/resetenabled.png
     :scale: 250%	
     :height: 50 	
     :width: 50
 
-.. warning:: You can't reprogramme your IC with an ISP programmer until you have High volt fuse resetter if you use the above fuse settings as reset pin is enabled as I/O 
+ .. warning:: You can't reprogramme your IC with an ISP programmer until you have High volt fuse resetter if you use the above fuse settings as reset pin is enabled as I/O 
 
 #. Set fuses to enable the reset pin to be used as I/O  lfuse:0xe1	**hfuse:0x5d** efuse:0xfe ::
+
 	avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0x5d:m -U efuse:w:0xfe:m
 
 
 #. Now if you are done with the above two steps you are ready to programme.
 
-After the above two steps are accomplished ,make all the USB connections and follow the next step.
+ After the above two steps are accomplished ,make all the USB connections and follow the next step.
 
 USB Connections
 ===============
@@ -302,16 +331,23 @@ run command **dmesg** or **tailf /var/log/syslog** in terminal to check the vend
      :width: 50
 
 
-Setting rules in udev to avoid errors
--------------------------------------
+Setting rules in udev to avoid assertion errors
+-----------------------------------------------
 
-`Udev rules setting <https://github.com/Bluebie/micronucleus-t85/wiki/Ubuntu-Linux>`_ 
+#. Go to /etc/udev/rules.d/ becoming root of your system.
 
-#. /etc/udev/rules/49-micronucelus.rules
+#. gedit 49-micronucelus.rules and add the following lines         ::
 
-#. /etc/udev/rules/90-digispark.rules
+	SUBSYSTEMS=="usb", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="0753", MODE:="0666"
+	KERNEL=="ttyACM*", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="0753", MODE:="0666", ENV{ID_MM_DEVICE_IGNORE}="1"
 
-#. /etc/udev/rules/99-digiusb.rules
+#. Also add 99-digiusb.rules in /etc/udev/rules/
+
+#. gedit 99-digiusb.rules and add the following lines ::
+
+	KERNEL=="hiddev*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="05df", SUBSYSTEM=="usb"
+
+#. For more info  visit `Udev rules setting <https://github.com/Bluebie/micronucleus-t85/wiki/Ubuntu-Linux>`_ 
 
 ERRORS encountered
 ------------------
@@ -502,7 +538,7 @@ Suggested LINKS
 
 #. `Tutorial <http://digistump.com/wiki/digispark/tutorials/basics>`_
 
-#.  `Digispark Forum <http://digistump.com/board/index.php>`_
+#. `Digispark Forum <http://digistump.com/board/index.php>`_
 
 #. `SPI Protocol <http://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus>`_
 
