@@ -183,7 +183,7 @@ Broken USB-A cable if you don't have the PCB and you plan to make it on a breadb
 
 For KICAD files click `this link <www.github.com/androportal/anuduino/pcb_IITB_singlesided_4x2>`_
  
-  .. image:: images/cad.png
+  .. image:: images/anudruino.png
       :scale: 250%	
       :height: 50 	
       :width: 50
@@ -524,6 +524,7 @@ This error occurs as your arduinoUNO might be on a serial port other than /dev/t
 
 
 #. **Error** ::
+
 	avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
 	avrdude: AVR device initialized and ready to accept instructions
 
@@ -537,7 +538,8 @@ This error occurs as your arduinoUNO might be on a serial port other than /dev/t
 #. **Error** 
 
 .. note::  If baud rate is note set properly then stk500 error is encountered.
-	This error also occours if capacitor is not used in case you are programming with Arduino UNO.
+
+This error also occours if capacitor is not used in case you are programming with Arduino UNO. ::
 
 	avrdude: stk500_getparm(): (a) protocol error, expect=0x14, resp=0x14
 
@@ -556,15 +558,8 @@ Errors while making USB connection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. **Error**
-	If 90-digispark.rules not found in /etc/udev/rules.d/
 
-	Abort mission! -1 error has occured ...
-	>> Please unplug the device and restart the program.
-
-#. **Error**
-
-Run **dmesg** or **tailf /var/log/syslog** .Following error might occur due to number of reasons.
-If you have used a faulty resistor value or if the zener diodes used are of values other than 3.6V. Check if all the connections are proper specially consulting D- and D+ lines. 
+Run **dmesg** or **tailf /var/log/syslog** .Following error might occur due to number of reasons.If you have used a faulty resistor value or if the zener diodes used are of values other than 3.6V. Check if all the connections are proper specially consulting D- and D+ lines. 
 
  .. image:: images/error_usbconnection.png
     :scale: 250%	
@@ -573,11 +568,14 @@ If you have used a faulty resistor value or if the zener diodes used are of valu
 
 #. **Error**
 
-Bad permissions generally cause the “Abort mission! -1 error has occurred …” error during upload. 
+Bad permissions generally cause the ::
+
+	Abort mission! -1 error has occured ...
+	>> Please unplug the device and restart the program.
 
 “micronucleus: library/micronucleus_lib.c:63: micronucleus_connect: Assertion `res >= 4' failed.” is also a result of bad permissions.So set the required rules in /etc/udev/rules.d/ as explained above to avoid these errors.
 
-`Linux troubleshooting <http://digistump.com/wiki/digispark/tutorials/linuxtroubleshooting>_
+`Linux troubleshooting <http://digistump.com/wiki/digispark/tutorials/linuxtroubleshooting>`_
 
 Serial Monitor
 --------------
