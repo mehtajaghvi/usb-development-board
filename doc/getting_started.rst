@@ -260,7 +260,7 @@ Programming ATTiny85 with Arduino
 #. `cd` to the directory  DigisparkArduino-Linux32/Digispark-Arduino-1.0.4/hardware/tools/ 
     Here you will find the avrdude and avrdude.conf file
 
-#. Next run this command in terminal and see that the device signature matches that of Attiny85 (**0x1e930b**).
+#. Next run this command in terminal and see that the device signature matches that of Attiny85 (**0x1e930b**). ::
 
 	./avrdude -C ./avrdude.conf -b 19200 -c arduino -p t85 -P /dev/ttyACM0 
 
