@@ -87,21 +87,19 @@ Digispark
 
  For more information on the tricks micronucleus uses to add a bootloader on a chip with no built in bootloader features, check out embedded-creations `USBaspLoader-tiny85 site <http://embedded-creations.com/projects/attiny85-usb-bootloader-overview/>`_
 
-
 *Courtsey* BlueBie for detailed explanation
 
 * At what clock speed and voltage level does the circuit work?
 
-It uses the high speed PLL at 16MHz.The internal PLL of Attiny85 generates a clock frequency that is 8x multiplied from a source input. By default, the PLL uses the output of the internal, 8.0 MHz RC oscillator as source and the safe voltage is 3.8V or more for this speed. 16.5mhz is a better clock speed closer to 16.0mhz which is more useful with existing arduino libraries. Also if you Run the attiny85 at < 4v you might even brick it. That puts the chip out of specifications and the results are unpredictable ,sometimes the bootloader will overwrite bits of itself and brick the device requiring a high voltage serial programmer (or regular ISP programmer if you didn't disable the reset pin) to recover.Hence it's suggested to use 5V.
+ It uses the high speed PLL at 16MHz.The internal PLL of Attiny85 generates a clock frequency that is 8x multiplied from a source input. By default, the PLL uses the output of the  internal, 8.0 MHz RC oscillator as source and the safe voltage is 3.8V or more for this speed. 16.5mhz is a better clock speed closer to 16.0mhz which is more useful with existing  arduino libraries. Also if you Run the attiny85 at < 4v you might even brick it. That puts the chip out of specifications and the results are unpredictable ,sometimes the bootloader  will overwrite bits of itself and brick the device requiring a high voltage serial programmer (or regular ISP programmer if you didn't disable the reset pin) to recover.Hence it's  suggested to use 5V.
 
 * What if my code is more than 6 K?
 
  If you are uploading your sketch using Digispark integrated Arduino IDE ,before uploading if you compile the code you will get an idea of how much memory does your code need.So before uploading its a good habit to first compile your code.In case it's more than 6kb it's likely to overwrite your bootloader.In which case you have to rewritw the bootloader using ISP programmer.But you can reupload the bootloader on your chip  only if your reset pin is disabled as I/O (reset HIGH)  otherwise you will need HVSP programmer (In case your reset is enabled as I/O) to reconfigure your chip to be programmed with ISP programmer. Tersely ,it's a matter of fuse settings (specifically the RESET bit of hfuse) of your chip.
 
-
 * Can I use it in other OS ?
 
-It can be used on linux, Aakash tablet running on ubunt12.10 arm version,and various others. This tutorial is dispositioned more towards linux users.
+ It can be used on linux, Aakash tablet running on ubunt12.10 arm version,and various others. This tutorial is dispositioned more towards linux users.
 
 * What all can it  do ?
 
@@ -114,7 +112,6 @@ It can be used on linux, Aakash tablet running on ubunt12.10 arm version,and var
 * What is hex file ?
 
  A hex file is a way to store data, in this case compiled code for an avr microcontroller. It is a common file format and something being a hex file does not mean it can be uploaded on the chip. When you use the Arduino IDE to upload a file to the Digispark your code is compiled into a hex file and then uploaded using the command line tool which is built  into Arduino.
-
 
 * Whats is cdc232.hex ?
 
@@ -196,13 +193,19 @@ How to programme your chip
 ==========================
 Pre-requisite packages
 ----------------------
-#. `arduinoIDE <http://arduino.cc/en/Main/Software>`_ Arduino IDE to use arduino-UNO as ISP to program ATtiny85 chip.
-#.  avrdude ,to install this package run the following coomand in terminal ::
+#. `arduinoIDE <http://arduino.cc/en/Main/Software>`_ 
 
-	sudo apt-get install avrdude
- 
+ Arduino IDE to use arduino-UNO as ISP to flash bootloader and set fuses of ATtiny85 chip.
+
 #. `Bootloader <https://github.com/Bluebie/micronucleus-t85/>`_ 
-#. `DigisparkIDE <http://digistump.com/wiki/digispark/tutorials/connecting>`_ ArduinoIDE integrated with Digispark libraries is required to run programs on your DIY project.
+
+ This repository contains the source of bootloader flashed on ATtiny85.
+
+#. `DigisparkIDE <http://digistump.com/wiki/digispark/tutorials/connecting>`_ ArduinoIDE integrated with Digispark libraries is required to run programs on your DIY project Anuduino.
+
+ It also contains all the tools needed to programme your chip including **avrdude**.
+
+.. note:: Note all the possible errors you might encounter while assembling your circuit are given below
 
 Arduino as ISP
 --------------
@@ -219,7 +222,7 @@ Programming ATTiny85 with Arduino
 ---------------------------------
 #. ArduinoUno uses SPI protocol .To knpw more on this `click here <http://www.google.com/url?q=http%3A%2F%2Fpdp11.byethost12.com%2FAVR%2FArduinoAsProgrammer.htm&sa=D&sntz=1&usg=AFQjCNE7KJzWFBbjRhLtpMYrmUypxO8VHQ>`_
 
- Make the following 6 connections on your breadboard between ArduinoUNO and ATtini85-20PU.Make sure your connections are firm. Improper connections are the major  issue genertating errors.
+ Make the following 6 connections on your breadboard between ArduinoUNO and ATtiny85-20PU.Make sure your connections are firm. Improper connections is the major issue genertating errors.
 
   .. image:: images/ArduinoISP_attiny85.png
      :scale: 250%	
@@ -227,7 +230,7 @@ Programming ATTiny85 with Arduino
      :width: 50
 
 
- **RECHECK**
+ **RECHECK CONNECTIONS**
 
  +------------------------+------------+----------+                                     
  |       PINS             | Attiny85   |ArduinoUNO| 		                      
@@ -250,60 +253,73 @@ Programming ATTiny85 with Arduino
 
 #. `Why do you need a capacitor <http://forum.arduino.cc/index.php/topic,104435.0.html>`_
 
-#. To check if connections are proper before burning hex file 
+#. Next check if you have made proper wired connections before burning bootloader or setting fuses of your chip .
 
-.. note:: change the port to your port /dev/ttyACM* or /dev/ttyUSB* 
+#. For this your need avrdude binary and avrdude.conf file which is available in the package Digispark Integrated Arduino IDE (`available here <http://digistumpcom/wiki/digispark/tutorials/connecting>`_ )
 
-Run this command and see that the signature matches that of Attiny85 (**0x1e930b**) ::
+#. `cd` to the directory  DigisparkArduino-Linux32/Digispark-Arduino-1.0.4/hardware/tools/ 
+    Here you will find the avrdude and avrdude.conf file
 
-	avrdude -p attiny85 -c arduino -b 19200 -P /dev/ttyACM0 
+#. Next run this command in terminal and see that the device signature matches that of Attiny85 (**0x1e930b**).
+
+	./avrdude -C ./avrdude.conf -b 19200 -c arduino -p t85 -P /dev/ttyACM0 
+
+ .. image:: images/chipcheck.png
+     :scale: 250%	
+     :height: 50 	
+     :width: 50
+
+.. note:: change the port to your port /dev/ttyACM* or /dev/ttyUSB* or you might get error(1).
 
 Burning micronucleus.hex and setting fuses
 ------------------------------------------
-* `Bootloader <https://github.com/Bluebie/micronucleus-t85/>`_ 
-
- - Burn the latest version.
- - Depending on your need(jumper version to remove 5 seconds delay).
-   More about this as we proceed.
-
-To upload bootloader you need avrdude.if you don't have avrdude then do sudo apt-get install avrdude ,this will install avrdude in your system.Or otherwise you can also use avrdude binary already available in `Digispark Arduino IDE <http://digistump.com/wiki/digispark/tutorials/connecting>`_.You will find the avrdude binary in DigisparkArduino-Linux32/Digispark-Arduino-1.0.4/hardware/tools folder.
-
-
-./avrdude -C ./avrdude.conf -v -v -v -v -pattiny85 -cusbasp -Pusb -U flash:w:micronucleus-1.04.hex:i
+* Download the following `repository <https://github.com/Bluebie/micronucleus-t85/>`_ which contains the micronucelus bootloader.
 
 **Upload the BOOTLOADER**
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-Before you start anything , there are two versions of bootloader.
+ Before you start anything , there are two versions of bootloader.
 
-* **First** (NORMAL) is : micronucleus-1.06.hex . This is the conventional bootloader which comes with the official DS.In this version of bootloader you have to wait for 5sec for your already written programme to start executing.Within this 5sec the DS checks wether you have some other programme to overwrite already existing programme on the chip,If not it starts the programme already uploaded after a **5 seconds** delay.
+* **First** (NORMAL) is : micronucleus-1.06.hex .This is the conventional bootloader which comes with the official DS.In this version there is a 5 seconds delay prior to execution of  already uploaded sketch.Within this 5sec the anuduino checks wether you have a new programme to overwrite already existing programme on the chip ,If not it starts the programme  already uploaded after a **5 seconds** delay.For eg: say you had programmed your chip to blink led on PB0. Now if you plug in your device after some time ,it will take 5 seconds for  your led to start blinking.
 
 * **Second** (JUMPER) : Now if every second is crucuial to your project and you can't wait for your programme to start after 5 seconds ,there is this another version micronucleus-1.06-jumper-v2-upgrade.hex
 
 
+Bootloader is already available in the IDE you downloaded .It is in the DigisparkArduino-Linux32/DigisparkArduino-1.0.4/hardware/digispark/bootloaders/micronucleus/ folder or you can also obtain the latest version from `micronucelus-t85 repository <https://github.com/Bluebie/micronucleus-t85/>`_.
+
 Uploading the NORMAL version
 +++++++++++++++++++++++++++++
 
-Go to directory where exists micronucleus-t85 folder and run the following ::
+.. note ::change the paths in the following commands to where your folder exists.
 
-	avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"micronucleus-t85-master/firmware/releases/micronucleus-1.06.hex"
+#. `cd` to the directory  DigisparkArduino-Linux32/Digispark-Arduino-1.0.4/hardware/tools/ 
+    Here you will find the avrdude and avrdude.conf file
 
+#. Next run this command in terminal (This will upload the bootloader already available in the ArduinoIDE ::
 
+	./avrdude -C avrdude.conf -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"DigisparkArduino-Linux32/Digispark-		Arduino-1.0.4/hardware/digispark/bootloaders/micronucleus/micronucleus-1.06-upgrade.hex"
+
+#. This will burn the bootloader on your chip.
+
+#.  Next step is to set appropriate fuses.
 
 Uploading the JUMPER version
 ++++++++++++++++++++++++++++
 
-Upload micronucleus1.06-jumper-v2-upgrade.hex ::
+#. Use the latest version of this bootloader available at `micronucelus repository <https://github.com/Bluebie/micronucleus-t85/>`_.You can also copy the bootloader hex file from here and paste it in the IDE's bootloader folder to keep track.
 
-	avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"micronucleus-t85-master/firmware/releases/micronucleus-1.06.hex"
+#. Upload micronucleus1.06-jumper-v2.hex from micronucelus-t85/firmware/releases folder.
 
-Set fuses of the attiny85-20PU
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+#. Set path in the following command to where your bootloader hex file is located. ::
+
+	./avrdude -C avrdude.conf -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"micronucleus-t85-master/firmware/releases/micronucleus-1.06-upgrade.hex"
+
+Setting fuses of the attiny85-20PU
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Now just like bootloader versions we have two different fuse settings as well
 
 **First** In case you want to 6 I/O including reset pin (reset pin enabled).You get 6 I/O but at a cost that you can't reprogramme your chip using any ISP programmer now.
-You can use this setting for **both** bootloader versions ,Normal as well as Jumper version.
-
+You can use this setting for **both** bootloader versions ,Normal as well as Jumper version. Reset Pin acts as weak (I/O).
 
 **Second** In this case you can still programme your chip using ISP programmer but you will have just 5 I/O excluding reset pin(reset pin disabled).
 These fuse settings **won't** work with Jumper version of bootloader.Jumper version required a jumper between the resest pin and GND to upload the programme.
@@ -311,6 +327,7 @@ These fuse settings **won't** work with Jumper version of bootloader.Jumper vers
 
 Fuse setting(Reset **disabled** as I/O)
 ++++++++++++++++++++++++++++++++++++++++
+
  .. note:: These fuses setting will not enable reset pin (ATTINY85 pin 1) as I/O, so you only have 5 I/O instead of 6 I/O 
 
  .. image:: images/resetdisabled.png
@@ -318,10 +335,12 @@ Fuse setting(Reset **disabled** as I/O)
      :height: 50 	
      :width: 50 
 
-Run the  following command in terminal ::   
- 
-	avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m
 
+* `cd` to the directory  DigisparkArduino-Linux32/Digispark-Arduino-1.0.4/hardware/tools/ 
+    Here you will find the avrdude and avrdude.conf file
+*  Run the  following command in terminal ::   
+ 
+	./avrdude -C avrdude.conf -p t85 -c arduino -P /dev/ttyACM0 -b 19200 -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m
 
 Fuse setting(Reset **enabled** as I/O)
 +++++++++++++++++++++++++++++++++++++++
@@ -332,14 +351,17 @@ Fuse setting(Reset **enabled** as I/O)
 
  .. warning:: If you use the above fuse settings you can't reprogramme your IC with an ISP programmer until you have a High volt fuse resetter .This is because reset pin is enabled as I/O.
 
-#. Set fuses to enable the reset pin to be used as I/O  lfuse:0xe1	**hfuse:0x5d** efuse:0xfe ::
+*  Set fuses to enable the reset pin to be used as I/O  lfuse:0xe1	**hfuse:0x5d** efuse:0xfe 
 
-	avrdude -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U lfuse:w:0xe1:m -U hfuse:w:0x5d:m -U efuse:w:0xfe:m
+* `cd` to the directory  DigisparkArduino-Linux32/Digispark-Arduino-1.0.4/hardware/tools/   Here you will find the avrdude and avrdude.conf file.
 
+*  Run the  following command in terminal ::   
+ 
+	./avrdude -C avrdude.conf -p t85 -c arduino -P /dev/ttyACM0 -b 19200 -U lfuse:w:0xe1:m -U hfuse:w:0x5d:m -U efuse:w:0xfe:m
 
-#. Now if you are done with the above two steps you are ready to programme.
+*  Now if you are done with the above two steps (burning bootloader and setting fuses) you are ready to upload sketches.
 
- After the above two steps are accomplished ,make all the USB connections and follow the next step.
+ After the above two steps are accomplished ,make the following USB connections and follow the next step.
 
 USB Connections
 ===============
@@ -493,6 +515,15 @@ Error when using ISP
            Redo your connections and see that no wire is loose.
 
 #. **Error**
+ 
+This error occurs as your arduinoUNO might be on a serial port other than /dev/ttyACM0 ::
+ 
+	avrdude: ser_open(): can't open device "/dev/ttyACM0": No such file or directory
+	ioctl("TIOCMGET"): Invalid argument
+
+
+
+#. **Error** ::
 	avrdude: please define PAGEL and BS2 signals in the configuration file for part ATtiny85
 	avrdude: AVR device initialized and ready to accept instructions
 
@@ -503,7 +534,7 @@ Error when using ISP
 		 Double check connections and try again, or use -F to override
 		 this check.
 
-#. **Error**
+#. **Error** 
 
 .. note::  If baud rate is note set properly then stk500 error is encountered.
 	This error also occours if capacitor is not used in case you are programming with Arduino UNO.
@@ -516,7 +547,8 @@ Error when using ISP
 		 Double check connections and try again, or use -F to override
 		 this check.
 
-#. **Error**
+#. **Error** ::
+
 	avrdude: stk500_getsync(): not in sync: resp=0xe0
 
 
@@ -532,7 +564,7 @@ Errors while making USB connection
 #. **Error**
 
 Run **dmesg** or **tailf /var/log/syslog** .Following error might occur due to number of reasons.
-If you have used a faulty resistor value or if the zener diodes used are of values other than 3.6V then following occurs. Check if all the connections are proper specially consulting D- and D+ lines. 
+If you have used a faulty resistor value or if the zener diodes used are of values other than 3.6V. Check if all the connections are proper specially consulting D- and D+ lines. 
 
  .. image:: images/error_usbconnection.png
     :scale: 250%	
@@ -541,22 +573,14 @@ If you have used a faulty resistor value or if the zener diodes used are of valu
 
 #. **Error**
 
-> Please plug in the device ... 
-
-> Press CTRL+C to terminate the program.
-
-If you try to burn cdc232.hex or any other hex file  via arduinoISP or any other ISP programmer the above error occurs.This is because once the bootloader is burn on chip ,the fuses disable the reset pin thus preventing any other hex file to be programmed on chip by an ISP programmer.
-
-#. **Error**
-
 Bad permissions generally cause the “Abort mission! -1 error has occurred …” error during upload. 
 
 “micronucleus: library/micronucleus_lib.c:63: micronucleus_connect: Assertion `res >= 4' failed.” is also a result of bad permissions.So set the required rules in /etc/udev/rules.d/ as explained above to avoid these errors.
+
 `Linux troubleshooting <http://digistump.com/wiki/digispark/tutorials/linuxtroubleshooting>_
 
 Serial Monitor
 --------------
-
 You can either use Digisparks official monitor or use Bluebie's digiterm written in ruby.
 
 Digiterm 
