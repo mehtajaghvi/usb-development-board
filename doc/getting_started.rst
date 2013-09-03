@@ -408,7 +408,7 @@ Uploading Programme
 
 * `DigisparkIDE <http://digistump.com/wiki/digispark/tutorials/connecting>`_ ArduinoIDE integrated with Digispark libraries is required to run programs on your DIY project.
 
-(Normal Version of Bootloader)
+Normal Version of Bootloader
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  
@@ -436,8 +436,8 @@ Uploading Programme
       :height: 50 	
       :width: 50
 
-(Jumper Version of Bootloader)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Jumper Version of Bootloader
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #. Jumper version removes 5 sec ddelay.
 
 #. Board--->Digispark(TinyCore)
@@ -463,11 +463,11 @@ Go to DigisparkArduino-Linux32/Digispark-Arduino-1.0.4/hardware/tools folder and
 
 	sudo ./micronucleus --run Blink.hex
 
- or if your hex file is stored elsewhere then ::
+or if your hex file is stored elsewhere then ::
 
 	sudo ./micronucelus --run /home/jaghvi/program/Blink.hex
 
- **OR** you can 
+**OR** you can 
 
 #. Download micronucelus-t85 folder from `github <https://github.com/Bluebie/micronucleus-t85/>`_ (you might have this already ,micronucelus bootloader was taken from this)
 
