@@ -284,7 +284,7 @@ Burning micronucleus.hex and setting fuses
 * **Second** (JUMPER) : Now if every second is crucuial to your project and you can't wait for your programme to start after 5 seconds ,there is this another version micronucleus-1.06-jumper-v2-upgrade.hex
 
 
-Bootloader is already available in the IDE you downloaded .It is in the DigisparkArduino-Linux32/DigisparkArduino-1.0.4/hardware/digispark/bootloaders/micronucleus/ folder or you can also obtain the latest version from `micronucelus-t85 repository <https://github.com/Bluebie/micronucleus-t85/>`_.
+Bootloader is already available in the IDE you downloaded .It is in the DigisparkArduino-Linux32/DigisparkArduino-1.0.4/hardware/digispark/bootloaders/micronucleus/ folder or you can also obtain the latest version from `micronucelus-t85 repository <https://github.com/Bluebie/micronucleus-t85/tree/master/firmware/releases>`_.
 
 Uploading the NORMAL version
 +++++++++++++++++++++++++++++
@@ -305,7 +305,7 @@ Uploading the NORMAL version
 Uploading the JUMPER version
 ++++++++++++++++++++++++++++
 
-#. Use the latest version of this bootloader available at `micronucelus repository <https://github.com/Bluebie/micronucleus-t85/>`_.You can also copy the bootloader hex file from here and paste it in the IDE's bootloader folder to keep track.
+#. Use the latest version of this bootloader available at `micronucelus repository <https://github.com/Bluebie/micronucleus-t85/tree/master/firmware/releases>`_.You can also copy the bootloader hex file from here and paste it in the IDE's bootloader folder to keep track.
 
 #. Upload micronucleus1.06-jumper-v2.hex from micronucelus-t85/firmware/releases folder.
 
