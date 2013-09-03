@@ -20,12 +20,16 @@ Digispark
  Arduino is an open-source electronics prototyping platform. It's intended for artists, designers, hobbyists and anyone interested in creating interactive objects or environments but             tad too expensive ($15) for small projects or if you are new to electronics.We started exploring Digispark project which has developed a 9$ ATtiny-85 Arduino compatible board.  
  We have redesigned the circuit with optimized components and used  DIP packages and single sided PCB to reduce cost to less than 3$.
 
-* Difference between arduino and digispark ?
+* Why anuduino ?
+
+ It is micro-sized, Arduino enabled, usb development board - cheap enough to jumpstart electronics.It is easy to make Do It Yourself project either using its kicad files or on breadboard.
+
+* Difference between arduino and anuduino ?
 
  +  ArduinoUNO uses ATmega328 microcontroller with 32Kb of flash memory of which 5Kb is used by the bootloader whereas Digispark has 8Kb of flash memory with 2Kb occupied by   bootloader,so you have around **6Kb** of memory left for code.
 
  +------------------------+------------+----------+                                     
- |       Memory           | Digispark  |ArduinoUNO| 		                      
+ |       Memory           | Anuduino   |ArduinoUNO| 		                      
  |                        |            |          |         			
  +========================+============+==========+
  |Flash(Total)            | 8k bytes   |32k bytes | 
@@ -38,7 +42,7 @@ Digispark
  +------------------------+------------+----------+
 
  +------------------------+------------+----------+                                     
- |       PINS             | Digispark  |ArduinoUNO| 		                      
+ |       PINS             | Anuduino   |ArduinoUNO| 		                      
  |                        |            |          |         			
  +========================+============+==========+
  |Total                   |8           |32        | 
@@ -52,9 +56,9 @@ Digispark
    	
 .. note :: The above comparison was made in comparison with Arduino UNO which is pretty common.There are other variants of Arduino with more cost ,more memory and features as well. 
 
-* What is digispark ?
+* What is Anuduino ?
 
- + Digispark is an **ATtiny85** based microcontroller development board with USB interface.
+ + Anuduino is an **ATtiny85** based microcontroller development board with USB interface.
  + It uses the familiar Arduino IDE for development.
  + PWM on 3 pins 
  + ADC on 4 pins
@@ -62,28 +66,7 @@ Digispark
  + 6 I/O pins (2 are used for USB only if your program actively communicates over USB, otherwise you can use all 6 even if you are programming via USB)
  + 8 KB flash memory (about 6 KB after bootloader)
 
-* Why digispark ?
 
- It is micro-sized, Arduino enabled, usb development board - cheap enough to jumpstart electronics.It is easy to make Do It Yourself project.
-
-* How serial communication occurs ?
-
- The Digispark does not have a hardware serial port nor a hardware serial to USB converter. An example library (DigiUSB) is provided, as well as some example code and a serial monitor     like program, but communication with the computer will not always be plug and play, especially when other libraries are involved.
- Pin 3 and Pin 4 (PB3 and PB4) are used for USB communication and programming, while you can use them in your circuit if you are not using USB communication.
- Pin 3 (P3 or D- Pin of USB) has a 1.5 kΩ pull-up resistor attached to it which is required for when P3 and P4 are used for USB communication (including programming). Your design may need to take into  account that you'd have to overpower this to pull this pin low.
-
-
-* At what clock speed and voltage level does the circuit work?
-
-It uses the high speed PLL at 16MHz and not the internal RC oscillator and the safe voltage is 3.8V or more for this speed. 16.5mhz is a better clock speed closer to 16.0mhz which is more useful with existing arduino libraries. Also if you Run the attiny85 at < 4v you might even brick it. That puts the chip out of specifications and the results are unpredictable ,sometimes the bootloader will overwrite bits of itself and brick the device requiring a high voltage serial programmer (or regular ISP programmer if you didn't disable the reset pin) to recover.Hence it's suggested to use 5V.
-
-* What if my code is more than 6 K?
-
- If you are uploading your sketch using Digispark integrated Arduino IDE ,before uploading if you compile the code you will get an idea of how much memory does your code need.So before uploading its a good habit to first compile your code.In case it's more than 6kb it's likely to overwrite your bootloader.In which case you have to rewritw the bootloader using ISP programmer.But you can reupload the bootloader on your chip  only if your reset pin is disabled as I/O (reset HIGH)  otherwise you will need HVSP programmer (In case your reset is enabled as I/O) to reconfigure your chip to be programmed with ISP programmer. Tersely ,it's a matter of fuse settings (specifically the RESET bit of hfuse) of your chip.
-
-* What is hex file ?
-
- A hex file is a way to store data, in this case compiled code for an avr microcontroller. It is a common file format and something being a hex file does not mean it can be uploaded on the chip. When you use the Arduino IDE to upload a file to the Digispark your code is compiled into a hex file and then uploaded using the command line tool which is built  into Arduino.
 
 * How micronucleus bootloader works ?
 
@@ -107,12 +90,38 @@ It uses the high speed PLL at 16MHz and not the internal RC oscillator and the s
 
 *Courtsey* BlueBie for detailed explanation
 
+* At what clock speed and voltage level does the circuit work?
+
+It uses the high speed PLL at 16MHz.The internal PLL of Attiny85 generates a clock frequency that is 8x multiplied from a source input. By default, the PLL uses the output of the internal, 8.0 MHz RC oscillator as source and the safe voltage is 3.8V or more for this speed. 16.5mhz is a better clock speed closer to 16.0mhz which is more useful with existing arduino libraries. Also if you Run the attiny85 at < 4v you might even brick it. That puts the chip out of specifications and the results are unpredictable ,sometimes the bootloader will overwrite bits of itself and brick the device requiring a high voltage serial programmer (or regular ISP programmer if you didn't disable the reset pin) to recover.Hence it's suggested to use 5V.
+
+* What if my code is more than 6 K?
+
+ If you are uploading your sketch using Digispark integrated Arduino IDE ,before uploading if you compile the code you will get an idea of how much memory does your code need.So before uploading its a good habit to first compile your code.In case it's more than 6kb it's likely to overwrite your bootloader.In which case you have to rewritw the bootloader using ISP programmer.But you can reupload the bootloader on your chip  only if your reset pin is disabled as I/O (reset HIGH)  otherwise you will need HVSP programmer (In case your reset is enabled as I/O) to reconfigure your chip to be programmed with ISP programmer. Tersely ,it's a matter of fuse settings (specifically the RESET bit of hfuse) of your chip.
+
+
+* Can I use it in other OS ?
+
+It can be used on linux, Aakash tablet running on ubunt12.10 arm version,and various others. This tutorial is dispositioned more towards linux users.
+
+* What all can it  do ?
+
+ It can be integrated with number of sensors (IR,proxomity,temperature) ,bluetooth module ,GPRS etc.
+
+* How serial communication occurs ?
+
+ The anuduino does not have a hardware serial port nor a hardware serial to USB converter.  `V-USB <http://www.obdev.at/products/vusb/index.html>`_ is a software-only implementation of a low-speed USB device for Atmel’s AVR® microcontrollers, making it possible to build USB hardware with almost any AVR® microcontroller, not requiring any additional chip for serial conversion.Buebie wrote the micronucelus bootloader which uses the V-USB project and renders anuduino to be used as usb development board without need of any additional chip.
+
+* What is hex file ?
+
+ A hex file is a way to store data, in this case compiled code for an avr microcontroller. It is a common file format and something being a hex file does not mean it can be uploaded on the chip. When you use the Arduino IDE to upload a file to the Digispark your code is compiled into a hex file and then uploaded using the command line tool which is built  into Arduino.
+
+
 * Whats is cdc232.hex ?
 
  cdc232 is a version of `this <http://www.recursion.jp/avrcdc/cdc-232.html>`_  project  that runs on the Digispark, Bluebie, the maker of micronucleus included this in the micronucleus repository for people who might want it - basically it makes a Digispark into a cheap USB to serial converter.It's just like any other sketch or hex file and will be overwritten if you upload any other sketch say Blink.hex.
 
 
-* If you upload sketches with DigiUSB libraries it detects as USB-HID device and not TTY device.
+* If you upload sketches with DigiUSB libraries it detects as USB-HID device 
 
  It's ok if the digispark doesn't detect as ttyACM device ,if a device detects as tty device it means it is a USB-serial device.But Digispark in not a USB-serial device ,it does not provide USB-serial interface. So when you plug your digispark ,the serial port tab of digispark integrated arduino IDE will be greyed out .What is it then?
 
@@ -124,14 +133,6 @@ It uses the high speed PLL at 16MHz and not the internal RC oscillator and the s
       :scale: 100%	
       :height: 200 	
       :width: 200
-
-* Can I use it in other OS ?
-
-It can be used on linux,Aakash using arm version ,and other operating systems. This tutorial is dispositioned towards linux users.
-
-* What all can it  do ?
-
- It can be integrated with number of sensors (IR,proxomity,temperature) ,bluetooth module ,GPRS etc.
 
 
 Hardware requirement to build the project
@@ -145,16 +146,16 @@ All you need is:
       :height: 100 	
       :width: 200
 
-.. warning:: Make sure your ATtiny85 is the 20 variety,and not an ATtiny85v-10. The v version is low voltage and  totally out of spec for USB stuff like the micronucleus bootloader.
+ Atmel's  ATtiny85 8-Bit Processor. 8K of program space, 6 I/O lines, and 4-channel 10 bit ADC. 
+
+.. warning:: Make sure your ATtiny85 is the 20 variety (ATtinny85-20PU),and not an ATtiny85-10PU. The v version is low voltage and  totally out of spec for USB stuff like the micronucleus bootloader.
 
 **Two** 3.6V Zener Diode
 
- **Zener diodes**:Power rating is critical, but not in the way you might expect.Most of the time it's perfectly safe to overrate your parts and use a component with a higher rating  than required for this particular circuit. However, in this case that approach can actually prevent the circuit from working because the trade-off in Zener diode design is that as its   power rating increases it also exhibits more capacitance. Capacitance on a high-speed data line is very bad and needs to be avoided or the circuit simply won't work. In practice, a  1/4W Zener should work fine; a 1/2W Zener should work, but is a bit on the borderline; and a 1W Zener almost certainly won't work it will have too much capacitance.
+ **Zener diodes**:Power rating is critical .Most of the time it's perfectly safe to overrate your parts and use a component with a higher rating  than required for this particular circuit. However, in this case that approach can actually prevent the circuit from working because the trade-off in Zener diode design is that as its  power rating increases it also exhibits more capacitance. Capacitance on a high-speed data line is very bad and needs to be avoided or the circuit simply won't work. In practice, a  1/4W Zener should work fine; a 1/2W Zener should work, but is a bit on the borderline; and a 1W Zener almost certainly won't work it will have too much capacitance.
+ It's a simple circuit, USB socket gets its +5V power line from the usual place, and the 3.3V data lines use three resistors and two **3.6V** 1/4W Zeners to reduce the Arduino's 5V to  3.3V.Purpose of zener diode is essential for the circuit.Even though the power supply line is 5v,communication line work at nominal 3.3V.The D- and D+ lines are dependent signalling  lines unlike tx ,rx in RS232 .They are half duplexed diferrential signalling pair helping the USB to run at high data speeds by reducing the effects of electrical noise.
 
- It's a simple circuit USB socket gets its +5V power line from the usual place, and the 3.3V data lines use three resistors and two **3.6V** 1/4W Zeners to reduce the Arduino's 5V to  3.3V. 
- Purpose of zener diode is essential for the circuit.Even though the power supply line is 5v,communication line work at nominal 3.3 v.The D- and D+ lines are dependent signalling  lines unlike tx ,rx in RS232 .They are half duplexed diferrential signalling pair helping the USB to run at high data speeds by reducing the effects of electrical noise.
-
- While assembling my circuit I happend to use 4.8V instead of 3.6V ,without doubt I got error(2) message.Check below error(2).
+ While assembling my circuit I happend to use 4.8V instead of 3.6V zener, without doubt I got error(2) message.Check below error(2).
 
 **Three** resistors 
 
@@ -166,7 +167,7 @@ All you need is:
      :height: 50 	
      :width: 50
 
- Not just a faulty diode value can get you crazy for your circuit won't detect ,resistor can be the culprit too.Like in case by chance you use 15k instead of 1.5k ,wondering how,its just a matter of seeing red band as orange and orange as red in super excitement may be.Ya ,I made this terrible mistake too. Learn from it.Many people have used 1.8K and few nearby resistor values so just in case you are short of 1.5k then you might use other values without much ado.
+ Not just a faulty diode value can drive you crazy,for your circuit won't detect ,resistor can be the culprit too.Like in case by chance you use 15k instead of 1.5k ,wondering how,its just a matter of seeing red band as orange and orange as red in super excitement may be.Ya ,I made this terrible mistake too. Learn from it.Many people have used 1.8K and few nearby resistor values so just in case you are short of 1.5k then you might use other values without much ado.
 
 - 2x68 ohm
  
@@ -183,12 +184,8 @@ Broken USB-A cable if you don't have the PCB and you plan to make it on a breadb
      :width: 50
  
 
-
-For KICAD files click `this link <www.github.com/mehtajaghvi/Digispark-on-breadboard/pcb_IITB_singlesided_4x2>`_
+For KICAD files click `this link <www.github.com/androportal/anuduino/pcb_IITB_singlesided_4x2>`_
  
-In the folder you will get the kicad files including ps file ,to print your own PCB board. It's a single sided (FRONT) and with enough trackwidth for you to develop it on your  own.You just need to print the digispark-Front.ps file to make it.
-
-
   .. image:: images/cad.png
       :scale: 250%	
       :height: 50 	
@@ -197,25 +194,57 @@ In the folder you will get the kicad files including ps file ,to print your own 
 
 How to programme your chip
 ==========================
+Pre-requisite packages
+----------------------
+#. `arduinoIDE <http://arduino.cc/en/Main/Software>`_ Arduino IDE to use arduino-UNO as ISP to program ATtiny85 chip.
+#.  avrdude ,to install this package run the following coomand in terminal ::
+
+	sudo apt-get install avrdude
+ 
+#. `Bootloader <https://github.com/Bluebie/micronucleus-t85/>`_ 
+#. `DigisparkIDE <http://digistump.com/wiki/digispark/tutorials/connecting>`_ ArduinoIDE integrated with Digispark libraries is required to run programs on your DIY project.
+
 Arduino as ISP
 --------------
-#. `arduinoIDE <http://arduino.cc/en/Main/Software>`_ Arduino IDE to use arduino-UNO as ISP to program ATtiny85 chip.
+#. `arduinoIDE <http://arduino.cc/en/Main/Software>`_ Arduino IDE to use arduino-UNO as ISP to program your ATtiny85 chip.
 #. Plug in your arduino board 
 #. File-->Examples-->ArduinoISP
 #. Tools-->Board-->Arduino UNO 
-#. Tools-->Serial Port-->/dev/ttyACM0
-
-.. note:: Serial Port may be /dev/ttyACM1 
+#. Tools-->Serial Port-->/dev/ttyACM*
+#. Upload the sketch on your arduinoUNO.
+#. Now you can use it to burn bootloader on your Attiny85 chip.
+#. `ArduinoISP Tutorial <http://www.google.com/url?q=http%3A%2F%2Fpdp11.byethost12.com%2FAVR%2FArduinoAsProgrammer.htm&sa=D&sntz=1&usg=AFQjCNE7KJzWFBbjRhLtpMYrmUypxO8VHQ>`_
 
 Programming ATTiny85 with Arduino
 ---------------------------------
-#. To know more about SPI protocol `here <http://www.google.com/url?q=http%3A%2F%2Fpdp11.byethost12.com%2FAVR%2FArduinoAsProgrammer.htm&sa=D&sntz=1&usg=AFQjCNE7KJzWFBbjRhLtpMYrmUypxO8VHQ>`_
+#. ArduinoUno uses SPI protocol .To knpw more on this `click here <http://www.google.com/url?q=http%3A%2F%2Fpdp11.byethost12.com%2FAVR%2FArduinoAsProgrammer.htm&sa=D&sntz=1&usg=AFQjCNE7KJzWFBbjRhLtpMYrmUypxO8VHQ>`_
 
- .. image:: images/ArduinoISP_attiny85.png
-    :scale: 250%	
-    :height: 50 	
-    :width: 50
+ Make the following 6 connections on your breadboard between ArduinoUNO and ATtini85-20PU.Make sure your connections are firm. Improper connections are the major  issue genertating errors.
 
+  .. image:: images/ArduinoISP_attiny85.png
+     :scale: 250%	
+     :height: 50 	
+     :width: 50
+
+
+ **RECHECK**
+
+ +------------------------+------------+----------+                                     
+ |       PINS             | Attiny85   |ArduinoUNO| 		                      
+ |                        |            |          |         			
+ +========================+============+==========+
+ |MOSI                    |PB0         |11        | 
+ +------------------------+------------+----------+
+ |MISO                    |PB1         |12        |         
+ +------------------------+------------+----------+
+ |SCK                     |PB2         |13        |         
+ +------------------------+------------+----------+
+ |RESET                   |PB5         |10        |          
+ +------------------------+------------+----------+
+ |VCC                     |Pin8        |5V        |          
+ +------------------------+------------+----------+
+ |GND                     |Pin4        |GND       |          
+ +------------------------+------------+----------+
 
 .. warning:: If you are programming with Arduino UNO then use a **10uF** capacitor between RESET and GND of arduino UNO.
 
@@ -225,7 +254,7 @@ Programming ATTiny85 with Arduino
 
 .. note:: change the port to your port /dev/ttyACM* or /dev/ttyUSB* 
 
-Run this command and see that the signature match that of Attiny85 (**0x1e930b**) ::
+Run this command and see that the signature matches that of Attiny85 (**0x1e930b**) ::
 
 	avrdude -p attiny85 -c arduino -b 19200 -P /dev/ttyACM0 
 
@@ -237,6 +266,10 @@ Burning micronucleus.hex and setting fuses
  - Depending on your need(jumper version to remove 5 seconds delay).
    More about this as we proceed.
 
+To upload bootloader you need avrdude.if you don't have avrdude then do sudo apt-get install avrdude ,this will install avrdude in your system.Or otherwise you can also use avrdude binary already available in `Digispark Arduino IDE <http://digistump.com/wiki/digispark/tutorials/connecting>`_.You will find the avrdude binary in DigisparkArduino-Linux32/Digispark-Arduino-1.0.4/hardware/tools folder.
+
+
+./avrdude -C ./avrdude.conf -v -v -v -v -pattiny85 -cusbasp -Pusb -U flash:w:micronucleus-1.04.hex:i
 
 **Upload the BOOTLOADER**
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -318,6 +351,7 @@ USB Connections
 
 Device Detection
 ----------------
+#. A vendor ID is necessary for developing a USB product. 
 
 run command **dmesg** or **tailf /var/log/syslog** in terminal to check the vendorID and productID
  
@@ -399,20 +433,33 @@ Uploading Programme
 Uploading from commandline
 --------------------------
 
+How to use the command line tool:
+
+#. You can either use the **micronucelus** binary already available in the `Digispark-Arduino IDE <http://digistump.com/wiki/digispark/tutorials/connecting>`_ which you must have already downloaded by now.
+
+Go to DigisparkArduino-Linux32/Digispark-Arduino-1.0.4/hardware/tools folder and run the following command in terminal ::
+
+	sudo ./micronucleus --run Blink.hex
+
+ or if your hex file is stored elsewhere then ::
+
+	sudo ./micronucelus --run /home/jaghvi/program/Blink.hex
+
+ **OR** you can 
+
+#. Download micronucelus-t85 folder from `github <https://github.com/Bluebie/micronucleus-t85/>`_ (you might have this already ,micronucelus bootloader was taken from this)
+
  .. image:: images/commandlineupload.png
      :scale: 250%	
      :height: 50 	
      :width: 50
 
- To use the command line tool:
-
-#. Download micronucelus-t85 folder from `github <https://github.com/Bluebie/micronucleus-t85/>`_
-#. In that folder go to commandline folder and do make
+#. In that folder go to commandline folder and do **make**
 #. A micronucelus binary is formed.
 #. You can see micronucelus --help to know all the options.
 #. Run the following command to upload the hex file.  ::
 
-	sudo ./micronucleus --run /home/jaghvi/sketches/Blink/Blink.hex
+	sudo ./micronucleus --run Blink.hex
 
 If you get this error try to run it again :: 
 
@@ -547,9 +594,8 @@ LM35 Temperature sensor and plotting real time sensor data using gnuplot
     :height: 50 	
     :width: 50
 
-
  .. image:: images/lm35.png
-    :scale: 250%	
+    :scale: 150%	
     :height: 50 	
     :width: 50
 
@@ -569,7 +615,7 @@ Suggested LINKS
 
 #. `ArduinoISP Tutorial <http://www.google.com/url?q=http%3A%2F%2Fpdp11.byethost12.com%2FAVR%2FArduinoAsProgrammer.htm&sa=D&sntz=1&usg=AFQjCNE7KJzWFBbjRhLtpMYrmUypxO8VHQ>`_
 
-#. `Tutorial <http://digistump.com/wiki/digispark/tutorials/basics>`_
+#. `Basic tutorial <http://digistump.com/wiki/digispark/tutorials/basics>`_
 
 #. `Digispark Forum <http://digistump.com/board/index.php>`_
 
