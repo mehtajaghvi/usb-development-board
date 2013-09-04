@@ -189,6 +189,23 @@ For KICAD files click `this link <www.github.com/androportal/anuduino/pcb_IITB_s
       :width: 50
 
 
+ .. image:: images/pinout.png
+      :scale: 250%	
+      :height: 50 	
+      :width: 50
+
+
+ .. image:: images/resistor.png
+      :scale: 250%	
+      :height: 50 	
+      :width: 50
+
+ .. image:: images/diode.png
+      :scale: 250%	
+      :height: 50 	
+      :width: 50
+
+
 How to programme your chip
 ==========================
 Pre-requisite packages
