@@ -198,7 +198,17 @@ For KICAD files click `this link <www.github.com/androportal/anuduino/kicad_file
 
 .. note :: The anode side of both diode is grounded and cathode side is connected to data lines.
 
- .. image:: images/diode.png
+  .. image:: images/diode.png
+       :scale: 250%	
+       :height: 50 	
+       :width: 50
+
+ .. image:: images/back.png
+      :scale: 250%	
+      :height: 50 	
+      :width: 50
+
+ .. image:: images/back_original.png
       :scale: 250%	
       :height: 50 	
       :width: 50
@@ -386,7 +396,7 @@ Fuse setting(Reset **enabled** as I/O)
 USB Connections
 ===============
 
- .. image:: images/digispark_breadboard_bb.jpg
+ .. image:: images/breadboard_bb.jpg
     :scale: 250%	
     :height: 50 	
     :width: 50
