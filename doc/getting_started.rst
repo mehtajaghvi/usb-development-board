@@ -1,4 +1,4 @@
-Digispark
+Anuduino
 =========
 
 .. contents::
@@ -159,7 +159,7 @@ All you need is:
 - 1x1.5K ohm
 
 
- .. image:: images/1.5k.png
+ .. image:: images/1.5k.jpeg
      :scale: 250%	
      :height: 50 	
      :width: 50
@@ -168,7 +168,7 @@ All you need is:
 
 - 2x68 ohm
  
- .. image:: images/r63.png
+ .. image:: images/r63.jpeg
      :scale: 250%	
      :height: 50 	
      :width: 50
@@ -183,13 +183,7 @@ Broken USB-A cable if you don't have the PCB and you plan to make it on a breadb
 
 For KICAD files click `this link <www.github.com/androportal/anuduino/pcb_IITB_singlesided_4x2>`_
  
-  .. image:: images/anudruino.png
-      :scale: 250%	
-      :height: 50 	
-      :width: 50
-
-
- .. image:: images/pinout.png
+  .. image:: images/pinout.png
       :scale: 250%	
       :height: 50 	
       :width: 50
