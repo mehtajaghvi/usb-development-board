@@ -2,6 +2,8 @@
 Anuduino Kicad 
 ===============
 
+Kicad libraries
+---------------
 
 The .lib file contains the schematic symbols and the .mod file contains footprints.You can extract the file to wherever you like. Just remember to tell eeschema and cvpcb where those files are.These two files have been added for USB-A-PCB module to be directly etched on PCB.
  #. To copy the files to /use/share/kicad/ you need root permissions.
@@ -15,11 +17,12 @@ The .lib file contains the schematic symbols and the .mod file contains footprin
  #. Now to add the module file to project go to Cvpcb-->Preferences-->library-->Add-->Sparkfun.mod
 
 
-Now to design you own PCB
+Desgin your PCB
+---------------
 
 * Anuduino is single layer PCB board.All its connections are on **front** side.It has been possible because most of the components are placed at back and few in front. 
 
-.. warning :: your circuit needs to be printed on FRONT side.If by mistake you print it back all your efforts will be wasted as when you insert a USB GND has to match to GND ,VCC to VCC and so on... Printing on the back will reverse the GND and VCC and the PCB will be useless.
+.. warning :: your circuit needs to be printed on FRONT side.If by mistake you print it back all your efforts will be wasted as when you insert a USB GND has to match to GND ,VCC to VCC and so on... Printing on the back will reverse the GND and VCC and the PCB will be rendered useless.
 * You just need tp print the anuduino-Front.ps 
 
   .. image:: images/cad.png
@@ -27,7 +30,7 @@ Now to design you own PCB
       :height: 50 	
       :width: 50
 
-* Once you have the PCB. Open the getting_started.rst in doc folder.It contains detailed explanation of what all you need and how you have to proceedfurther.
+* Once you have the PCB. Open the getting_started.rst in doc folder.It contains detailed explanation of what all you need and how you have to proceed further.
 
 
 
