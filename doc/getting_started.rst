@@ -198,7 +198,7 @@ For KICAD files click `this link <www.github.com/androportal/anuduino/kicad_file
 
 .. note :: The anode side of both diode is grounded and cathode side is connected to data lines.
 
-  .. image:: images/diode.png
+ .. image:: images/diode.png
        :scale: 250%	
        :height: 50 	
        :width: 50
