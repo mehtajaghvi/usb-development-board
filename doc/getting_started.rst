@@ -26,7 +26,7 @@ Anuduino
 
 * Difference between arduino and anuduino ?
 
- +  ArduinoUNO uses ATmega328 microcontroller with 32Kb of flash memory of which 5Kb is used by the bootloader whereas Digispark has 8Kb of flash memory with 2Kb occupied by   bootloader,so you have around **6Kb** of memory left for code.
+ +  ArduinoUNO uses ATmega328 microcontroller with 32Kb of flash memory of which 5Kb is used by the bootloader whereas anuduino has 8Kb of flash memory with 2Kb occupied by   bootloader,so you have around **6Kb** of memory left for code.
 
  +------------------------+------------+----------+                                     
  |       Memory           | Anuduino   |ArduinoUNO| 		                      
@@ -70,29 +70,28 @@ Anuduino
 
 * How micronucleus bootloader works ?
 
- Micronucleus is a bootloader designed for AVR tiny 85 chips with a minimal usb interface.Micronucelus is the the code that is installed on the device  using an avr programmer. This  code allows the Digispark to act like a USB device, receives code, and when it receives code erase the code previously loaded. It also runs the code loaded onto it after a 5 second  delay (if bootloaderis normal version) if it does not receive a request to upload new code within that 5 seconds.
+ Micronucleus is a bootloader designed for AVR tiny 85 chips with a minimal usb interface.Micronucelus is the the code that is installed on the device  using an avr programmer. This  code allows the anuduino to act like a USB device, receives code, and when it receives code erase the code previously loaded. It also runs the code loaded onto it after a 5 second  delay (if bootloaderis normal version) if it does not receive a request to upload new code within that 5 seconds.
 
- It is a small V-USB program, similar to the DigiUSB, DigiKeyboard, and other usb related libraries in the digispark arduino software. Normally programs exist at the very beginning of  the flash memory in the attiny85 chip, but micronucleus has been modified so the start of the program is about 6kb of 0xFF bytes (In other words all the bits in 6Kb are high).
+ It is a small V-USB program, similar to the DigiUSB, DigiKeyboard, and other usb related libraries. Normally programs exist at the very beginning of  the flash memory in the attiny85 chip, but micronucleus has been modified so the start of the program is about 6kb of 0xFF bytes (In other words all the bits in 6Kb are high).
  After that, micronucleus begins and uses up the final 2kb. This leaves room at the start of the chip for your own programs, but micronucleus always stays installed at the end. 0xFF  bytes are interpreted as NOP (no operation) instructions by the AVR chip, so the first time you run it, or if you run it after an erase but no write (sometimes this happens if there  is an error during the erase part of an upload attempt), next time the chip turns on it will execute all those NOPs and slam in to the bootloader code.
 
  When you use micronucleus to upload a program, there's a trick to it - USB requires the device always respond to requests, but the tiny85 chip can't do that - whenever it's erasing  or writing part of it's own program memory it has to go to sleep for about 4.5 milliseconds. Some of the more expensive chips like the mega328 have special bootloader support which lets them keep running in the background while an erase or write happens in another section of memory. `Embedded Creations <http://embedded-creations.com/projects/attiny85-usb-bootloader-overview/>`_  discovered however that if you craft your computer  program to just not send any requests during that frozen time, the computer never notices the device has frozen up and doesn't crash the USB connection. This is pretty fragile, which  is why the USB connection to the bootloader can sometimes crash if you run other intense usb software in the background, like an instance of digiterm polling for a device to appear.
  
- So when the micronucleus command line tool first finds a digispark, it asks it "How much memory do you have, and how long should I wait after each type of request?" - when you see that assertion fail on ubuntu, it's talking about that request - the program tried to ask that question and had an error response due to some annoying linux permissions things. Next, it asks the device to erase it's memory and waits the right amount of time for it to do so - about 50 milliseconds to do all 6kb of flash pages. Once that's done, it starts uploading 64 byte chunks of your new program. Micronucleus writes in these bytes at the starting 6kb of flash memory, but with one special exception:
+ So when the micronucleus command line tool first finds a anuduino, it asks it "How much memory do you have, and how long should I wait after each type of request?" - when you see that assertion fail on ubuntu, it's talking about that request - the program tried to ask that question and had an error response due to some annoying linux permissions things. Next, it asks the device to erase it's memory and waits the right amount of time for it to do so - about 50 milliseconds to do all 6kb of flash pages. Once that's done, it starts uploading 64 byte chunks of your new program. Micronucleus writes in these bytes at the starting 6kb of flash memory, but with one special exception:
 
  In the first page there's an interrupt vector table. The bootloader (on the device) replaces the reset vector and the pinchange vector with jump instructions pointing to it's own interrupt vector table 6kb later. Other than that, the program is left alone.
 
  When the computer is finished uploading, the bootloader finally writes down what the original values of the user's reset vector and pinchange vector were in the very last four bytes of that first 6kb chunk of blank memory.
 
- This little modification ensures the bootloader will run first when the chip is powered, and the pinchange interrupt is necessary for V-USB on the device to function in the bootloader. But wait - the user program needs to be able to use the V-USB to talk over USB as well! Embedded Creations came up with a really neat solution for that in their USBaspLoader-tiny85 project: Whenever the bootloader is running a special part of memory contains 0xB007 - whenever the pin change interrupt handler function is run inside of the bootloader, it checks if those two bytes are there, and if not, it immediately jumps to the user program's pinchange handler. This detect and jump behaviour is fast enough to not cause any problems with the V-USB software, but does mean other programs using PCINT (pin change interrupt) on the digispark will find there's a slightly longer delay before their function runs than there is on a raw chip with no bootloader.
+ This little modification ensures the bootloader will run first when the chip is powered, and the pinchange interrupt is necessary for V-USB on the device to function in the bootloader. But wait - the user program needs to be able to use the V-USB to talk over USB as well! Embedded Creations came up with a really neat solution for that in their USBaspLoader-tiny85 project: Whenever the bootloader is running a special part of memory contains 0xB007 - whenever the pin change interrupt handler function is run inside of the bootloader, it checks if those two bytes are there, and if not, it immediately jumps to the user program's pinchange handler. This detect and jump behaviour is fast enough to not cause any problems with the V-USB software, but does mean other programs using PCINT (pin change interrupt) on the anuduino will find there's a slightly longer delay before their function runs than there is on a raw chip with no bootloader.
 
  For more information on the tricks micronucleus uses to add a bootloader on a chip with no built in bootloader features, check out embedded-creations `USBaspLoader-tiny85 site <http://embedded-creations.com/projects/attiny85-usb-bootloader-overview/>`_
 
-*Courtsey* BlueBie for detailed explanation
 
 * At what clock speed and voltage level does the circuit work?
 
  It uses the high speed PLL at 16MHz.The internal PLL of Attiny85 generates a clock frequency that is 8x multiplied from a source input. By default, the PLL uses the output of the  internal, 8.0 MHz RC oscillator as source and the safe voltage is 3.8V or more for this speed. 16.5mhz is a better clock speed closer to 16.0mhz which is more useful with existing  arduino libraries. Also if you Run the attiny85 at < 4v you might even brick it. That puts the chip out of specifications and the results are unpredictable ,sometimes the bootloader  will overwrite bits of itself and brick the device requiring a high voltage serial programmer (or regular ISP programmer if you didn't disable the reset pin) to recover.Hence it's  suggested to use 5V.
-
+ 
 * What if my code is more than 6 K?
 
  If you are uploading your sketch using Digispark integrated Arduino IDE ,before uploading if you compile the code you will get an idea of how much memory does your code need.So before uploading its a good habit to first compile your code.In case it's more than 6kb it's likely to overwrite your bootloader.In which case you have to rewritw the bootloader using ISP programmer.But you can reupload the bootloader on your chip  only if your reset pin is disabled as I/O (reset HIGH)  otherwise you will need HVSP programmer (In case your reset is enabled as I/O) to reconfigure your chip to be programmed with ISP programmer. Tersely ,it's a matter of fuse settings (specifically the RESET bit of hfuse) of your chip.
@@ -111,16 +110,16 @@ Anuduino
 
 * What is hex file ?
 
- A hex file is a way to store data, in this case compiled code for an avr microcontroller. It is a common file format and something being a hex file does not mean it can be uploaded on the chip. When you use the Arduino IDE to upload a file to the Digispark your code is compiled into a hex file and then uploaded using the command line tool which is built  into Arduino.
+ A hex file is a way to store data, in this case compiled code for an avr microcontroller. It is a common file format and something being a hex file does not mean it can be uploaded on the chip. When you use the Arduino IDE to upload a file to the board your code is compiled into a hex file and then uploaded using the command line tool which is built  into Arduino.
 
 * Whats is cdc232.hex ?
 
- cdc232 is a version of `this <http://www.recursion.jp/avrcdc/cdc-232.html>`_  project  that runs on the Digispark, Bluebie, the maker of micronucleus included this in the micronucleus repository for people who might want it - basically it makes a Digispark into a cheap USB to serial converter.It's just like any other sketch or hex file and will be overwritten if you upload any other sketch say Blink.hex.
+ cdc232 is a version of `this <http://www.recursion.jp/avrcdc/cdc-232.html>`_  project, Bluebie, the maker of micronucleus included this in the micronucleus repository for people who might want it - basically it makes a anuduino into a cheap USB to serial converter.It's just like any other sketch or hex file and will be overwritten if you upload any other sketch say Blink.hex.
 
 
-* If you upload sketches with DigiUSB libraries it detects as USB-HID device 
+* If you upload sketches with DigiUSB libraries it detects as USB-HID(Human Interface Device)? 
 
- It's ok if the digispark doesn't detect as ttyACM device ,if a device detects as tty device it means it is a USB-serial device.But Digispark in not a USB-serial device ,it does not provide USB-serial interface. So when you plug your digispark ,the serial port tab of digispark integrated arduino IDE will be greyed out .What is it then?
+ It's ok if the anuduino doesn't detect as ttyACM device ,if a device detects as tty device it means it is a USB-serial device.But anuduino in not a USB-serial device ,it does not provide USB-serial interface. So when you plug your anuduino ,the serial port tab of anuduino integrated arduino IDE will be greyed out.
 
  DigiUSB - Debugging and HID communication library
  On the computer side you can use the included command line tools in the DigiUSB Programs folder:
@@ -131,6 +130,9 @@ Anuduino
       :height: 200 	
       :width: 200
 
+ If you upload a sketch with digiusb libraries then you can see it as HID device , do ::
+ 
+  ls /dev/usb/hiddev0
 
 Hardware requirement to build the project
 -----------------------------------------
@@ -195,6 +197,11 @@ For KICAD files click `this link <www.github.com/androportal/anuduino/pcb_IITB_s
       :width: 50
 
  .. image:: images/diode.png
+      :scale: 250%	
+      :height: 50 	
+      :width: 50
+
+ .. image:: images/solder.png
       :scale: 250%	
       :height: 50 	
       :width: 50
@@ -307,7 +314,7 @@ Uploading the NORMAL version
 
 #. Next run this command in terminal (This will upload the bootloader already available in the ArduinoIDE ::
 
-	./avrdude -C avrdude.conf -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"DigisparkArduino-Linux32/Digispark-		Arduino-1.0.4/hardware/digispark/bootloaders/micronucleus/micronucleus-1.06-upgrade.hex"
+	./avrdude -C avrdude.conf -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"/home/DigisparkArduino-Linux32/Digispark-		Arduino-1.0.4/hardware/digispark/bootloaders/micronucleus/micronucleus-1.06-upgrade.hex"
 
 #. This will burn the bootloader on your chip.
 
@@ -322,7 +329,7 @@ Uploading the JUMPER version
 
 #. Set path in the following command to where your bootloader hex file is located. ::
 
-	./avrdude -C avrdude.conf -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"micronucleus-t85-master/firmware/releases/micronucleus-1.06-upgrade.hex"
+	./avrdude -C avrdude.conf -P /dev/ttyACM0 -b 19200 -c arduino -p t85 -U  flash:w:"/home/micronucleus-t85-master/firmware/releases/micronucleus-1.06-upgrade.hex"
 
 Setting fuses of the attiny85-20PU
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -417,11 +424,10 @@ Setting rules in udev to avoid assertion errors
 Uploading Programme
 -------------------
 
-* `DigisparkIDE <http://digistump.com/wiki/digispark/tutorials/connecting>`_ ArduinoIDE integrated with Digispark libraries is required to run programs on your DIY project.
+* `DigisparkIDE <http://digistump.com/wiki/digispark/tutorials/connecting>`_ ArduinoIDE integrated with Digispark libraries is required to run programs on your DIY anuduino project.
 
 Normal Version of Bootloader
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
  
 #. Board--->Digispark(TinyCore)
 
@@ -438,7 +444,7 @@ Normal Version of Bootloader
       :height: 50 	
       :width: 50
 
-#. Now Plug Digispark
+#. Now Plug anuduino
 
 #. If upload was not successful then you will get error message.Try to repeat the process.
 
@@ -459,7 +465,7 @@ Jumper Version of Bootloader
 
 #. Connect PB5(Reset) to GND using a jumper if you need to upload sketch.
 
-#. Plug Digispark
+#. Plug anuduino
 
 #. If successful deplug your device, remove the jumper wire between reset pin and GND, and replug the device, Your programme will start executing instantaneously **without 5 seconds** delay. 
 
@@ -503,7 +509,7 @@ If you get this error try to run it again ::
 
 Burn cdc232.hex 
 ~~~~~~~~~~~~~~~
-#. To enumerate digispark as USB serial device run this command ::
+#. To enumerate anuduino as USB serial device run this command ::
 
 	sudo ./micronucleus micronucleus-t85-master/commandline/cdc232.hex
 
@@ -594,21 +600,28 @@ You can either use Digisparks official monitor or use Bluebie's digiterm written
 
 Digiterm 
 ~~~~~~~~~
-#. `Digiterm: <http://digistump.com/wiki/digispark/tutorials/digiusb>`_ Digispark Serial Monitor
+
+#. `Digiterm: <http://digistump.com/wiki/digispark/tutorials/digiusb>`_ It is a Serial Monitor written in ruby.You need certain packages to install it.Click this link to know more.
+
+#. To install digiterm do ::
+
+	gem install digiusb
 
 DigiUSB monitor
 ~~~~~~~~~~~~~~~~
-#. The Digispark integrated arduinoIDE has DigiUSB libraries which has the DigiUSB monitor working like digiterm.
+#. The Digispark integrated arduinoIDE has DigiUSB libraries which has the DigiUSB monitor working like a serial monitor.
 
 DigiUSB monitor has two more binaries send and receive.
 
-* send - this allows you to send data/text to a Digispark with DigiUSB - run with –help to see all options
+* send - this allows you to send data/text to your board  with DigiUSB - run with –help to see all options
 
-* receive- this allows you to receive data/text from a Digispark with DigiUSB - run with –help to see all options.
+* receive- this allows you to receive data/text from your board(anuduino) with DigiUSB - run with –help to see all options.
 
-See the DigiUSB→Echo example and the applications in the “Digispark - Example Programs” folder for an example of how to use the DigiUSB library.
+See the DigiUSB→Echo example and the applications in the “Example Programs” folder for an example of how to use the DigiUSB library.
 
-Run ./receive >> output.txt and your data will be written in a text file.
+To output your data in a text file run the receive binary using this command ::
+
+$ ./receive >> output.txt 
 
 Project Ideas
 --------------

@@ -25,6 +25,8 @@ Desgin your PCB
 .. warning :: your circuit needs to be printed on FRONT side.If by mistake you print it back all your efforts will be wasted as when you insert a USB GND has to match to GND ,VCC to VCC and so on... Printing on the back will reverse the GND and VCC and the PCB will be rendered useless.
 * You just need tp print the anuduino-Front.ps 
 
+* Or if you are generating your own ps files ,remember to plot **negative** plot for printing.
+
   .. image:: images/cad.png
       :scale: 250%	
       :height: 50 	
