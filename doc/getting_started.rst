@@ -628,7 +628,7 @@ LM35 Temperature sensor and plotting real time sensor data using gnuplot
     :width: 50
 
  .. image:: images/lm35.png
-    :scale: 150%	
+    :scale: 50%	
     :height: 50 	
     :width: 50
 
