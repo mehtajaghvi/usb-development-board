@@ -183,7 +183,7 @@ Broken USB-A cable if you don't have the PCB and you plan to make it on a breadb
      :width: 50
  
 
-For KICAD files click `this link <www.github.com/androportal/anuduino/pcb_IITB_singlesided_4x2>`_
+For KICAD files click `this link <www.github.com/androportal/anuduino/kicad_files>`_
  
   .. image:: images/pinout.png
       :scale: 250%	
@@ -195,6 +195,8 @@ For KICAD files click `this link <www.github.com/androportal/anuduino/pcb_IITB_s
       :scale: 250%	
       :height: 50 	
       :width: 50
+
+.. note :: The anode side of both diode is grounded and cathode side is connected to data lines.
 
  .. image:: images/diode.png
       :scale: 250%	
@@ -641,6 +643,11 @@ LM35 Temperature sensor and plotting real time sensor data using gnuplot
     :width: 50
 
  .. image:: images/lm35.png
+    :scale: 50%	
+    :height: 50 	
+    :width: 50
+
+.. image:: images/digitermlm35.png
     :scale: 50%	
     :height: 50 	
     :width: 50
