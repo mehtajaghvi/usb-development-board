@@ -295,8 +295,8 @@ Burning micronucleus.hex and setting fuses
 ------------------------------------------
 * Download the following `repository <https://github.com/Bluebie/micronucleus-t85/>`_ which contains the micronucelus bootloader.
 
-**Upload the BOOTLOADER**
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Uploading BOOTLOADER
+~~~~~~~~~~~~~~~~~~~~~~
  Before you start anything , there are two versions of bootloader.
 
 * **First** (NORMAL) is : micronucleus-1.06.hex .This is the conventional bootloader which comes with the official DS.In this version there is a 5 seconds delay prior to execution of  already uploaded sketch.Within this 5sec the anuduino checks wether you have a new programme to overwrite already existing programme on the chip ,If not it starts the programme  already uploaded after a **5 seconds** delay.For eg: say you had programmed your chip to blink led on PB0. Now if you plug in your device after some time ,it will take 5 seconds for  your led to start blinking.

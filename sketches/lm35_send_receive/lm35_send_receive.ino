@@ -15,11 +15,13 @@ void returnTemp( int degree ){
 celsius=readValue*(5.0/1024.0); //converting voltage to corresponding temp value
   celsius=celsius*100;//
  fahrenheit = (1.8 * celsius) + 32;  
-
+//if 1 is received then temperature in celsius  is printed
   if ( degree == 1 ){
     DigiUSB.print(celsius);
     DigiUSB.println("C");
   }
+
+//if 2 is received then temperature in fahrenheit is printed
   if ( degree == 2 ){
     DigiUSB.print(fahrenheit);
     DigiUSB.println("F");
@@ -30,7 +32,7 @@ celsius=readValue*(5.0/1024.0); //converting voltage to corresponding temp value
 
 void get_input() {
   int lastRead;
-  int led=0;
+  
   while (true) { // loop forever
     if (DigiUSB.available()) {
       // something to read
@@ -59,5 +61,5 @@ void get_input() {
 
 void loop() {
   DigiUSB.refresh();
-  get_input();
+  get_input(); //send either 1 or 2 
 }

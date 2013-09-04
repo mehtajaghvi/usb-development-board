@@ -1,31 +1,32 @@
+// this sketch reads data from temperature sensor and takes average of 30 samples in 4 seconds 
 #include <DigiUSB.h>
 #define TEMP 1         //using PB2 as analog INPUT
 
 void setup() {
   DigiUSB.begin();
-  pinMode(2, INPUT);
+  pinMode(2, INPUT); //defining PB2 as INPUT
   
 }
 
 void returnTemp( int degree ){
-  //int readValue = analogRead(TEMP);
+  
   float celsius;
  int sample;
- int ten_samples;
+ int thirty_samples;
  
    for (sample = 0; sample < 29; sample++) {
-        // convert A0 value to temperature
+        // convert PB2 value to temperature
         celsius = ((float)analogRead(TEMP) * 5.0 / 1024.0);
         celsius = celsius / 0.01;
-        // sample every .102 seconds
+        // sample every 100 milliseconds
         delay(100);
         // sum of all samples
-        ten_samples = ten_samples + celsius;
+        thirty_samples = thirty_samples + celsius;
         DigiUSB.refresh();
        
     }
 
-    celsius = ten_samples / 30.0;
+    celsius = thirty_samples / 30.0; //taking average
  
   if ( degree == 1 ){
     DigiUSB.print(celsius);
@@ -38,7 +39,7 @@ void returnTemp( int degree ){
 
 void loop() {
   
-returnTemp(1);
- DigiUSB.delay(990);
+returnTemp(1); //calling function to output temp
+DigiUSB.delay(990);
 
 }
