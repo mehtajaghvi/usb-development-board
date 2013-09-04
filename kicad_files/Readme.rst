@@ -1,6 +1,6 @@
-=========
-Anuduino
-=========
+===============
+Anuduino Kicad 
+===============
 
 
 The .lib file contains the schematic symbols and the .mod file contains footprints.You can extract the file to wherever you like. Just remember to tell eeschema and cvpcb where those files are.These two files have been added for USB-A-PCB module to be directly etched on PCB.
@@ -17,11 +17,17 @@ The .lib file contains the schematic symbols and the .mod file contains footprin
 
 Now to design you own PCB
 
-#. Anuduino is single layer PCB board.All its connections are on **front** side.It has been possible because some of the components are placed at back and few in front. 
+* Anuduino is single layer PCB board.All its connections are on **front** side.It has been possible because most of the components are placed at back and few in front. 
 
-#. You just need tp print the anuduino-Front.ps 
+.. warning :: your circuit needs to be printed on FRONT side.If by mistake you print it back all your efforts will be wasted as when you insert a USB GND has to match to GND ,VCC to VCC and so on... Printing on the back will reverse the GND and VCC and the PCB will be useless.
+* You just need tp print the anuduino-Front.ps 
 
-#. Once you have the PCB. Open the getting_started.rst in doc folder.It contains detailed explanation of what all you need and how you have to proceed.
+  .. image:: images/cad.png
+      :scale: 250%	
+      :height: 50 	
+      :width: 50
+
+* Once you have the PCB. Open the getting_started.rst in doc folder.It contains detailed explanation of what all you need and how you have to proceedfurther.
 
 
 
